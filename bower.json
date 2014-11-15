@@ -1,0 +1,19 @@
+{
+  "name": "instrument-panel",
+  "version": "0.0.1",
+  "homepage": "https://github.com/gconsidine/instrument-panel",
+  "authors": [
+    "Greg Considine <greg@greg-considine.com>"
+  ],
+  "description": "An administrative front-end built to take advantage of plz-cms utilizing Bootstrap + AngularJS",
+  "keywords": [
+    "CMS",
+    "Dashboard"
+  ],
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular-latest": "~1.3.2",
+    "angular-ui-bootstrap": "~0.11.2"
+  }
+}

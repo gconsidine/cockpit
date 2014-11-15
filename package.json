@@ -1,0 +1,43 @@
+{
+  "name": "instrument-panel",
+  "version": "0.0.1",
+  "description": "An administrative front-end built to take advantage of plz-cms utilizing Bootstrap + AngularJS",
+  "main": "server.js",
+  "dependencies": {},
+  "devDependencies": {
+    "bower": "^1.3.12",
+    "browserify": "^6.3.2",
+    "connect": "^3.3.3",
+    "grunt": "^0.4.5",
+    "grunt-browserify": "^3.2.0",
+    "grunt-bump": "0.0.16",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-concat": "^0.5.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-less": "^0.12.0",
+    "grunt-contrib-uglify": "^0.6.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-coveralls": "^1.0.0",
+    "grunt-shell": "^1.1.1",
+    "less": "^2.0.0",
+    "serve-static": "^1.7.1"
+  },
+  "scripts": {
+    "start": "nodemon --ignore node_modules/ --ignore bower_components/ server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gconsidine/instrument-panel.git"
+  },
+  "keywords": [
+    "CMS",
+    "Dashboard"
+  ],
+  "author": "Greg Considine <greg@caprahorn.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gconsidine/instrument-panel/issues"
+  },
+  "homepage": "https://github.com/gconsidine/instrument-panel"
+}
