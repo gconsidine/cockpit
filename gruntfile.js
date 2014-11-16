@@ -20,6 +20,16 @@ module.exports = function (grunt) {
       all: _js.all
     },
 
+    less: {
+      dev: {
+        options: {
+        },
+        files: {
+          'dist/css/instrument-panel.css': 'style/instrument-panel.less'
+        }
+      }
+    },
+
     shell: {
       makeStructure: {
         command: [
@@ -36,6 +46,22 @@ module.exports = function (grunt) {
         options: {
           execOptions: {
             cwd: 'bower_components/angular-latest/'
+          }
+        }
+      },
+      buildAngularUi: {
+        command: 'npm install && grunt build',
+        options: {
+          execOptions: {
+            cwd: 'bower_components/angular-ui-bootstrap/'
+          }
+        }
+      },
+      copyAngularUi: {
+        command: 'cp dist/*tpls*[!][min].js ../../vendor/js/ui-bootstrap-tpls.js',
+        options: {
+          execOptions: {
+            cwd: 'bower_components/angular-ui-bootstrap/'
           }
         }
       },
@@ -69,7 +95,7 @@ module.exports = function (grunt) {
     watch: {
       all: {
         files: _js.all,
-        tasks: ['jshint', 'concat']
+        tasks: ['jshint']
       },
     },
   
@@ -89,6 +115,7 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-coveralls');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-bump');
@@ -100,7 +127,10 @@ module.exports = function (grunt) {
     'shell:makeStructure',
     'shell:buildAngular',
     'shell:copyAngular',
+    'shell:buildAngularUi',
+    'shell:copyAngularUi',
     'shell:copyBootstrap',
+    'less'
   ]);
 
 };
