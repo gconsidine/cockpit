@@ -46,7 +46,7 @@ module.exports = function (grunt) {
         ].join('&&')
       },
       buildAngular: {
-        command: 'grunt',
+        command: 'npm install && grunt',
         options: {
           execOptions: {
             cwd: 'bower_components/angular-latest/'
@@ -149,7 +149,9 @@ module.exports = function (grunt) {
     'shell:buildAngularUi',
     'shell:copyAngularUi',
     'shell:copyBootstrap',
-    'less'
+    'less',
+    'jshint',
+    'shell:test'
   ]);
 
   grunt.registerTask('travis-ci', [
