@@ -1,49 +1,25 @@
 <!doctype html>
-<html lang="en" data-ng-app="instrumentPanel">
+<html lang="en" data-ng-app="ip">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="front-end counterpart to a plz-cms back-end" />
-    <meta name="author" content="Greg Considine" />
     
-    <title>Admin Dashboard</title>
+    <title>Dashboard | {{ state.title }}</title>
 
     <link href="dist/css/instrument-panel.css" rel="stylesheet"/>
 
   </head>
   
   <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Project name</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Settings</a></li>
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">Help</a></li>
-          </ul>
-          <form class="navbar-form navbar-right">
-            <input type="text" class="form-control" placeholder="Search...">
-          </form>
-        </div>
-      </div>
-    </nav>
-
     <div data-ng-view></div>
     
     <script src="vendor/js/angular.js"></script>
     <script src="vendor/js/angular-route.js"></script>
     <script src="vendor/js/ui-bootstrap-tpls.js"></script>
-    <script src="app/app.js"></script>
-    <script src="app/login/LoginController.js"></script>
+    <script src="app/app.module.js"></script>
+    <script src="app/app.config.js"></script>
+    <script src="app/app.routes.js"></script>
+    <script src="app/access.service.js"></script>
+    <script src="app/login.controller.js"></script>
   </body>
 </html>

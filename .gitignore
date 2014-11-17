@@ -2,5 +2,6 @@ node_modules
 bower_components
 dist
 vendor
+coverage.lcov
 
 *.*.swp

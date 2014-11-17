@@ -2,9 +2,9 @@ module.exports = function (grunt) {
   'use strict';
   
   var _js = {
-    app: ['app/**/*.js'],
+    app: ['app/*.js'],
     vendor: ['vendor/js/*'],
-    test: ['test/*Spec.js'],
+    test: ['test/*.spec.js'],
     process: ['gruntfile.js']
   };
 
@@ -15,7 +15,8 @@ module.exports = function (grunt) {
 
     jshint: {
       options: {
-        jshintrc: true
+        jshintrc: true,
+        reporter: require('jshint-stylish')
       },
       all: _js.all
     },
@@ -49,6 +50,17 @@ module.exports = function (grunt) {
           }
         }
       },
+      copyAngular: {
+        command: [
+          'cp build/angular.js ../../vendor/js',
+          'cp build/angular-route.js ../../vendor/js'
+        ].join('&&'),
+        options: {
+          execOptions: {
+            cwd: 'bower_components/angular-latest'
+          }
+        }
+      },
       buildAngularUi: {
         command: 'npm install && grunt build',
         options: {
@@ -65,17 +77,6 @@ module.exports = function (grunt) {
           }
         }
       },
-      copyAngular: {
-        command: [
-          'cp build/angular.js ../../vendor/js',
-          'cp build/angular-route.js ../../vendor/js'
-        ].join('&&'),
-        options: {
-          execOptions: {
-            cwd: 'bower_components/angular-latest'
-          }
-        }
-      },
       copyBootstrap: {
         command: [
           'cp -R less/* ../../vendor/less',
@@ -89,13 +90,25 @@ module.exports = function (grunt) {
       },
       clean: {
         command: 'rm -rf vendor && rm -rf dist'
+      },
+      test: {
+        command: 'karma start'
+      }
+    },
+
+    coveralls: {
+      options: {
+        force: true
+      },
+      app: {
+        src: 'coverage.lcov'
       }
     },
 
     watch: {
       all: {
         files: _js.all,
-        tasks: ['jshint']
+        tasks: ['jshint', 'shell:test']
       },
     },
   
@@ -120,7 +133,10 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-bump');
 
-  grunt.registerTask('default', []);
+  grunt.registerTask('default', [
+    'jshint',
+    'shell:test'
+  ]);
 
   grunt.registerTask('build', [
     'shell:clean',
@@ -131,6 +147,12 @@ module.exports = function (grunt) {
     'shell:copyAngularUi',
     'shell:copyBootstrap',
     'less'
+  ]);
+
+  grunt.registerTask('travis-ci', [
+    'jshint',
+    'shell:test',
+    'coveralls'
   ]);
 
 };
