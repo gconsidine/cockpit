@@ -92,7 +92,7 @@ module.exports = function (grunt) {
         command: 'rm -rf vendor && rm -rf dist'
       },
       test: {
-        command: 'karma start'
+        command: 'node_modules/karma/bin/karma start'
       }
     },
 
