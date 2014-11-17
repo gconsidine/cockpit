@@ -32,6 +32,9 @@ module.exports = function (grunt) {
     },
 
     shell: {
+      bowerInstall: {
+        command: 'bower install --allow-root'
+      },
       makeStructure: {
         command: [
           'mkdir -p vendor/js',
@@ -150,6 +153,12 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('travis-ci', [
+    'shell:bowerInstall',
+    'shell:makeStructure',
+    'shell:buildAngular',
+    'shell:copyAngular',
+    'shell:buildAngularUi',
+    'shell:copyAngularUi',
     'jshint',
     'shell:test',
     'coveralls'
