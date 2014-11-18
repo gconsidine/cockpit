@@ -11,7 +11,15 @@
   </head>
   
   <body>
-    <div data-ng-view></div>
+
+    <div class="container-fluid">
+      <div data-ng-controller="AccessController as access">
+        {{access.greeting}}
+      </div>
+
+      <div data-ng-view></div>
+
+    </div>
     
     <script src="vendor/js/angular.js"></script>
     <script src="vendor/js/angular-route.js"></script>
@@ -20,6 +28,8 @@
     <script src="app/app.config.js"></script>
     <script src="app/app.routes.js"></script>
     <script src="app/access.service.js"></script>
+    <script src="app/access.directive.js"></script>
+    <script src="app/access.controller.js"></script>
     <script src="app/login.controller.js"></script>
   </body>
 </html>

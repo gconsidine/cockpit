@@ -1,13 +1,9 @@
 (function () {
   'use strict';
 
-  angular.module('ip').controller('Login', Login);
+  angular.module('ip').controller('LoginController', LoginController);
 
-  Login.$inject = ['$scope'];
-
-  function Login($scope) {
-    $scope.test = {
-      hi: 'hiya world'
-    };
+  function LoginController() {
+    this.greeting = 'Hello from login';
   }
 }());

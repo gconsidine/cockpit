@@ -3,13 +3,13 @@
 
   angular.module('ip').config(routes);
   
-  routes.$inect = ['$routeProvider'];
+  routes.$inject = ['$routeProvider'];
 
   function routes($routeProvider) {
     $routeProvider.
       when('/', {
         templateUrl: 'app/login.html',
-        controller: 'Login'
+        controller: 'LoginController as login'
       }).
       otherwise({
         redirectTo: '/login'
