@@ -31,6 +31,13 @@ module.exports = function (grunt) {
       }
     },
 
+    karma: {
+      unit: {
+        configFile: 'karma.conf.js',
+        logLevel: 'INFO'
+      }
+    },
+
     shell: {
       bowerInstall: {
         command: 'bower install --allow-root'
@@ -93,9 +100,6 @@ module.exports = function (grunt) {
       },
       clean: {
         command: 'rm -rf vendor && rm -rf dist'
-      },
-      test: {
-        command: 'node_modules/karma/bin/karma start'
       }
     },
 
@@ -132,13 +136,14 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-coveralls');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-bump');
 
   grunt.registerTask('default', [
     'jshint',
-    'shell:test'
+    'grunt:karma'
   ]);
 
   grunt.registerTask('build', [
@@ -151,7 +156,7 @@ module.exports = function (grunt) {
     'shell:copyBootstrap',
     'less',
     'jshint',
-    'shell:test'
+    'karma'
   ]);
 
   grunt.registerTask('travis-ci', [
@@ -162,7 +167,7 @@ module.exports = function (grunt) {
     'shell:buildAngularUi',
     'shell:copyAngularUi',
     'jshint',
-    'shell:test',
+    'karma',
     'coveralls'
   ]);
 
