@@ -53,7 +53,7 @@ module.exports = function (grunt) {
         ].join('&&')
       },
       buildAngular: {
-        command: 'npm install && grunt',
+        command: 'npm install && grunt package',
         options: {
           execOptions: {
             cwd: 'bower_components/angular-latest/'

@@ -1,7 +1,7 @@
-# instrument-panel
+# cockpit
 
 
-[![Build Status](https://travis-ci.org/gconsidine/instrument-panel.svg)](https://travis-ci.org/gconsidine/instrument-panel) [![Coverage Status](https://img.shields.io/coveralls/gconsidine/instrument-panel.svg)](https://coveralls.io/r/gconsidine/instrument-panel) [![devDependency Status](https://david-dm.org/gconsidine/instrument-panel/dev-status.svg)](https://david-dm.org/gconsidine/instrument-panel#info=devDependencies)
+[![Build Status](https://travis-ci.org/gconsidine/cockpit.svg)](https://travis-ci.org/gconsidine/cockpit) [![Coverage Status](https://img.shields.io/coveralls/gconsidine/cockpit.svg)](https://coveralls.io/r/gconsidine/cockpit) [![devDependency Status](https://david-dm.org/gconsidine/cockpit/dev-status.svg)](https://david-dm.org/gconsidine/cockpit#info=devDependencies)
 
 
 

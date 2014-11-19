@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  angular.module('ip').controller('LoginController', LoginController);
+  angular.module('cockpit').controller('LoginController', LoginController);
 
   function LoginController() {
     this.greeting = 'Hello from login';

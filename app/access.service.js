@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  angular.module('ip').factory('AccessService', AccessService);
+  angular.module('cockpit').factory('AccessService', AccessService);
 
   AccessService.$inject = ['$location', '$rootScope'];
   

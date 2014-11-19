@@ -1,12 +1,11 @@
 {
-  "name": "instrument-panel",
+  "name": "cockpit",
   "version": "0.0.1",
   "description": "An administrative front-end built to take advantage of plz-cms utilizing Bootstrap + AngularJS",
   "main": "server.js",
   "dependencies": {},
   "devDependencies": {
     "bower": "^1.3.12",
-    "browserify": "^6.3.2",
     "connect": "^3.3.3",
     "grunt": "^0.4.5",
     "grunt-bump": "0.0.16",
@@ -35,7 +34,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gconsidine/instrument-panel.git"
+    "url": "https://github.com/gconsidine/cockpit.git"
   },
   "keywords": [
     "CMS",
@@ -44,7 +43,7 @@
   "author": "Greg Considine <greg@caprahorn.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gconsidine/instrument-panel/issues"
+    "url": "https://github.com/gconsidine/cockpit/issues"
   },
-  "homepage": "https://github.com/gconsidine/instrument-panel"
+  "homepage": "https://github.com/gconsidine/cockpit"
 }

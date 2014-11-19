@@ -1,12 +1,12 @@
 (function () {
   'use strict';
 
-  angular.module('ip').directive('navigation', navigation);
+  angular.module('cockpit').directive('navigation', navigation);
 
   function navigation() {
     return {
       restrict: 'E',
-      templateUrl: 'access.navigation.html'
+      templateUrl: 'app/access.navigation.partial.html'
     };
   }
 }());

@@ -1,7 +1,7 @@
 {
-  "name": "instrument-panel",
+  "name": "cockpit",
   "version": "0.0.1",
-  "homepage": "https://github.com/gconsidine/instrument-panel",
+  "homepage": "https://github.com/gconsidine/cockpit",
   "authors": [
     "Greg Considine <greg@greg-considine.com>"
   ],

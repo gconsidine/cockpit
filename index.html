@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-ng-app="ip">
+<html lang="en" data-ng-app="cockpit">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,6 +15,7 @@
     <div class="container-fluid">
       <div data-ng-controller="AccessController as access">
         {{access.greeting}}
+        <navigation></navigation>
       </div>
 
       <div data-ng-view></div>
@@ -27,6 +28,7 @@
     <script src="app/app.module.js"></script>
     <script src="app/app.config.js"></script>
     <script src="app/app.routes.js"></script>
+    <script src="app/app.run.js"></script>
     <script src="app/access.service.js"></script>
     <script src="app/access.directive.js"></script>
     <script src="app/access.controller.js"></script>

@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  angular.module('ip').constant('AREAS', [
+  angular.module('cockpit').constant('AREAS', [
     'login', 
     'logout', 
     'user', 
@@ -11,7 +11,7 @@
     'post'
   ]);
 
-  angular.module('ip').constant('API', {
+  angular.module('cockpit').constant('API', {
     get: {
       login: '/plz-api/v1/login',
       logout: '/plz-api/v1/logout',
