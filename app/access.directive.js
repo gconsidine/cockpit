@@ -9,4 +9,5 @@
       templateUrl: 'app/access.navigation.partial.html'
     };
   }
+
 }());

@@ -6,25 +6,23 @@
     
     <title>Dashboard | {{ state.title }}</title>
 
-    <link href="dist/css/instrument-panel.css" rel="stylesheet"/>
+    <link href="dist/css/cockpit.css" rel="stylesheet"/>
 
   </head>
   
   <body>
 
-    <div class="container-fluid">
-      <div data-ng-controller="AccessController as access">
-        {{access.greeting}}
-        <navigation></navigation>
-      </div>
-
-      <div data-ng-view></div>
-
+    <div data-ng-controller="AccessController as access">
+      <navigation><navigation>
     </div>
-    
+
+    <div data-ng-view></div>
+
     <script src="vendor/js/angular.js"></script>
     <script src="vendor/js/angular-route.js"></script>
-    <script src="vendor/js/ui-bootstrap-tpls.js"></script>
+    <script src="vendor/js/angular-animate.js"></script>
+    <script src="vendor/js/angular-strap.js"></script>
+    <script src="vendor/js/angular-strap.tpl.js"></script>
     <script src="app/app.module.js"></script>
     <script src="app/app.config.js"></script>
     <script src="app/app.routes.js"></script>

@@ -36,4 +36,10 @@
       page: '/plz-api/v1/page'
     }
   });
+
+  angular.module('cockpit').constant('ASSETS', {
+    logo: '/dist/img/logo.png',
+    styles: '/dist/css/styles.css'
+  });
+
 }());

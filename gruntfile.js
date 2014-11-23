@@ -8,6 +8,10 @@ module.exports = function (grunt) {
     process: ['gruntfile.js']
   };
 
+  var _less = ['style/*'];
+
+  var _html = ['app/**/*.html'];
+
   _js.all = _js.app.concat(_js.app, _js.test, _js.process);
 
   grunt.initConfig({
@@ -26,7 +30,7 @@ module.exports = function (grunt) {
         options: {
         },
         files: {
-          'dist/css/instrument-panel.css': 'style/instrument-panel.less'
+          'dist/css/cockpit.css': 'style/cockpit.less'
         }
       }
     },
@@ -62,28 +66,24 @@ module.exports = function (grunt) {
       },
       copyAngular: {
         command: [
-          'cp build/angular.js ../../vendor/js',
-          'cp build/angular-route.js ../../vendor/js'
+          'cp angular-latest/build/angular.js ../vendor/js',
+          'cp angular-latest/build/angular-route.js ../vendor/js',
+          'cp angular-animate/angular-animate.js ../vendor/js'
         ].join('&&'),
         options: {
           execOptions: {
-            cwd: 'bower_components/angular-latest'
+            cwd: 'bower_components'
           }
         }
       },
-      buildAngularUi: {
-        command: 'npm install && grunt build',
+      copyAngularStrap: {
+        command: [
+          'cp dist/angular-strap.tpl.js ../../vendor/js/angular-strap.tpl.js',
+          'cp dist/angular-strap.js ../../vendor/js/angular-strap.js'
+        ].join('&&'),
         options: {
           execOptions: {
-            cwd: 'bower_components/angular-ui-bootstrap/'
-          }
-        }
-      },
-      copyAngularUi: {
-        command: 'cp dist/*tpls*[!][min].js ../../vendor/js/ui-bootstrap-tpls.js',
-        options: {
-          execOptions: {
-            cwd: 'bower_components/angular-ui-bootstrap/'
+            cwd: 'bower_components/angular-strap/'
           }
         }
       },
@@ -100,6 +100,19 @@ module.exports = function (grunt) {
       },
       clean: {
         command: 'rm -rf vendor && rm -rf dist'
+      },
+      start: {
+        command: 'npm start'
+      },
+    },
+
+    imagemin: {
+      dynamic: {
+        files: [{
+          expand: true,
+          src: ['img/*.{png,jpg,gif}'],
+          dest: 'dist/'
+        }]
       }
     },
 
@@ -114,8 +127,8 @@ module.exports = function (grunt) {
 
     watch: {
       all: {
-        files: _js.all,
-        tasks: ['jshint', 'shell:test']
+        files: _js.all.concat(_html, _less),
+        tasks: ['less', 'jshint', 'karma']
       },
     },
   
@@ -136,6 +149,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-imagemin');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-coveralls');
   grunt.loadNpmTasks('grunt-shell');
@@ -148,27 +162,20 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'shell:clean',
+    'shell:bowerInstall',
     'shell:makeStructure',
     'shell:buildAngular',
     'shell:copyAngular',
-    'shell:buildAngularUi',
-    'shell:copyAngularUi',
+    'shell:copyAngularStrap',
     'shell:copyBootstrap',
+    'imagemin',
     'less',
     'jshint',
     'karma'
   ]);
 
   grunt.registerTask('travis-ci', [
-    'shell:bowerInstall',
-    'shell:makeStructure',
-    'shell:buildAngular',
-    'shell:copyAngular',
-    'shell:buildAngularUi',
-    'shell:copyAngularUi',
-    'jshint',
-    'karma',
+    'build',
     'coveralls'
   ]);
-
 };

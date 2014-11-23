@@ -1,0 +1,75 @@
+@import "vendor/less/bootstrap.less";
+
+@gray-base:              #000;
+@gray-darker:            lighten(@gray-base, 13.5%); // #222
+@gray-dark:              lighten(@gray-base, 20%);   // #333
+@gray:                   lighten(@gray-base, 33.5%); // #555
+@gray-light:             lighten(@gray-base, 46.7%); // #777
+@gray-lighter:           lighten(@gray-base, 93.5%); // #eee
+
+@brand-primary:         darken(#639bb4, 6.5%);
+@brand-success:         #7dbf94;
+@brand-info:            #95b7c6;
+@brand-warning:         #e7ca52;
+@brand-danger:          #df815a;
+
+@media (max-width: @screen-xs-max) {
+  nav {
+    button {
+      margin: 15px 0 15px 0;
+    }
+  }
+}
+
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+  nav {
+    button {
+      margin: 15px 0 15px 0;
+    }
+  }
+}
+
+@media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+  nav {
+    button {
+      margin: 15px 0 15px 0;
+    }
+  }
+}
+
+@media (min-width: @screen-lg-min) { 
+
+}
+
+.c-navigation {
+  background-image: url('/dist/img/nav-background.png');
+  background-repeat: repeat;
+  border-bottom: 1px solid @gray-light;
+  padding-bottom: 20px;
+
+  .c-user {
+    button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+  }
+
+  .c-site {
+    button {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+  }
+
+  .c-brand {
+    img {
+      margin-top: 20px;
+    }
+    p {
+      text-align: center;
+      font-size: 200%;
+    }
+  }
+}
