@@ -10,12 +10,21 @@ module.exports = function (grunt) {
 
   var _less = ['style/*'];
 
-  var _html = ['app/**/*.html'];
+  var _html = ['index.html', 'app/*.html'];
 
   _js.all = _js.app.concat(_js.app, _js.test, _js.process);
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+
+    csslint: {
+      options: {
+        csslintrc: '.csslintrc'
+      },
+      strict: {
+        src: ['dist/css/*.css']
+      }
+    },
 
     jshint: {
       options: {
@@ -98,6 +107,14 @@ module.exports = function (grunt) {
           }
         }
       },
+      copyFonts: {
+        command: 'cp webfonts/*[!][.css] ../../dist/fonts',
+        options: {
+          execOptions: {
+            cwd: 'bower_components/league-gothic'
+          }
+        }
+      },
       clean: {
         command: 'rm -rf vendor && rm -rf dist'
       },
@@ -128,7 +145,7 @@ module.exports = function (grunt) {
     watch: {
       all: {
         files: _js.all.concat(_html, _less),
-        tasks: ['less', 'jshint', 'karma']
+        tasks: ['less', 'csslint', 'jshint', 'karma']
       },
     },
   
@@ -150,6 +167,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-imagemin');
+  grunt.loadNpmTasks('grunt-contrib-csslint');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-coveralls');
   grunt.loadNpmTasks('grunt-shell');
@@ -168,8 +186,10 @@ module.exports = function (grunt) {
     'shell:copyAngular',
     'shell:copyAngularStrap',
     'shell:copyBootstrap',
+    'shell:copyFonts',
     'imagemin',
     'less',
+    'csslint',
     'jshint',
     'karma'
   ]);

@@ -6,7 +6,7 @@
   function navigation() {
     return {
       restrict: 'E',
-      templateUrl: 'app/access.navigation.partial.html'
+      templateUrl: 'app/navigation.partial.html'
     };
   }
 

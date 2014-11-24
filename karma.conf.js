@@ -16,12 +16,11 @@ module.exports = function(config) {
     files: [
       'vendor/js/angular.js',
       'vendor/js/angular-route.js',
-      'vendor/js/ui-bootstrap-tpls.js',
+      'vendor/js/angular-animate.js',
+      'vendor/js/angular-strap.js',
+      'vendor/js/angular-strap.tpl.js',
       'app/app.module.js',
-      'app/app.config.js',
-      'app/app.routes.js',
-      'app/login.controller.js',
-      'app/access.service.js',
+      'app/*.js',
       'test/*.spec.js'
     ],
 

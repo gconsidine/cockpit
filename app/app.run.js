@@ -3,13 +3,9 @@
 
   angular.module('cockpit').run(runBlock);
 
-  runBlock.$inject = ['$rootScope', 'AccessService'];
+  runBlock.$inject = ['State'];
 
-  function runBlock($rootScope, AccessService) {
-    $rootScope.state = {
-      title: 'Login'
-    };
-
-    AccessService.authorizeUser();
+  function runBlock(State) {
+    State.authorizeRoutes();
   }
 }());
