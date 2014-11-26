@@ -6,6 +6,6 @@
   runBlock.$inject = ['State'];
 
   function runBlock(State) {
-    State.authorizeRoutes();
+    State.startWatch();
   }
 }());

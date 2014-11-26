@@ -77,6 +77,27 @@
           allowedRoles: CONFIG.access.report
         }
       }).
+      when('/page-not-found', {
+        templateUrl: 'app/report.view.html',
+        controller: 'ReportController as report',
+        access: {
+          requiresLogin: false
+        }
+      }).
+      when('/forbidden', {
+        templateUrl: 'app/report.view.html',
+        controller: 'ReportController as report',
+        access: {
+          requiresLogin: false
+        }
+      }).
+      when('/unauthorized', {
+        templateUrl: 'app/report.view.html',
+        controller: 'ReportController as report',
+        access: {
+          requiresLogin: true
+        }
+      }).
       otherwise({
         redirectTo: '/login'
       });
