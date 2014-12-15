@@ -13,6 +13,8 @@
 @brand-warning:         #e7ca52;
 @brand-danger:          #df815a;
 
+@grid-float-breakpoint: @screen-sm-max;
+
 @font-face {
     font-family: 'League Gothic';
     src: url('../fonts/leaguegothic-regular-webfont.eot');
@@ -58,89 +60,176 @@
 }
 
 @media (max-width: @screen-xs-max) {
-  nav {
-    button {
-      margin: 15px 0 15px 0;
+  .c-navigation {
+    nav div > ul {
+      float: none;
+    }
+
+    .navbar-collapse {
+      .navbar-nav > li > a {
+        text-align: left;
+        border-top: none;
+        border-left: 3px solid transparent; 
+      }
+      .navbar-nav > li > a:hover {
+        border-top: none;
+        border-left: 3px solid darken(@brand-primary, 10%);
+      }
+    }
+
+    .navbar-default {
+      .navbar-nav > .open > a, 
+      .navbar-nav > .open > a:hover, 
+      .navbar-nav > .open > a:focus {
+        border-top: none !important;
+        border-left: 3px solid darken(@brand-primary, 10%); 
+      }
     }
   }
 }
 
 @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
-  nav {
-    button {
-      margin: 15px 0 15px 0;
+  .c-navigation {
+    nav div > ul {
+      float: none;
+    }
+
+    .navbar-collapse {
+      .navbar-nav > li > a {
+        text-align: left;
+        border-top: none;
+        border-left: 3px solid transparent; 
+      }
+      .navbar-nav > li > a:hover {
+        border-top: none;
+        border-left: 3px solid darken(@brand-primary, 10%);
+      }
+    }
+
+    .navbar-default {
+      .navbar-nav > .open > a, 
+      .navbar-nav > .open > a:hover, 
+      .navbar-nav > .open > a:focus {
+        border-top: none !important;
+        border-left: 3px solid darken(@brand-primary, 10%); 
+      }
     }
   }
 }
 
 @media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
-  nav {
-    button {
-      margin: 15px 0 15px 0;
+  .c-navigation {
+    nav div > ul {
+      float: right;
     }
   }
 }
 
 @media (min-width: @screen-lg-min) { 
+  .c-navigation {
+    nav div > ul {
+      float: right;
+    }
+  }
+}
 
+.mixin-box-shadow {
+  -webkit-box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.3);
+  -moz-box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.3);
+  box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.3);
+}
+
+html {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100%;
+  position: relative;
+  padding: 0 0 25px 0;
+}
+
+footer {
+  height: 25px;
+  width: 100%;
+  background: @gray-lighter;
+  position: absolute;
+  bottom: 0;
 }
 
 .btn {
   border-radius: 0px;
   border: none;
-  -webkit-box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.3);
-  -moz-box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.3);
-  box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.3);
 }
 
 .c-navigation {
-  background-image: url('/dist/img/nav-background.png');
-  background-repeat: repeat;
-  -webkit-box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.3);
-  -moz-box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.3);
-  box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.3);
-  padding-bottom: 20px;
+  .mixin-box-shadow();
+  
+  .navbar-nav > li > a {
+    border-top: 3px solid transparent; 
+    text-align: center;
+    min-width: 100px;
+    color: @brand-primary;
+  }
 
-  .c-user {
-    button {
-      position: absolute;
-      top: 10px;
-      right: -1px;
+  .navbar-nav > li > a:hover {
+    border-top: 3px solid darken(@brand-primary, 10%); 
+    min-width: 100px;
+    color: darken(@brand-primary, 10%);
+  }
+
+  .navbar {
+    border: none;
+    margin: 0;
+  }
+
+  .navbar-brand {
+    font-family: 'League Gothic';
+    font-size: 250%;
+    text-align: center;
+    text-transform: uppercase;
+    border-top: 3px solid transparent;
+  }
+
+  .navbar-default {
+    background-color: inherit;
+
+    .navbar-nav > .open > a, 
+    .navbar-nav > .open > a:hover, 
+    .navbar-nav > .open > a:focus {
+      min-width: 100px;
+      border-top: 3px solid darken(@brand-primary, 10%); 
+      background-color: inherit;
+      color: darken(@brand-primary, 10%) !important;
     }
-    span {
-      font-size: 90%;
+
+    li > a {
+      font-size: 110%;
     }
   }
 
-  .c-site {
-    button {
-      position: absolute;
-      top: 10px;
-      left: -1px;
-    }
+  .dropdown-menu {
+    .mixin-box-shadow();
+    margin: 0;
+    border: none;
+    border-radius: 0;
+  }
+  .dropdown-menu > li > a {
+    color: @brand-primary !important;
+    border-left: 3px solid transparent;
   }
 
-  .c-brand {
-    img {
-      margin-top: 20px;
-    }
-    h1 {
-      font-family: 'League Gothic';
-      text-align: center;
-      text-transform: uppercase;
-    }
-  }
-
-  nav {
-    button {
-      font-family: 'League Gothic';
-      font-size: 160%;
-    }
+  .dropdown-menu > li > a:hover {
+    color: darken(@brand-primary, 10%) !important;
+    border-left: 3px solid darken(@brand-primary, 10%);
+    background-color: transparent;
   }
 }
 
 .c-login {
   background-image: url('/dist/img/nav-background.png');
   background-repeat: repeat;
-  height: 100%;
+  min-height: 100%;
+  position: relative;
 }

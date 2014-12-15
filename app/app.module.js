@@ -1,6 +1,6 @@
 (function () {
   'use strict';
 
-  angular.module('cockpit', ['ngRoute', 'ngAnimate', 'mgcrea.ngStrap']);
+  angular.module('cockpit', ['ngRoute', 'ngAnimate']);
 
 }());

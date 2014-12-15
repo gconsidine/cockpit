@@ -10,4 +10,13 @@
     };
   }
 
+  angular.module('cockpit').directive('footer', footer);
+
+  function footer() {
+    return {
+      restrict: 'E',
+      templateUrl: 'app/footer.partial.html'
+    };
+  }
+
 }());

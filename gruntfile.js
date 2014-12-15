@@ -77,7 +77,7 @@ module.exports = function (grunt) {
         command: [
           'cp angular-latest/build/angular.js ../vendor/js',
           'cp angular-latest/build/angular-route.js ../vendor/js',
-          'cp angular-animate/angular-animate.js ../vendor/js'
+          'cp angular-latest/build/angular-animate.js ../vendor/js'
         ].join('&&'),
         options: {
           execOptions: {
@@ -85,21 +85,21 @@ module.exports = function (grunt) {
           }
         }
       },
-      copyAngularStrap: {
+      copyJquery: {
         command: [
-          'cp dist/angular-strap.tpl.js ../../vendor/js/angular-strap.tpl.js',
-          'cp dist/angular-strap.js ../../vendor/js/angular-strap.js'
+          'cp dist/jquery.js ../../vendor/js/jquery.js',
         ].join('&&'),
         options: {
           execOptions: {
-            cwd: 'bower_components/angular-strap/'
+            cwd: 'bower_components/jquery/'
           }
         }
       },
       copyBootstrap: {
         command: [
           'cp -R less/* ../../vendor/less',
-          'cp dist/fonts/* ../../dist/fonts'
+          'cp dist/fonts/* ../../dist/fonts',
+          'cp dist/js/bootstrap.js ../../vendor/js'
         ].join('&&'),
         options: {
           execOptions: {
@@ -184,7 +184,7 @@ module.exports = function (grunt) {
     'shell:makeStructure',
     'shell:buildAngular',
     'shell:copyAngular',
-    'shell:copyAngularStrap',
+    'shell:copyJquery',
     'shell:copyBootstrap',
     'shell:copyFonts',
     'imagemin',

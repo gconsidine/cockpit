@@ -1,49 +1,37 @@
 <div class="c-navigation">
-  <div class="container-fluid">
-    <div class="c-site">
-      <button type="button" class="btn btn-md btn-default">
-        <span class="glyphicon glyphicon-arrow-left"></span> Site
-      </button>
-    </div>
-
-    <div class="c-user" data-ng-if="state.loggedIn">
-      <button type="button" class="btn btn-md btn-default">
-        <span class="glyphicon glyphicon-user"></span>
-      </button>
-    </div>
-
-    <div class="c-brand">
-      <img class="img-circle center-block c-brand-logo" width="100" height="100" 
-           src="http://fillmurray.com/100/100" />
-      <h1>Company Name</h1>
-    </div>
-  </div>
 
   <!-- Create navigation based on config and conditionals (ng-repeat) -->
-  <nav role="navigation" data-ng-if="state.loggedIn">
+  <nav class="navbar navbar-default" role="navigation" data-ng-if="state.loggedIn">
     <div class="container">
-
-      <div class="col-md-5">
-        <div class="col-md-4" data-ng-if="state.access.page">
-          <button type="button" class="btn btn-md btn-primary btn-block">Pages</button>
-        </div>
-        <div class="col-md-4" data-ng-if="state.access.post">
-          <button type="button" class="btn btn-md btn-primary btn-block">Posts</button>
-        </div>
-        <div class="col-md-4" data-ng-if="state.access.media">
-          <button type="button" class="btn btn-md btn-primary btn-block">Media</button>
-        </div>
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navCollapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Cockpit</a>
       </div>
 
-      <div class="col-md-5 col-md-offset-2">
-        <div class="col-md-4" data-ng-if="state.access.report">
-          <button type="button" class="btn btn-md btn-primary btn-block">Reports</button>
-        </div>
-        <div class="col-md-4" data-ng-if="state.access.user">
-          <button type="button" class="btn btn-md btn-primary btn-block">Users</button>
-        </div>
-        <div class="col-md-4" data-ng-if="state.access.settings">
-          <button type="button" class="btn btn-md btn-primary btn-block">Settings</button>
+      <div class="collapse navbar-collapse" id="navCollapse">
+        <div class="col-md-9">
+          <ul class="nav navbar-nav">
+            <li data-ng-if="state.access.page"><a href="">Page</a></li>
+            <li data-ng-if="state.access.post"><a href="">Post</a></li>
+            <li data-ng-if="state.access.media"><a href="">Media</a></li>
+            <li data-ng-if="state.access.report"><a href="">Report</a></li>
+            <li data-ng-if="state.access.user"><a href="">User</a></li>
+            <li data-ng-if="state.access.settings">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                Settings <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+              </ul>
+            </li>
+          </ul>
         </div>
       </div>
 
