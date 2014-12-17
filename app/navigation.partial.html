@@ -1,10 +1,10 @@
 <div class="c-navigation">
-
-  <!-- Create navigation based on config and conditionals (ng-repeat) -->
-  <nav class="navbar navbar-default" role="navigation" data-ng-if="state.loggedIn">
+  <nav class="navbar navbar-default" role="navigation">
     <div class="container">
+
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navCollapse">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" 
+                data-target="#navCollapse">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
@@ -14,7 +14,7 @@
       </div>
 
       <div class="collapse navbar-collapse" id="navCollapse">
-        <div class="col-md-9">
+        <div class="col-md-9" data-ng-if="state.loggedIn">
           <ul class="nav navbar-nav">
             <li data-ng-if="state.access.page"><a href="">Page</a></li>
             <li data-ng-if="state.access.post"><a href="">Post</a></li>
@@ -22,7 +22,8 @@
             <li data-ng-if="state.access.report"><a href="">Report</a></li>
             <li data-ng-if="state.access.user"><a href="">User</a></li>
             <li data-ng-if="state.access.settings">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" 
+                 aria-expanded="false">
                 Settings <span class="caret"></span>
               </a>
               <ul class="dropdown-menu" role="menu">

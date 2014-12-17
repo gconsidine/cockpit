@@ -10,7 +10,7 @@
     // server with every call.
     function get() {
       return {
-        loggedIn: true,
+        loggedIn: false,
         role: 'user',
         email: 'name@example.com'
       };
