@@ -8,7 +8,7 @@
   function routes($routeProvider, CONFIG) {
     $routeProvider.
       when('/', {
-        templateUrl: 'app/home.view.html',
+        templateUrl: 'app/views/home.html',
         controller: 'HomeController as home',
         access: {
           requiresLogin: true,
@@ -16,21 +16,20 @@
         }
       }).
       when('/login', {
-        templateUrl: 'app/login.view.html',
+        templateUrl: 'app/views/login.html',
         controller: 'LoginController as login',
         access: {
           requiresLogin: false
         }
       }).
       when('/logout', {
-        templateUrl: 'app/login.view.html',
-        controller: 'LoginController as login',
+        templateUrl: 'app/views/logout.html',
         access: {
           requiresLogin: false
         }
       }).
       when('/settings', {
-        templateUrl: 'app/settings.view.html',
+        templateUrl: 'app/views/settings.html',
         controller: 'SettingsController as settings',
         access: {
           requiresLogin: true,
@@ -38,7 +37,7 @@
         }
       }).
       when('/user', {
-        templateUrl: 'app/user.view.html',
+        templateUrl: 'app/views/user.html',
         controller: 'UserController as user',
         access: {
           requiresLogin: true,
@@ -46,7 +45,7 @@
         }
       }).
       when('/media', {
-        templateUrl: 'app/media.view.html',
+        templateUrl: 'app/views/media.html',
         controller: 'MediaController as media',
         access: {
           requiresLogin: true,
@@ -54,7 +53,7 @@
         }
       }).
       when('/page', {
-        templateUrl: 'app/page.view.html',
+        templateUrl: 'app/views/page.html',
         controller: 'PageController as page',
         access: {
           requiresLogin: true,
@@ -62,7 +61,7 @@
         }
       }).
       when('/post', {
-        templateUrl: 'app/post.view.html',
+        templateUrl: 'app/views/post.html',
         controller: 'PostController as post',
         access: {
           requiresLogin: true,
@@ -70,7 +69,7 @@
         }
       }).
       when('/report', {
-        templateUrl: 'app/report.view.html',
+        templateUrl: 'app/views/report.html',
         controller: 'ReportController as report',
         access: {
           requiresLogin: true,
@@ -78,22 +77,19 @@
         }
       }).
       when('/page-not-found', {
-        templateUrl: 'app/report.view.html',
-        controller: 'ReportController as report',
+        templateUrl: 'app/views/page-not-found.html',
         access: {
           requiresLogin: false
         }
       }).
       when('/forbidden', {
-        templateUrl: 'app/report.view.html',
-        controller: 'ReportController as report',
+        templateUrl: 'app/views/forbidden.html',
         access: {
           requiresLogin: false
         }
       }).
       when('/unauthorized', {
-        templateUrl: 'app/report.view.html',
-        controller: 'ReportController as report',
+        templateUrl: 'app/views/unauthorized.html',
         access: {
           requiresLogin: true
         }

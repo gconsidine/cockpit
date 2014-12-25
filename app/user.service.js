@@ -3,14 +3,14 @@
 
   angular.module('cockpit').service('User', User);
   
-  angular.$inject = ['CONFIG'];
+  angular.$inject = ['Property'];
 
-  function User(CONFIG) {
+  function User(Property) {
     // TODO: Make call to API.  Cache user to avoid duplicate calls.  Authenticate user on the 
     // server with every call.
     function get() {
       return {
-        loggedIn: false,
+        loggedIn: true,
         role: 'user',
         email: 'name@example.com'
       };
@@ -18,10 +18,11 @@
     
     function access() {
       var permissions = {},
-          user = get();
+          user = get(),
+          accessList = Property.getAccess();
 
-      for(var area in CONFIG.access) {
-        if(CONFIG.access[area].indexOf(user.role) === -1) {
+      for(var area in accessList) {
+        if(accessList[area].indexOf(user.role) === -1) {
           permissions[area] = false;
         } else {
           permissions[area] = true;

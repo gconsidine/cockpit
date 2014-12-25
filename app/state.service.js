@@ -9,6 +9,7 @@
     
     function startWatch() {
       $rootScope.$on('$routeChangeStart', function (event, next) {
+        console.log('routeChangeStart');
         if(!verifyRoute(next)) {
           $location.path('/page-not-found').replace();            
           return;  
@@ -31,7 +32,7 @@
 
     function updateNavigation() {
       var user = User.get();
-
+      
       $rootScope.state = $rootScope.state || {};
       $rootScope.state.access = User.access();
 
@@ -50,7 +51,11 @@
           title = '';
 
       for(var i = 0; i < titleWords.length; i++) {
-        title += titleWords[i][0].toUpperCase() + titleWords[i].substr(1) + ' ';
+        if(titleWords[i][0]) {
+          title += titleWords[i][0].toUpperCase() + titleWords[i].substr(1) + ' ';
+        } else {
+          title = 'Home';
+        }
       }
 
       $rootScope.state.title = title;
@@ -78,7 +83,7 @@
       var user = User.get();
 
       if(next.access.allowedRoles) {
-        if(next.access.allowedRoles.indexOf(user.role) !== -1) {
+        if(next.access.allowedRoles.indexOf(user.role) === -1) {
           return false;
         }
       }
