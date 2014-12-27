@@ -4,4 +4,6 @@ dist
 vendor
 coverage.lcov
 
+npm-debug.log
+
 *.*.swp
