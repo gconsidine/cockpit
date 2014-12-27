@@ -72,6 +72,9 @@
       "beforeEach"  : true,
       "after"       : true,
       "afterEach"   : true,
+      "expect"      : true,
+      "inject"      : true,
+      "spyOn"       : true,
       "angular"     : true
     }        
 }

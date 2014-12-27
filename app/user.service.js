@@ -15,7 +15,7 @@
         email: 'name@example.com'
       };
     }
-    
+
     function access() {
       var permissions = {},
           user = get(),

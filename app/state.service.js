@@ -9,7 +9,6 @@
     
     function startWatch() {
       $rootScope.$on('$routeChangeStart', function (event, next) {
-        console.log('routeChangeStart');
         if(!verifyRoute(next)) {
           $location.path('/page-not-found').replace();            
           return;  

@@ -4,7 +4,7 @@ module.exports = function (grunt) {
   var _js = {
     app: ['app/*.js'],
     vendor: ['vendor/js/*'],
-    test: ['test/*.spec.js'],
+    test: ['test/*-spec.js'],
     process: ['gruntfile.js']
   };
 
@@ -47,7 +47,13 @@ module.exports = function (grunt) {
     karma: {
       unit: {
         configFile: 'karma.conf.js',
-        logLevel: 'INFO'
+        logLevel: 'INFO',
+        plugins: [
+          'karma-jasmine',
+          'karma-coverage',
+          'karma-mocha-reporter',
+          'karma-phantomjs-launcher'
+        ]
       }
     },
 
@@ -77,7 +83,8 @@ module.exports = function (grunt) {
         command: [
           'cp angular-latest/build/angular.js ../vendor/js',
           'cp angular-latest/build/angular-route.js ../vendor/js',
-          'cp angular-latest/build/angular-animate.js ../vendor/js'
+          'cp angular-latest/build/angular-animate.js ../vendor/js',
+          'cp angular-latest/build/angular-mocks.js ../vendor/js'
         ].join('&&'),
         options: {
           execOptions: {
@@ -173,10 +180,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-bump');
 
-  grunt.registerTask('default', [
-    'jshint',
-    'grunt:karma'
-  ]);
+  grunt.registerTask('default', []);
 
   grunt.registerTask('build', [
     'shell:clean',
