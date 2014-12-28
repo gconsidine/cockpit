@@ -93,6 +93,7 @@
     return {
       startWatch: startWatch,
       updateTitle: updateTitle,
+      updateNavigation: updateNavigation,
       verifyRoute: verifyRoute,
       verifyLogin: verifyLogin,
       authorizeRoute: authorizeRoute
