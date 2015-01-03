@@ -102,6 +102,16 @@ module.exports = function (grunt) {
           }
         }
       },
+      copyValidator: {
+        command: [
+          'cp validator.js ../../vendor/js/validator.js',
+        ].join('&&'),
+        options: {
+          execOptions: {
+            cwd: 'bower_components/validator-js/'
+          }
+        }
+      },
       copyBootstrap: {
         command: [
           'cp -R less/* ../../vendor/less',
@@ -190,6 +200,7 @@ module.exports = function (grunt) {
     'shell:copyAngular',
     'shell:copyJquery',
     'shell:copyBootstrap',
+    'shell:copyValidator',
     'shell:copyFonts',
     'imagemin',
     'less',

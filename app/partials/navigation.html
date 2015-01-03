@@ -16,19 +16,18 @@
       <div class="collapse navbar-collapse" id="navCollapse">
         <div class="col-md-9" data-ng-if="state.loggedIn">
           <ul class="nav navbar-nav">
-            <li data-ng-if="state.access.page"><a href="/#/page">Page</a></li>
-            <li data-ng-if="state.access.post"><a href="/#/post">Post</a></li>
+            <li data-ng-if="state.access.page"><a href="/#/page">Pages</a></li>
+            <li data-ng-if="state.access.post"><a href="/#/post">Posts</a></li>
             <li data-ng-if="state.access.media"><a href="/#/media">Media</a></li>
-            <li data-ng-if="state.access.report"><a href="/#/report">Report</a></li>
-            <li data-ng-if="state.access.user"><a href="/#/user">User</a></li>
+            <li data-ng-if="state.access.report"><a href="/#/report">Reports</a></li>
+            <li data-ng-if="state.access.user"><a href="/#/user">Users</a></li>
             <li data-ng-if="state.access.settings">
               <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                Settings <span class="caret"></span>
+                Account <span class="caret"></span>
               </a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="/#/settings">Specific?</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
+                <li><a href="/#/settings">Settings</a></li>
+                <li logout><a>Logout</a></li>
               </ul>
             </li>
           </ul>

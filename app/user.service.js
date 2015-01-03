@@ -2,27 +2,47 @@
   'use strict';
 
   angular.module('cockpit').service('User', User);
-  
+
   angular.$inject = ['Property'];
 
   function User(Property) {
-    // TODO: Make call to API.  Cache user to avoid duplicate calls.  Authenticate user on the 
-    // server with every call.
-    function get() {
-      return {
-        loggedIn: true,
-        role: 'user',
-        email: 'name@example.com'
-      };
-    }
+    this.current = {
+      loggedIn: false,
+      email: '',
+      role: ''
+    };
 
-    function access() {
+    this.flush = function () {
+      this.current = {
+        loggedIn: false,
+        email: '',
+        role: ''
+      };
+    };
+
+    this.login = function(email, password) {
+      // TODO: connect with API, validate etc., return user object
+      if(email && password) {
+        var user = {
+          role: 'user',
+          email: 'name@example.com'
+        };
+
+        user.loggedIn = true;
+        
+        this.current = user;
+        return true;
+      }
+
+      return false;
+    };
+
+    this.getAccess = function () {
       var permissions = {},
-          user = get(),
           accessList = Property.getAccess();
 
       for(var area in accessList) {
-        if(accessList[area].indexOf(user.role) === -1) {
+        if(accessList[area].indexOf(this.current.role) === -1) {
           permissions[area] = false;
         } else {
           permissions[area] = true;
@@ -30,11 +50,6 @@
       }
 
       return permissions;
-    }
-
-    return {
-      get: get,
-      access: access
     };
   }
 }());

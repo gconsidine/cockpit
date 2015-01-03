@@ -5,13 +5,13 @@
         <div class="panel-body">
           <div class="form-group">
             <form role="form">
-              <label>Email:</label>
-              <input class="form-control" id="email" type="email" />
+              <label>Email: </label>
+              <input class="form-control" type="email" ng-model="login.email.value" required/>
               <label>Password:</label>
-              <input class="form-control" id="password" type="password" />
+              <input class="form-control" type="password" ng-model="login.password.value" required/>
             </form>
           </div>
-          <button class="btn btn-primary pull-right">Login</button>
+          <button class="btn btn-primary pull-right" c-login>Login</button>
         </div>
       </div>
     </div>

@@ -21,13 +21,13 @@ describe('state.service', function () {
         state;
 
     beforeEach(function () {
-      mockUser.get = function () {
+      mockUser.getUser = function () {
         return {
           loggedIn: false
         };
       };
 
-      mockUser.access = function () { return []; };
+      mockUser.getAccess = function () { return []; };
      
       module(function($provide) {
         $provide.value('User', mockUser);
@@ -78,12 +78,12 @@ describe('state.service', function () {
   });
 
   describe('updateNavigation()', function () {
-    var mockUser = { access: function () { return []; } },
+    var mockUser = { getAccess: function () { return []; } },
         rootScope,
         state;
 
     it('should update rootScope state for logged in user', function () {
-      mockUser.get = function () {
+      mockUser.getUser = function () {
         return {
           loggedIn: true
         };
@@ -106,7 +106,7 @@ describe('state.service', function () {
     });
 
     it('should update rootScope state for a non-logged in user', function () {
-      mockUser.get = function () {
+      mockUser.getUser = function () {
         return {
           loggedIn: false
         };
@@ -132,7 +132,7 @@ describe('state.service', function () {
         state;
 
     it('should return true for a logged in user', function () {
-      mockUser.get = function () {
+      mockUser.getUser = function () {
         return {
           loggedIn: true
         };
@@ -154,7 +154,7 @@ describe('state.service', function () {
     });
 
     it('should return false for a non-logged in user', function () {
-      mockUser.get = function () {
+      mockUser.getUser = function () {
         return {
           loggedIn: false
         };
@@ -182,7 +182,7 @@ describe('state.service', function () {
         state;
 
     it('should return true for an authorized role', function () {
-      mockUser.get = function () {
+      mockUser.getUser = function () {
         return {
           role: 'user'
         };
@@ -204,7 +204,7 @@ describe('state.service', function () {
     });
 
     it('should return false for an unauthorized role', function () {
-      mockUser.get = function () {
+      mockUser.getUser = function () {
         return {
           role: 'peasant'
         };
@@ -224,6 +224,29 @@ describe('state.service', function () {
 
       expect(state.authorizeRoute(next)).toBe(false);
     });
+  });
 
+  describe('flush()', function () {
+    it('should delete a user\'s state/session and redirect to login', function () {
+      var state,
+          rootScope,
+          location;
+
+      inject(function(State, $rootScope, $location) {
+        state = State;  
+        rootScope = $rootScope;
+        location = $location;
+      });
+
+      rootScope.state = {
+        loggedIn: true,
+        access: [],
+        title: 'Fake Title'
+      };
+
+      state.flush();
+      expect(rootScope.state).toBeUndefined();
+      expect(location.path()).toBe('/login');
+    });
   });
 });

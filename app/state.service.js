@@ -29,11 +29,12 @@
       });
     }
 
+    //TODO: Think about how User affects this service and refactor
     function updateNavigation() {
-      var user = User.get();
+      var user = User.getUser();
       
       $rootScope.state = $rootScope.state || {};
-      $rootScope.state.access = User.access();
+      $rootScope.state.access = User.getAccess();
 
       if(user.loggedIn) {
         $rootScope.state.loggedIn = true;
@@ -69,7 +70,7 @@
     }
 
     function verifyLogin(next) {
-      var user = User.get();
+      var user = User.getUser();
 
       if(next.access.requiresLogin && !user.loggedIn) {
         return false;
@@ -79,7 +80,7 @@
     }
 
     function authorizeRoute(next) {
-      var user = User.get();
+      var user = User.getUser();
 
       if(next.access.allowedRoles) {
         if(next.access.allowedRoles.indexOf(user.role) === -1) {
@@ -89,6 +90,20 @@
 
       return true;
     }
+
+    function flush() {
+      delete $rootScope.state;
+      $location.path('/login').replace();            
+    }
+
+    function alert(type, message) {
+      $rootScope.state = $rootScope.state || {};
+
+      $rootScope.state.alert = {
+        type: type,
+        message: message
+      };
+    }
     
     return {
       startWatch: startWatch,
@@ -96,8 +111,9 @@
       updateNavigation: updateNavigation,
       verifyRoute: verifyRoute,
       verifyLogin: verifyLogin,
-      authorizeRoute: authorizeRoute
+      authorizeRoute: authorizeRoute,
+      flush: flush,
+      alert: alert
     };
   }
-
 }());

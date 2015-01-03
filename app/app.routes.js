@@ -22,12 +22,6 @@
           requiresLogin: false
         }
       }).
-      when('/logout', {
-        templateUrl: 'app/views/logout.html',
-        access: {
-          requiresLogin: false
-        }
-      }).
       when('/settings', {
         templateUrl: 'app/views/settings.html',
         controller: 'SettingsController as settings',

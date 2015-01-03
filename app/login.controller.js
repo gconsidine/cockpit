@@ -4,6 +4,14 @@
   angular.module('cockpit').controller('LoginController', LoginController);
 
   function LoginController() {
-    this.greeting = 'Hello from login';
+    this.email = {
+      value: '',
+      valid: false
+    };
+
+    this.password = {
+      value: '',
+      valid: false
+    };
   }
 }());
