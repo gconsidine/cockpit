@@ -21,17 +21,26 @@
     };
   }
 
-  angular.module('cockpit').directive('cLogin', cLogin);
-  // TODO: Include Validate service and Alert service
-  cLogin.$inject = ['User'];
+  angular.module('cockpit').directive('login', login);
+  login.$inject = ['State', 'User', '$location'];
   
-  function cLogin(User) {
-
+  function login(State, User, $location) {
+    
     function link(scope, element) {
       element.on('mousedown', function() {
+
+        //TODO: Include Validate service check
+        if(!scope.login.email.value || !scope.login.password.value) {
+          scope.$apply(function () {
+            State.alert('danger', 'fail', true);
+          });
+
+          return;
+        }
+
         scope.$apply(function () {
-          // Email is undefined until validated
           User.login(scope.login.email.value, scope.login.password.value);
+          $location.path('/').replace();
         });
       });
     }

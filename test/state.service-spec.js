@@ -21,10 +21,8 @@ describe('state.service', function () {
         state;
 
     beforeEach(function () {
-      mockUser.getUser = function () {
-        return {
-          loggedIn: false
-        };
+      mockUser.current = {
+        loggedIn: false
       };
 
       mockUser.getAccess = function () { return []; };
@@ -83,10 +81,8 @@ describe('state.service', function () {
         state;
 
     it('should update rootScope state for logged in user', function () {
-      mockUser.getUser = function () {
-        return {
-          loggedIn: true
-        };
+      mockUser.current = {
+        loggedIn: true
       };
       
       module(function($provide) {
@@ -106,10 +102,8 @@ describe('state.service', function () {
     });
 
     it('should update rootScope state for a non-logged in user', function () {
-      mockUser.getUser = function () {
-        return {
-          loggedIn: false
-        };
+      mockUser.current = {
+        loggedIn: false
       };
       
       module(function($provide) {
@@ -132,10 +126,8 @@ describe('state.service', function () {
         state;
 
     it('should return true for a logged in user', function () {
-      mockUser.getUser = function () {
-        return {
-          loggedIn: true
-        };
+      mockUser.current = {
+        loggedIn: true
       };
       
       module(function($provide) {
@@ -154,10 +146,8 @@ describe('state.service', function () {
     });
 
     it('should return false for a non-logged in user', function () {
-      mockUser.getUser = function () {
-        return {
-          loggedIn: false
-        };
+      mockUser.current = {
+        loggedIn: false
       };
       
       module(function($provide) {
@@ -182,10 +172,8 @@ describe('state.service', function () {
         state;
 
     it('should return true for an authorized role', function () {
-      mockUser.getUser = function () {
-        return {
-          role: 'user'
-        };
+      mockUser.current = {
+        role: 'user'
       };
       
       module(function($provide) {
@@ -204,10 +192,8 @@ describe('state.service', function () {
     });
 
     it('should return false for an unauthorized role', function () {
-      mockUser.getUser = function () {
-        return {
-          role: 'peasant'
-        };
+      mockUser.current = {
+        role: 'peasant'
       };
       
       module(function($provide) {
@@ -247,6 +233,24 @@ describe('state.service', function () {
       state.flush();
       expect(rootScope.state).toBeUndefined();
       expect(location.path()).toBe('/login');
+    });
+  });
+
+  describe('alert()', function () {
+    it('should set an alert in $rootScope\'s state', function () {
+      var state,
+          rootScope;
+
+      inject(function(State, $rootScope) {
+        state = State;  
+        rootScope = $rootScope;
+      });
+
+      state.alert('danger', 'Invalid email address', true);
+
+      expect(rootScope.state.alert.type).toBe('danger');
+      expect(rootScope.state.alert.message).toBe('Invalid email address');
+      expect(rootScope.state.alert.active).toBe(true);
     });
   });
 });

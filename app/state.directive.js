@@ -19,4 +19,13 @@
     };
   }
 
+  angular.module('cockpit').directive('userAlert', userAlert);
+
+  function userAlert() {
+    return {
+      restrict: 'E',
+      templateUrl: 'app/partials/user-alert.html'
+    };
+  }
+
 }());

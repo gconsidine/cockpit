@@ -31,12 +31,10 @@
 
     //TODO: Think about how User affects this service and refactor
     function updateNavigation() {
-      var user = User.getUser();
-      
       $rootScope.state = $rootScope.state || {};
       $rootScope.state.access = User.getAccess();
 
-      if(user.loggedIn) {
+      if(User.current.loggedIn) {
         $rootScope.state.loggedIn = true;
       } else {
         $rootScope.state.loggedIn = false;
@@ -70,9 +68,7 @@
     }
 
     function verifyLogin(next) {
-      var user = User.getUser();
-
-      if(next.access.requiresLogin && !user.loggedIn) {
+      if(next.access.requiresLogin && !User.current.loggedIn) {
         return false;
       }
 
@@ -80,10 +76,8 @@
     }
 
     function authorizeRoute(next) {
-      var user = User.getUser();
-
       if(next.access.allowedRoles) {
-        if(next.access.allowedRoles.indexOf(user.role) === -1) {
+        if(next.access.allowedRoles.indexOf(User.current.role) === -1) {
           return false;
         }
       }
@@ -96,10 +90,11 @@
       $location.path('/login').replace();            
     }
 
-    function alert(type, message) {
+    function alert(type, message, active) {
       $rootScope.state = $rootScope.state || {};
 
       $rootScope.state.alert = {
+        active: active,
         type: type,
         message: message
       };
