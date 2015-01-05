@@ -75,8 +75,19 @@ describe('user.service', function () {
 
   describe('login()', function () {
     it('should set current user assuming user/password is correct', inject(function(User) {
-      // Mock $http request to login user
-      console.log(User);
+      expect(User.current.loggedIn).toBe(false);
+      expect(User.current.email).toBe('');
+      expect(User.current.role).toBe('');
+
+      //TODO: Temporary authorization.  Mock $http request to login user
+      var email = 'name@example.com',
+          password = 'password';
+
+      User.login(email, password);
+
+      expect(User.current.loggedIn).toBe(true);
+      expect(User.current.email).toBe(email);
+      expect(User.current.role).toBe('user');
     }));
   });
 

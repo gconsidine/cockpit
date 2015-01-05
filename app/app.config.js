@@ -9,7 +9,8 @@
       page: ['user'], 
       post: ['user'], 
       media: ['user'],
-      report: ['user']
+      report: ['user'],
+      shop: ['user']
     },
     api: {
       get: {

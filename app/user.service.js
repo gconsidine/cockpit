@@ -25,7 +25,7 @@
       if(email && password) {
         var user = {
           role: 'user',
-          email: 'name@example.com'
+          email: email
         };
 
         user.loggedIn = true;

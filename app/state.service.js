@@ -29,7 +29,6 @@
       });
     }
 
-    //TODO: Think about how User affects this service and refactor
     function updateNavigation() {
       $rootScope.state = $rootScope.state || {};
       $rootScope.state.access = User.getAccess();
