@@ -89,6 +89,47 @@ describe('user.service', function () {
       expect(User.current.email).toBe(email);
       expect(User.current.role).toBe('user');
     }));
+
+    it('should fail on undefined user/password', inject(function(User) {
+      var returnValue = User.login();
+
+      expect(User.current.loggedIn).toBe(false);
+      expect(User.current.email).toBe('');
+      expect(User.current.role).toBe('');
+
+      expect(returnValue).toBe(false);
+    }));
+  });
+
+  describe('getAccess()', function () {
+    it('should return a permissions object based on Property\'s access', function() {
+      var mockProperty = {},
+          User;
+
+      mockProperty.getAccess = function () {
+        return {
+          home: ['peasant', 'sellsword'], 
+          reports: ['sellsword'], 
+          media: ['lord']
+        };
+      };
+
+      module(function($provide) {
+        $provide.value('Property', mockProperty);
+      });
+
+      inject(function(_User_) {
+        User = _User_;
+      });
+
+      User.current.role = 'sellsword';
+
+      var permissions = User.getAccess();
+      
+      expect(permissions.home).toBe(true);
+      expect(permissions.reports).toBe(true);
+      expect(permissions.media).toBe(false);
+    });
   });
 
 });
