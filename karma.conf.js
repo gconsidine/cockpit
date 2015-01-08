@@ -11,13 +11,19 @@ module.exports = function(config) {
       'vendor/js/angular-mocks.js',
       'app/app.module.js',
       'app/*.js',
+      'app/**/*.html',
       'test/*-spec.js'
     ],
 
     reporters: ['mocha', 'coverage'],
 
     preprocessors: {
-      'app/*.*.js': ['coverage']
+      'app/*.*.js': ['coverage'],
+      'app/partials/*.html': 'ng-html2js'
+    },
+
+    ngHtml2JsPreprocessor: {
+      moduleName: 'templates'
     },
 
     coverageReporter: {
@@ -30,6 +36,14 @@ module.exports = function(config) {
         }
       ]
     },
+
+    plugins: [
+      'karma-jasmine',
+      'karma-coverage',
+      'karma-mocha-reporter',
+      'karma-phantomjs-launcher',
+      'karma-ng-html2js-preprocessor'
+    ],
 
     port: 9876,
     colors: true,

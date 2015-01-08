@@ -46,14 +46,7 @@ module.exports = function (grunt) {
 
     karma: {
       unit: {
-        configFile: 'karma.conf.js',
-        logLevel: 'INFO',
-        plugins: [
-          'karma-jasmine',
-          'karma-coverage',
-          'karma-mocha-reporter',
-          'karma-phantomjs-launcher'
-        ]
+        configFile: 'karma.conf.js'
       }
     },
 
