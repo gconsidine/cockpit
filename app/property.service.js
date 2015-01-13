@@ -18,11 +18,16 @@
     function getAccess() {
       return CONFIG.access;
     }
+    
+    function getEnvironment() {
+      return CONFIG.environment;
+    }
 
     return {
       getName: getName,
       getLogo: getLogo,
-      getAccess: getAccess
+      getAccess: getAccess,
+      getEnvironment: getEnvironment
     };
   }
 

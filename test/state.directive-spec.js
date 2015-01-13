@@ -30,7 +30,7 @@ describe('state.directive', function () {
 
       $rootScope.$digest();
 
-      expect(element.html()).toContain('<div class="pull-right">temp footer</div>');
+      expect(element.html()).toContain('caprahorn.com');
     });
   });
 

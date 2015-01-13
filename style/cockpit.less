@@ -153,11 +153,20 @@ body {
 }
 
 footer {
+  border-top: 1px solid @gray-lighter;
   height: 25px;
   width: 100%;
-  background: @gray-lighter;
+  background: inherit;
   position: absolute;
   bottom: 0;
+  color: @gray-light;
+  font-size: 90%;
+
+  div {
+    position: absolute;
+    bottom: 3px;
+    right: 15px;
+  }
 }
 
 .btn {
@@ -252,4 +261,17 @@ footer {
 
 .c-alert {
   margin-top: 2%;
+}
+
+.c-area-container {
+  margin-top: 2%;
+
+  .panel {
+    .mixin-box-shadow();
+    border-radius: 0;
+  }
+
+  button {
+    margin: 10px 0 10px 0;
+  }
 }

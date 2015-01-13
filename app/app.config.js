@@ -40,6 +40,7 @@
     property: {
       logo: 'http://fillmurray/100/100',
       name: 'Company Name',
-    }
+    },
+    environment: 'test'
   });
 }());
