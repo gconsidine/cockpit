@@ -20,8 +20,10 @@
       };
     };
 
+    /*
+     * TODO: temp return without API
+     */
     this.login = function(email, password) {
-      // TODO: connect with API, validate etc., return user object
       if(email && password) {
         var user = {
           role: 'user',
@@ -51,6 +53,25 @@
 
       return permissions;
     };
+
+    /*
+     * TODO: temp return without API
+     */
+    this.getUserList = function(limit) {
+      var users = [];
+
+      if(typeof limit === 'undefined') {
+        for(var i = 0; i < 50; i++) {
+          users[i] = {
+            email: 'name' + i + '@domain.com',
+            role: 'user'
+          };
+        }
+      }
+
+      return users;
+    };
+
   }
 }());
 
