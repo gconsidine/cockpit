@@ -28,4 +28,23 @@
     };
   }
 
+  angular.module('cockpit').directive('logout', logout);
+  logout.$inject = ['State'];
+  
+  function logout(State) {
+
+    function link(scope, element) {
+      element.on('mousedown', function() {
+        scope.$apply(function () {
+          State.logout();
+        });
+      });
+    }
+
+    return {
+      restrict: 'A',
+      link: link
+    };
+  }
+
 }());

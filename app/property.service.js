@@ -23,11 +23,16 @@
       return CONFIG.environment;
     }
 
+    function getRoles() {
+      return CONFIG.roles;
+    }
+
     return {
       getName: getName,
       getLogo: getLogo,
       getAccess: getAccess,
-      getEnvironment: getEnvironment
+      getEnvironment: getEnvironment,
+      getRoles: getRoles
     };
   }
 

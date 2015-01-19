@@ -32,13 +32,20 @@
       </div>
     </div>
 
-    <div class="col-md-9">
+    <div ng-if="user.state.actionLoading" class="col-md-9 ng-animate-if">
+      <div class="c-loading-state">
+        <img src="dist/img/loading.gif" alt="loading" />
+      </div>
+    </div>
+
+    <div ng-if="!user.state.actionLoading" class="col-md-9 c-animate-if">
 
       <div class="panel panel-{{ user.state.style }}">
         <div class="panel-heading">
           <h3 class="panel-title">{{ user.getDisplayName() }} Users</h3>
         </div>
         <div class="panel-body">
+
           <div ng-if="user.state.name == 'view'">
             <table class="table table-striped">
               <tr>
@@ -53,12 +60,47 @@
               </tr>
             </table>
           </div>
+
           <div ng-if="user.state.name == 'add'">
+            <form role="form">
+              <div class="col-md-6">
+                <label>First Name:</label>
+                <input type="text" class="form-control" placeholder="First Name"/> 
+              </div>
+              <div class="col-md-6">
+                <label>Last Name:</label>
+                <input type="text" class="form-control" placeholder="Last Name"/> 
+              </div>
+              <div class="col-md-12">
+                <label>Email:</label>
+                <input type="email" class="form-control" placeholder="name@example.com"/> 
+              </div>
+              <div class="col-md-12">
+                <label>Role:</label>
+                <select class="form-control">
+                  <option ng-repeat="role in user.roleList">{{ role }}</option>
+                </select>
+              </div>
+
+              <div class="col-md-offset-9 col-md-3">
+                <button ng-if="!user.state.submitLoading" 
+                        class="btn btn-success btn-block pull-left" ng-click="user.submitAddUser()">
+                  Submit
+                </button>
+                <button ng-if="user.state.submitLoading" 
+                        class="btn btn-success btn-block pull-right" disabled>
+                  Submiting...
+                </button>
+              </div>
+            </form>
           </div>
+
           <div ng-if="user.state.name == 'edit'">
           </div>
+
           <div ng-if="user.state.name == 'remove'">
           </div>
+
         </div>
       </div>
 

@@ -2,9 +2,9 @@
   'use strict';
 
   angular.module('cockpit').controller('LoginController', LoginController);
-  LoginController.$inject = ['State', 'User', '$location']; 
+  LoginController.$inject = ['State', '$location']; 
 
-  function LoginController(State, User, $location) {
+  function LoginController(State, $location) {
     this.email = {
       value: '',
       valid: false
@@ -21,7 +21,7 @@
         return;
       }
 
-      User.login(this.email.value, this.password.value);
+      State.login(this.email.value, this.password.value);
       $location.path('/').replace();
     };
   }

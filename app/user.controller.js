@@ -3,23 +3,23 @@
 
   angular.module('cockpit').controller('UserController', UserController);
   
-  UserController.$inject = ['User'];
+  UserController.$inject = ['User', 'Property'];
 
-  function UserController(User) {
+  function UserController(User, Property) {
     this.state = {
       name: 'view',
-      style: 'primary'
+      style: 'primary',
+      actionLoading: false,
+      submitLoading: false
     };
 
     this.userList = [];
+    this.roleList = Property.getRoles();
 
     this.toggleAction = function(name) {
-      this.getUserList();
-
       switch(name) {
         case 'view':
-          this.state.name = 'view';
-          this.state.style = 'primary';
+          this.getUserList();
           break;
         case 'add':
           this.state.name = 'add';
@@ -41,7 +41,34 @@
     };
 
     this.getUserList = function () {
-      this.userList = User.getUserList();
+      this.toggleActionLoading();
+      User.getUserList(null, setUserList.bind(this));
+
+      function setUserList(userList) {
+        this.toggleActionLoading();
+
+        this.userList = userList;
+        this.state.style = 'primary';
+        this.state.name = 'view';
+      }
+    };
+
+    this.submitAddUser = function () {
+      this.toggleSubmitLoading();
+      User.getUserList(null, setUserList.bind(this));
+
+      function setUserList(userList) {
+        this.toggleSubmitLoading();
+        this.userList = userList;
+      }
+    };
+
+    this.toggleSubmitLoading = function () {
+      this.state.submitLoading = !this.state.submitLoading;
+    };
+
+    this.toggleActionLoading = function () {
+      this.state.actionLoading = !this.state.actionLoading;
     };
   }
 }());
