@@ -17,7 +17,7 @@
 
     this.submit = function () {
       if(!this.email.value || !this.password.value) {
-        State.alert('danger', 'fail', true);
+        State.alert(true, 'danger', 'Invalid login credentials');
         return;
       }
 

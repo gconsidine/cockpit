@@ -207,7 +207,7 @@ describe('state.service', function () {
         rootScope = $rootScope;
       });
 
-      state.alert('danger', 'Invalid email address', true);
+      state.alert(true, 'danger', 'Invalid email address');
 
       expect(rootScope.state.alert.type).toBe('danger');
       expect(rootScope.state.alert.message).toBe('Invalid email address');
