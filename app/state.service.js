@@ -22,6 +22,9 @@
     };
 
     function startWatch() {
+      //TODO: Temporary development login
+      this.login('name@domain.tld', 'whatevs');
+
       $rootScope.$on('$routeChangeStart', function (event, next) {
         if(!verifyRoute(next)) {
           $location.path('/page-not-found').replace();            
@@ -117,10 +120,10 @@
       $location.path('/login').replace();            
     }
 
-    function alert(type, message, active) {
+    function alert(active, type, message) {
+      $rootScope.state.alert.active = active;
       $rootScope.state.alert.type = type;
       $rootScope.state.alert.message = message;
-      $rootScope.state.alert.active = active;
     }
 
     return {

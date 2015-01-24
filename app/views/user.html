@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" ng-init="user.init()">
   <div class="c-area-container">
     <div class="col-md-3">
       <div class="panel panel-default">
@@ -42,63 +42,222 @@
 
       <div class="panel panel-{{ user.state.style }}">
         <div class="panel-heading">
-          <h3 class="panel-title">{{ user.getDisplayName() }} Users</h3>
+          <h3 class="panel-title">{{ user.getDisplayTitle() }}</h3>
         </div>
         <div class="panel-body">
 
           <div ng-if="user.state.name == 'view'">
             <table class="table table-striped">
-              <tr>
-                <th>#</th>
-                <th>Email</th>
-                <th>Role</th>
+              <tr model="user|userList">
+                <th table-sort="id" order="">
+                  Id <span class="glyphicon glyphicon-minus"></span>
+                </th>
+                <th table-sort="email" order="">
+                  Email <span class="glyphicon glyphicon-minus"></span>
+                </th>
+                <th table-sort="createdAt" order="">
+                  Created At <span class="glyphicon glyphicon-minus"></span>
+                </th>
+                <th table-sort="role" order="">
+                  Role <span class="glyphicon glyphicon-minus"></span>
+                </th>
+                <th table-sort="status" order="">
+                  Status <span class="glyphicon glyphicon-minus"></span>
+                </th>
               </tr>
               <tr ng-repeat="userEntry in user.userList">
-                <td>{{ $index + 1 }}</td>
+                <td>{{ userEntry.id }}</td>
                 <td>{{ userEntry.email }}</td>
+                <td>{{ userEntry.createdAt }}</td>
                 <td>{{ userEntry.role }}</td>
+                <td>{{ userEntry.status }}</td>
               </tr>
             </table>
           </div>
 
           <div ng-if="user.state.name == 'add'">
             <form role="form">
-              <div class="col-md-6">
-                <label>First Name:</label>
-                <input type="text" class="form-control" placeholder="First Name"/> 
-              </div>
-              <div class="col-md-6">
-                <label>Last Name:</label>
-                <input type="text" class="form-control" placeholder="Last Name"/> 
+              <div class="col-md-12">
+                <label>Name:</label>
+                <input ng-model="user.state.current.name" type="text" class="form-control" 
+                       placeholder="First Last"/> 
               </div>
               <div class="col-md-12">
                 <label>Email:</label>
-                <input type="email" class="form-control" placeholder="name@example.com"/> 
+                <input ng-model="user.state.current.email" type="email" class="form-control"
+                       placeholder="name@example.com"/> 
               </div>
               <div class="col-md-12">
                 <label>Role:</label>
-                <select class="form-control">
+                <select ng-model="user.state.current.role" class="form-control">
                   <option ng-repeat="role in user.roleList">{{ role }}</option>
                 </select>
               </div>
 
               <div class="col-md-offset-9 col-md-3">
-                <button ng-if="!user.state.submitLoading" 
-                        class="btn btn-success btn-block pull-left" ng-click="user.submitAddUser()">
-                  Submit
-                </button>
-                <button ng-if="user.state.submitLoading" 
-                        class="btn btn-success btn-block pull-right" disabled>
-                  Submiting...
+                <button class="btn btn-success btn-block pull-left"
+                        ng-click="user.toggleAction('confirm-add')">
+                  Continue <span class="glyphicon glyphicon-arrow-right"></span>
                 </button>
               </div>
             </form>
           </div>
 
           <div ng-if="user.state.name == 'edit'">
+            <table class="table table-striped">
+              <tr model="user|userList">
+                <th table-sort="id" order="">
+                  Id <span class="glyphicon glyphicon-minus"></span>
+                </th>
+                <th table-sort="email" order="">
+                  Email <span class="glyphicon glyphicon-minus"></span>
+                </th>
+                <th table-sort="createdAt" order="">
+                  Created At <span class="glyphicon glyphicon-minus"></span>
+                </th>
+                <th table-sort="role" order="">
+                  Role <span class="glyphicon glyphicon-minus"></span>
+                </th>
+                <th table-sort="status" order="">
+                  Status <span class="glyphicon glyphicon-minus"></span>
+                </th>
+                <th>Edit</th>
+              </tr>
+              <tr ng-repeat="userEntry in user.userList">
+                <td>{{ userEntry.id }}</td>
+                <td>{{ userEntry.email }}</td>
+                <td>{{ userEntry.createdAt }}</td>
+                <td>{{ userEntry.role }}</td>
+                <td>{{ userEntry.status }}</td>
+                <td>
+                  <button class="btn btn-block btn-warning"
+                          ng-click="user.toggleAction('confirm-edit', userEntry)">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                  </button>
+                </td>
+              </tr>
+            </table>
           </div>
 
           <div ng-if="user.state.name == 'remove'">
+            <table class="table table-striped">
+              <tr model="user|userList">
+                <th table-sort="id" order="">
+                  Id <span class="glyphicon glyphicon-minus"></span>
+                </th>
+                <th table-sort="email" order="">
+                  Email <span class="glyphicon glyphicon-minus"></span>
+                </th>
+                <th table-sort="createdAt" order="">
+                  Created At <span class="glyphicon glyphicon-minus"></span>
+                </th>
+                <th table-sort="role" order="">
+                  Role <span class="glyphicon glyphicon-minus"></span>
+                </th>
+                <th table-sort="status" order="">
+                  Status <span class="glyphicon glyphicon-minus"></span>
+                </th>
+                <th>Remove</th>
+              </tr>
+              <tr ng-repeat="userEntry in user.userList">
+                <td>{{ userEntry.id }}</td>
+                <td>{{ userEntry.email }}</td>
+                <td>{{ userEntry.createdAt }}</td>
+                <td>{{ userEntry.role }}</td>
+                <td>{{ userEntry.status }}</td>
+                <td>
+                  <button class="btn btn-block btn-danger"
+                          ng-click="user.toggleAction('confirm-remove', userEntry)">
+                    <span class="glyphicon glyphicon-remove"></span>
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <div ng-if="user.state.name == 'confirm-add'">
+            <div class="col-md-12">
+              <p><b>Name:</b> {{ user.state.current.name }}</p>
+              <p><b>Email:</b> {{ user.state.current.email }}</p>
+              <p><b>Role:</b> {{ user.state.current.role }}</p>
+            </div>
+
+            <div class="col-md-offset-9 col-md-3">
+              <button ng-if="!user.state.submitLoading" 
+                      class="btn btn-success btn-block pull-left"
+                      ng-click="user.submitAddUser()">
+                Submit New User
+              </button>
+              <button ng-if="user.state.submitLoading" 
+                      class="btn btn-success btn-block pull-right" disabled>
+                Submiting...
+              </button>
+            </div>
+          </div>
+
+          <div ng-if="user.state.name == 'confirm-remove'">
+            <div class="col-md-12">
+              <p><b>Name:</b> {{ user.state.current.name }}</p>
+              <p><b>Role:</b> {{ user.state.current.role }}</p>
+              <p><b>Created At:</b> {{ user.state.current.createdAt }}</p>
+              <p><b>Email:</b> {{ user.state.current.email }}</p>
+              <p><b>Status:</b> {{ user.state.current.status }}</p>
+            </div>
+
+            <div class="col-md-offset-9 col-md-3">
+              <button ng-if="!user.state.submitLoading" 
+                      class="btn btn-danger btn-block pull-left"
+                      ng-click="user.submitRemoveUser()">
+                Submit Removal
+              </button>
+              <button ng-if="user.state.submitLoading" 
+                      class="btn btn-danger btn-block pull-right" disabled>
+                Submiting...
+              </button>
+            </div>
+          </div>
+
+          <div ng-if="user.state.name == 'confirm-edit'">
+            <form role="form">
+              <div class="col-md-12">
+                <label>Name:</label>
+                <input ng-model="user.state.current.name" type="text" class="form-control" 
+                       placeholder="First Name"/> 
+              </div>
+              <div class="col-md-12">
+                <label>Created At:</label>
+                <input ng-model="user.state.current.createdAt" type="text" class="form-control" 
+                       placeholder="First Name" disabled/> 
+              </div>
+              <div class="col-md-12">
+                <label>Status:</label>
+                <input ng-model="user.state.current.status" type="text" class="form-control" 
+                       placeholder="First Name" disabled/> 
+              </div>
+              <div class="col-md-12">
+                <label>Email:</label>
+                <input ng-model="user.state.current.email" type="email" class="form-control"
+                       placeholder="name@example.com"/> 
+              </div>
+              <div class="col-md-12">
+                <label>Role:</label>
+                <select ng-model="user.state.current.role" class="form-control">
+                  <option ng-repeat="role in user.roleList">{{ role }}</option>
+                </select>
+              </div>
+
+              <div class="col-md-offset-9 col-md-3">
+                <button ng-if="!user.state.submitLoading" 
+                        class="btn btn-warning btn-block pull-left"
+                        ng-click="user.submitEditUser()">
+                  Submit Edit
+                </button>
+                <button ng-if="user.state.submitLoading" 
+                        class="btn btn-warning btn-block pull-right" disabled>
+                  Submiting...
+                </button>
+              </div>
+            </form>
           </div>
 
         </div>
@@ -107,5 +266,4 @@
     </div>
   </div>
 </div>
-
 

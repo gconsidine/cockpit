@@ -3,48 +3,75 @@
 
   angular.module('cockpit').controller('UserController', UserController);
   
-  UserController.$inject = ['User', 'Property'];
+  UserController.$inject = ['State', 'User', 'Property'];
 
-  function UserController(User, Property) {
+  function UserController(State, User, Property) {
     this.state = {
       name: 'view',
       style: 'primary',
       actionLoading: false,
-      submitLoading: false
+      submitLoading: false,
+      current: {}
     };
 
-    this.userList = [];
     this.roleList = Property.getRoles();
 
-    this.toggleAction = function(name) {
+    this.userList = [];
+
+    this.init = function () {
+      this.toggleAction('view');
+    };
+
+    this.toggleAction = function(name, user) {
+      State.alert(false);
+
       switch(name) {
         case 'view':
           this.getUserList();
           break;
         case 'add':
+          this.state.current = {};
           this.state.name = 'add';
           this.state.style = 'success';
           break;
+        case 'confirm-add':
+          this.confirmAdd();
+          break;
         case 'edit':
-          this.state.name = 'edit';
-          this.state.style = 'warning';
+          this.getEditList();
+          break;
+        case 'confirm-edit':
+          this.confirmEdit(user);
           break;
         case 'remove':
-          this.state.name = 'remove';
-          this.state.style = 'danger';
+          this.getRemoveList();
+          break;
+        case 'confirm-remove':
+          this.confirmRemove(user);
           break;
       }
     };
 
-    this.getDisplayName = function() {
-      return this.state.name[0].toUpperCase() + this.state.name.substring(1);
+    this.getDisplayTitle = function() {
+      var parts = this.state.name.split('-'),
+          title = '';
+
+      for(var i = 0; i < parts.length; i++) {
+        title += parts[i][0].toUpperCase() + parts[i].substring(1) + ' '; 
+      }
+
+      if(title.indexOf('Confirm') === -1 ) {
+        return title + 'Users';
+      }
+
+      return title;
     };
 
     this.getUserList = function () {
       this.toggleActionLoading();
-      User.getUserList(null, setUserList.bind(this));
+      User.getUserList(null, wrapUp.bind(this));
 
-      function setUserList(userList) {
+      function wrapUp(userList) {
         this.toggleActionLoading();
 
         this.userList = userList;
@@ -53,13 +80,107 @@
       }
     };
 
+    this.getEditList = function () {
+      this.toggleActionLoading();
+      User.getUserList(null, wrapUp.bind(this));
+
+      function wrapUp(userList) {
+        this.toggleActionLoading();
+
+        this.userList = userList;
+        this.state.style = 'warning';
+        this.state.name = 'edit';
+      }
+    };
+
+    this.getRemoveList = function () {
+      this.toggleActionLoading();
+      User.getUserList(null, wrapUp.bind(this));
+
+      function wrapUp(userList) {
+        this.toggleActionLoading();
+
+        this.userList = userList;
+        this.state.style = 'danger';
+        this.state.name = 'remove';
+      }
+    };
+
+    this.confirmAdd = function () {
+      //TODO: validate input
+
+      this.state.name = 'confirm-add';
+      this.state.style = 'success';
+    };
+
+    this.confirmEdit = function (user) {
+      //TODO: validate input
+
+      this.state.current = user;
+      this.state.name = 'confirm-edit';
+      this.state.style = 'warning';
+    };
+
+    this.confirmRemove = function (user) {
+      //TODO: validate input
+
+      this.state.current = user;
+      this.state.name = 'confirm-remove';
+      this.state.style = 'danger';
+    };
+
     this.submitAddUser = function () {
       this.toggleSubmitLoading();
-      User.getUserList(null, setUserList.bind(this));
+      User.addUser(null, wrapUp.bind(this));
 
-      function setUserList(userList) {
+      function wrapUp(error, request, response) {
         this.toggleSubmitLoading();
-        this.userList = userList;
+
+        if(error) {
+          State.alert(true, 'danger', 'Unable to add user.  Please try again later.');
+          console.log(request, response);
+          return;
+        }
+
+        State.alert(true, 'success', 'Activation email sent.');
+      }
+    };
+
+    this.submitEditUser = function () {
+      this.toggleSubmitLoading();
+      User.addUser(null, wrapUp.bind(this));
+
+      function wrapUp(error, request, response) {
+        this.toggleSubmitLoading();
+
+        if(error) {
+          State.alert(true, 'danger', 'Unable to edit user.  Please try again later.');
+          console.log(request, response);
+          return;
+        }
+
+        State.alert(true, 'success', 'User successfully edited');
+        this.state.name = 'edit';
+        this.state.style = 'warning';
+      }
+    };
+
+    this.submitRemoveUser = function () {
+      this.toggleSubmitLoading();
+      User.addUser(null, wrapUp.bind(this));
+
+      function wrapUp(error, request, response) {
+        this.toggleSubmitLoading();
+
+        if(error) {
+          State.alert(true, 'danger', 'Unable to remove user.  Please try again later.');
+          console.log(request, response);
+          return;
+        }
+
+        State.alert(true, 'success', 'User successfully removed');
+        this.state.name = 'remove';
+        this.state.style = 'danger';
       }
     };
 

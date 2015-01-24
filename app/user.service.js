@@ -13,17 +13,27 @@
       if(!limit) {
         for(var i = 0; i < 10; i++) {
           users[i] = {
+            id: i,
+            name: 'First Last' + i,
             email: 'name' + i + '@domain.com',
-            role: 'user'
+            createdAt: Date.now(),
+            role: 'user',
+            status: 'activated'
           };
         }
       }
 
       $timeout(function () {
         callback(users);
-      }, 2000);
+      }, 1000);
     };
 
+    // TODO: temp return without API
+    this.addUser = function(userObj, callback) {
+      $timeout(function () {
+        callback(false, {}, {});
+      }, 1000);
+    };
   }
 }());
 
