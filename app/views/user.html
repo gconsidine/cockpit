@@ -48,21 +48,21 @@
 
           <div ng-if="user.state.name == 'view'">
             <table class="table table-striped">
-              <tr model="user|userList">
-                <th table-sort="id" order="">
-                  Id <span class="glyphicon glyphicon-minus"></span>
+              <tr>
+                <th ng-click="user.sortTable('id')">
+                  Id <span class="glyphicon glyphicon-{{user.table.id}}"></span>
                 </th>
-                <th table-sort="email" order="">
-                  Email <span class="glyphicon glyphicon-minus"></span>
+                <th ng-click="user.sortTable('email')">
+                  Email <span class="glyphicon glyphicon-{{user.table.email}}"></span>
                 </th>
-                <th table-sort="createdAt" order="">
-                  Created At <span class="glyphicon glyphicon-minus"></span>
+                <th ng-click="user.sortTable('createdAt')">
+                  Created At <span class="glyphicon glyphicon-{{user.table.createdAt}}"></span>
                 </th>
-                <th table-sort="role" order="">
-                  Role <span class="glyphicon glyphicon-minus"></span>
+                <th ng-click="user.sortTable('role')">
+                  Role <span class="glyphicon glyphicon-{{user.table.role}}"></span>
                 </th>
-                <th table-sort="status" order="">
-                  Status <span class="glyphicon glyphicon-minus"></span>
+                <th ng-click="user.sortTable('status')">
+                  Status <span class="glyphicon glyphicon-{{user.table.status}}"></span>
                 </th>
               </tr>
               <tr ng-repeat="userEntry in user.userList">
@@ -105,21 +105,21 @@
 
           <div ng-if="user.state.name == 'edit'">
             <table class="table table-striped">
-              <tr model="user|userList">
-                <th table-sort="id" order="">
-                  Id <span class="glyphicon glyphicon-minus"></span>
+              <tr>
+                <th ng-click="user.sortTable('id')">
+                  Id <span class="glyphicon glyphicon-{{user.table.id}}"></span>
                 </th>
-                <th table-sort="email" order="">
-                  Email <span class="glyphicon glyphicon-minus"></span>
+                <th ng-click="user.sortTable('email')">
+                  Email <span class="glyphicon glyphicon-{{user.table.email}}"></span>
                 </th>
-                <th table-sort="createdAt" order="">
-                  Created At <span class="glyphicon glyphicon-minus"></span>
+                <th ng-click="user.sortTable('createdAt')">
+                  Created At <span class="glyphicon glyphicon-{{user.table.createdAt}}"></span>
                 </th>
-                <th table-sort="role" order="">
-                  Role <span class="glyphicon glyphicon-minus"></span>
+                <th ng-click="user.sortTable('role')">
+                  Role <span class="glyphicon glyphicon-{{user.table.role}}"></span>
                 </th>
-                <th table-sort="status" order="">
-                  Status <span class="glyphicon glyphicon-minus"></span>
+                <th ng-click="user.sortTable('status')">
+                  Status <span class="glyphicon glyphicon-{{user.table.status}}"></span>
                 </th>
                 <th>Edit</th>
               </tr>
@@ -141,21 +141,21 @@
 
           <div ng-if="user.state.name == 'remove'">
             <table class="table table-striped">
-              <tr model="user|userList">
-                <th table-sort="id" order="">
-                  Id <span class="glyphicon glyphicon-minus"></span>
+              <tr>
+                <th ng-click="user.sortTable('id')">
+                  Id <span class="glyphicon glyphicon-{{user.table.id}}"></span>
                 </th>
-                <th table-sort="email" order="">
-                  Email <span class="glyphicon glyphicon-minus"></span>
+                <th ng-click="user.sortTable('email')">
+                  Email <span class="glyphicon glyphicon-{{user.table.email}}"></span>
                 </th>
-                <th table-sort="createdAt" order="">
-                  Created At <span class="glyphicon glyphicon-minus"></span>
+                <th ng-click="user.sortTable('createdAt')">
+                  Created At <span class="glyphicon glyphicon-{{user.table.createdAt}}"></span>
                 </th>
-                <th table-sort="role" order="">
-                  Role <span class="glyphicon glyphicon-minus"></span>
+                <th ng-click="user.sortTable('role')">
+                  Role <span class="glyphicon glyphicon-{{user.table.role}}"></span>
                 </th>
-                <th table-sort="status" order="">
-                  Status <span class="glyphicon glyphicon-minus"></span>
+                <th ng-click="user.sortTable('status')">
+                  Status <span class="glyphicon glyphicon-{{user.table.status}}"></span>
                 </th>
                 <th>Remove</th>
               </tr>

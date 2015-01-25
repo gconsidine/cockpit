@@ -70,4 +70,21 @@ describe('state.directive', function () {
     });
   });
 
+  describe('sortTable()', function () {
+    var $compile,
+        $rootScope;
+
+    beforeEach(inject(function(_$compile_, _$rootScope_) {
+      $compile = _$compile_;
+      $rootScope = _$rootScope_;
+    }));
+
+    it('should do things', function() {
+      var td = $compile('<td sort-table="id" order=""></td>')($rootScope);
+
+      $rootScope.$digest();
+      td.triggerHandler('click');
+    });
+  });
+
 });

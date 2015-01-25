@@ -20,11 +20,11 @@
     }
     
     function getEnvironment() {
-      return CONFIG.environment;
+      return CONFIG.property.environment;
     }
 
     function getRoles() {
-      return CONFIG.roles;
+      return CONFIG.property.roles;
     }
 
     return {

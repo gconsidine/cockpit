@@ -3,15 +3,23 @@
 
   angular.module('cockpit').controller('UserController', UserController);
   
-  UserController.$inject = ['State', 'User', 'Property'];
+  UserController.$inject = ['$scope', 'State', 'User', 'Property', 'Utility'];
 
-  function UserController(State, User, Property) {
+  function UserController($scope, State, User, Property, Utility) {
     this.state = {
       name: 'view',
       style: 'primary',
       actionLoading: false,
       submitLoading: false,
       current: {}
+    };
+
+    this.table = {
+      id: 'minus',
+      email: 'minus',
+      createdAt: 'minus',
+      role: 'minus',
+      status: 'minus'
     };
 
     this.roleList = Property.getRoles();
@@ -190,6 +198,10 @@
 
     this.toggleActionLoading = function () {
       this.state.actionLoading = !this.state.actionLoading;
+    };
+
+    this.sortTable = function (key) {
+      Utility.sortTable.call(this, this.userList, this.table, key);
     };
   }
 }());

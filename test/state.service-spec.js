@@ -170,6 +170,11 @@ describe('state.service', function () {
       expect($rootScope.state.user.role).toBeDefined();
       expect($rootScope.state.user.access).toBeDefined();
     }));
+
+    it('should return false on invalid login', inject(function(State) {
+      expect(State.login()).toBe(false);
+    }));
+
   });
 
   describe('logout()', function () {

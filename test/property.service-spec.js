@@ -37,4 +37,27 @@ describe('property.service', function () {
     }));
   });
 
+  describe('getEnvironment()', function () {
+    it('should return the environment variable set', inject(function(Property, CONFIG) {
+      CONFIG.property = {
+        environment: 'test'
+      };
+
+      expect(Property.getEnvironment()).toBe('test');
+    }));
+  });
+
+  describe('getRoles()', function () {
+    it('should return the array of roles set', inject(function(Property, CONFIG) {
+      CONFIG.property = {
+        roles: ['goat', 'demon', 'goat-demon']
+      };
+      
+      var roles = Property.getRoles();
+      expect(roles[0]).toBe('goat');
+      expect(roles[1]).toBe('demon');
+      expect(roles[2]).toBe('goat-demon');
+    }));
+  });
+
 });
