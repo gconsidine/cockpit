@@ -3,9 +3,9 @@
 
   angular.module('cockpit').controller('UserController', UserController);
   
-  UserController.$inject = ['$scope', 'State', 'User', 'Property', 'Utility'];
+  UserController.$inject = ['State', 'User', 'Property', 'Utility'];
 
-  function UserController($scope, State, User, Property, Utility) {
+  function UserController(State, User, Property, Utility) {
     this.state = {
       name: 'view',
       style: 'primary',

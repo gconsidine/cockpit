@@ -3,9 +3,7 @@
 
   angular.module('cockpit').service('User', User);
 
-  angular.$inject = ['Property', '$timeout'];
-
-  function User(Property, $timeout) {
+  function User() {
     // TODO: temp return without API
     this.getUserList = function(limit, callback) {
       var users = [];
@@ -23,16 +21,12 @@
         }
       }
 
-      $timeout(function () {
-        callback(users);
-      }, 1000);
+      callback(users);
     };
 
     // TODO: temp return without API
     this.addUser = function(userObj, callback) {
-      $timeout(function () {
-        callback(false, {}, {});
-      }, 1000);
+      callback(false, {}, {});
     };
   }
 }());
