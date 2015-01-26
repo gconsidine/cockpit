@@ -77,41 +77,31 @@
 
     this.getUserList = function () {
       this.toggleActionLoading();
-      User.getUserList(null, wrapUp.bind(this));
+      User.getUserList(null, this.setUserList.bind(this));
 
-      function wrapUp(userList) {
-        this.toggleActionLoading();
-
-        this.userList = userList;
-        this.state.style = 'primary';
-        this.state.name = 'view';
-      }
+      this.state.style = 'primary';
+      this.state.name = 'view';
     };
 
     this.getEditList = function () {
       this.toggleActionLoading();
-      User.getUserList(null, wrapUp.bind(this));
+      User.getUserList(null, this.setUserList.bind(this));
 
-      function wrapUp(userList) {
-        this.toggleActionLoading();
-
-        this.userList = userList;
-        this.state.style = 'warning';
-        this.state.name = 'edit';
-      }
+      this.state.style = 'warning';
+      this.state.name = 'edit';
     };
 
     this.getRemoveList = function () {
       this.toggleActionLoading();
-      User.getUserList(null, wrapUp.bind(this));
+      User.getUserList(null, this.setUserList.bind(this));
 
-      function wrapUp(userList) {
-        this.toggleActionLoading();
+      this.state.style = 'danger';
+      this.state.name = 'remove';
+    };
 
-        this.userList = userList;
-        this.state.style = 'danger';
-        this.state.name = 'remove';
-      }
+    this.setUserList = function (userList) {
+      this.toggleActionLoading();
+      this.userList = userList;
     };
 
     this.confirmAdd = function () {
