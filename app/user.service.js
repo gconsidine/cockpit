@@ -26,7 +26,8 @@
 
     // TODO: temp return without API
     this.addUser = function(userObj, callback) {
-      callback(false, {}, {});
+      var response = {};
+      callback(false, userObj, response);
     };
   }
 }());

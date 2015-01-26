@@ -96,15 +96,17 @@ describe('user.controller', function () {
   });
 
   describe('getUserList()', function () {
-    it('should fetch a list of users and load the view state');
-    /*
     it('should fetch a list of users and load the view state', function () {
       var user = $controller('UserController'); 
+
+      user.setUserList = {
+        bind: function () { return 'mock bind'; }
+      };
 
       spyOn(user, 'toggleActionLoading').and.returnValue(true); 
       spyOn(User, 'getUserList').and.returnValue(true); 
 
-      user.getUserList(user);
+      user.getUserList();
 
       expect(user.state.style).toBe('primary');
       expect(user.state.name).toBe('view');
@@ -112,14 +114,15 @@ describe('user.controller', function () {
       expect(user.toggleActionLoading).toHaveBeenCalled();
       expect(User.getUserList).toHaveBeenCalled();
     });
-    */
   });
 
   describe('getEditList()', function () {
-    it('should fetch a list of users and load the edit state');
-    /*
     it('should fetch a list of users and load the edit state', function () {
       var user = $controller('UserController'); 
+
+      user.setUserList = {
+        bind: function () { return 'mock bind'; }
+      };
 
       spyOn(user, 'toggleActionLoading').and.returnValue(true); 
       spyOn(User, 'getUserList').and.returnValue(true); 
@@ -132,14 +135,15 @@ describe('user.controller', function () {
       expect(user.toggleActionLoading).toHaveBeenCalled();
       expect(User.getUserList).toHaveBeenCalled();
     });
-    */
   });
 
   describe('getRemoveList()', function () {
-    it('should fetch a list of users and load the remove state');
-    /*
     it('should fetch a list of users and load the remove state', function () {
       var user = $controller('UserController'); 
+
+      user.setUserList = {
+        bind: function () { return 'mock bind'; }
+      };
 
       spyOn(user, 'toggleActionLoading').and.returnValue(true); 
       spyOn(User, 'getUserList').and.returnValue(true); 
@@ -152,19 +156,112 @@ describe('user.controller', function () {
       expect(user.toggleActionLoading).toHaveBeenCalled();
       expect(User.getUserList).toHaveBeenCalled();
     });
-    */
   });
 
   describe('submitAddUser()', function () {
-    it('should add a user and callback the success of the operation');
+    it('should add a user and callback the success of the operation', function () {
+      var user = $controller('UserController'); 
+
+      user.setSubmitResult = {
+        bind: function () { return 'mock bind'; }
+      };
+
+      spyOn(user, 'toggleSubmitLoading').and.returnValue(true); 
+      spyOn(User, 'addUser').and.returnValue(true); 
+      
+      user.submitAddUser();
+
+      expect(user.toggleSubmitLoading).toHaveBeenCalled();
+      expect(User.addUser).toHaveBeenCalled();
+    });
   });
 
   describe('submitEditUser()', function () {
-    it('should edit a user and callback the success of the operation');
+    it('should edit a user and callback the success of the operation', function () {
+      var user = $controller('UserController'); 
+
+      user.setSubmitResult = {
+        bind: function () { return 'mock bind'; }
+      };
+
+      spyOn(user, 'toggleSubmitLoading').and.returnValue(true); 
+      spyOn(User, 'addUser').and.returnValue(true); 
+      
+      user.submitEditUser();
+
+      expect(user.toggleSubmitLoading).toHaveBeenCalled();
+      expect(User.addUser).toHaveBeenCalled();
+    });
   });
 
   describe('submitRemoveUser()', function () {
-    it('should remove a user and callback the success of the operation');
+    it('should remove a user and callback the success of the operation', function () {
+      var user = $controller('UserController'); 
+
+      user.setSubmitResult = {
+        bind: function () { return 'mock bind'; }
+      };
+
+      spyOn(user, 'toggleSubmitLoading').and.returnValue(true); 
+      spyOn(User, 'addUser').and.returnValue(true); 
+      
+      user.submitRemoveUser();
+
+      expect(user.toggleSubmitLoading).toHaveBeenCalled();
+      expect(User.addUser).toHaveBeenCalled();
+    });
+  });
+
+  describe('setSubmitResult()', function () {
+    it('should set state based on results of failed submit action', function () {
+      var user = $controller('UserController'); 
+
+      spyOn(user, 'toggleSubmitLoading').and.returnValue(true); 
+      spyOn(State, 'alert').and.returnValue(true); 
+      
+      user.setSubmitResult(true, {type: 'add'});
+      expect(user.toggleSubmitLoading).toHaveBeenCalled();
+      expect(State.alert.calls.allArgs()[0][0]).toBe(true);
+      expect(State.alert.calls.allArgs()[0][1]).toBe('danger');
+      expect(State.alert.calls.allArgs()[0][2]).toMatch(/add/);
+
+      user.setSubmitResult(true, {type: 'edit'});
+      expect(user.toggleSubmitLoading).toHaveBeenCalled();
+      expect(State.alert.calls.allArgs()[1][0]).toBe(true);
+      expect(State.alert.calls.allArgs()[1][1]).toBe('danger');
+      expect(State.alert.calls.allArgs()[1][2]).toMatch(/edit/);
+
+      user.setSubmitResult(true, {type: 'remove'});
+      expect(user.toggleSubmitLoading).toHaveBeenCalled();
+      expect(State.alert.calls.allArgs()[2][0]).toBe(true);
+      expect(State.alert.calls.allArgs()[2][1]).toBe('danger');
+      expect(State.alert.calls.allArgs()[2][2]).toMatch(/remove/);
+    });
+
+    it('should set state based on results of successful submit action', function () {
+      var user = $controller('UserController'); 
+
+      spyOn(user, 'toggleSubmitLoading').and.returnValue(true); 
+      spyOn(State, 'alert').and.returnValue(true); 
+      
+      user.setSubmitResult(false, {type: 'add'});
+      expect(user.toggleSubmitLoading).toHaveBeenCalled();
+      expect(State.alert.calls.allArgs()[0][0]).toBe(true);
+      expect(State.alert.calls.allArgs()[0][1]).toBe('success');
+      expect(State.alert.calls.allArgs()[0][2]).toMatch(/email sent/);
+
+      user.setSubmitResult(false, {type: 'edit'});
+      expect(user.toggleSubmitLoading).toHaveBeenCalled();
+      expect(State.alert.calls.allArgs()[1][0]).toBe(true);
+      expect(State.alert.calls.allArgs()[1][1]).toBe('success');
+      expect(State.alert.calls.allArgs()[1][2]).toMatch(/edited/);
+
+      user.setSubmitResult(false, {type: 'remove'});
+      expect(user.toggleSubmitLoading).toHaveBeenCalled();
+      expect(State.alert.calls.allArgs()[2][0]).toBe(true);
+      expect(State.alert.calls.allArgs()[2][1]).toBe('success');
+      expect(State.alert.calls.allArgs()[2][2]).toMatch(/removed/);
+    });
   });
 
   describe('setUserList()', function () {

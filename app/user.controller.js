@@ -6,7 +6,9 @@
   UserController.$inject = ['State', 'User', 'Property', 'Utility'];
 
   function UserController(State, User, Property, Utility) {
-    this.state = {
+    var vm = this || {};
+
+    vm.state = {
       name: 'view',
       style: 'primary',
       actionLoading: false,
@@ -14,7 +16,7 @@
       current: {}
     };
 
-    this.table = {
+    vm.table = {
       id: 'minus',
       email: 'minus',
       createdAt: 'minus',
@@ -22,46 +24,46 @@
       status: 'minus'
     };
 
-    this.roleList = Property.getRoles();
+    vm.roleList = Property.getRoles();
 
-    this.userList = [];
+    vm.userList = [];
 
-    this.init = function () {
-      this.toggleAction('view');
+    vm.init = function () {
+      vm.toggleAction('view');
     };
 
-    this.toggleAction = function(name, user) {
+    vm.toggleAction = function(name, user) {
       State.alert(false);
 
       switch(name) {
         case 'view':
-          this.getUserList();
+          vm.getUserList();
           break;
         case 'add':
-          this.state.current = {};
-          this.state.name = 'add';
-          this.state.style = 'success';
+          vm.state.current = {};
+          vm.state.name = 'add';
+          vm.state.style = 'success';
           break;
         case 'confirm-add':
-          this.confirmAdd();
+          vm.confirmAdd();
           break;
         case 'edit':
-          this.getEditList();
+          vm.getEditList();
           break;
         case 'confirm-edit':
-          this.confirmEdit(user);
+          vm.confirmEdit(user);
           break;
         case 'remove':
-          this.getRemoveList();
+          vm.getRemoveList();
           break;
         case 'confirm-remove':
-          this.confirmRemove(user);
+          vm.confirmRemove(user);
           break;
       }
     };
 
-    this.getDisplayTitle = function() {
-      var parts = this.state.name.split('-'),
+    vm.getDisplayTitle = function() {
+      var parts = vm.state.name.split('-'),
           title = '';
 
       for(var i = 0; i < parts.length; i++) {
@@ -72,126 +74,140 @@
         return title + 'Users';
       }
 
+
       return title;
     };
 
-    this.getUserList = function () {
-      this.toggleActionLoading();
-      User.getUserList(null, this.setUserList.bind(this));
+    vm.getUserList = function () {
+      vm.toggleActionLoading();
+      User.getUserList(null, vm.setUserList.bind(vm));
 
-      this.state.style = 'primary';
-      this.state.name = 'view';
+      vm.state.style = 'primary';
+      vm.state.name = 'view';
     };
 
-    this.getEditList = function () {
-      this.toggleActionLoading();
-      User.getUserList(null, this.setUserList.bind(this));
+    vm.getEditList = function () {
+      vm.toggleActionLoading();
+      User.getUserList(null, vm.setUserList.bind(vm));
 
-      this.state.style = 'warning';
-      this.state.name = 'edit';
+      vm.state.style = 'warning';
+      vm.state.name = 'edit';
     };
 
-    this.getRemoveList = function () {
-      this.toggleActionLoading();
-      User.getUserList(null, this.setUserList.bind(this));
+    vm.getRemoveList = function () {
+      vm.toggleActionLoading();
+      User.getUserList(null, vm.setUserList.bind(vm));
 
-      this.state.style = 'danger';
-      this.state.name = 'remove';
+      vm.state.style = 'danger';
+      vm.state.name = 'remove';
     };
 
-    this.setUserList = function (userList) {
-      this.toggleActionLoading();
-      this.userList = userList;
+    vm.setUserList = function (userList) {
+      vm.toggleActionLoading();
+      vm.userList = userList;
     };
 
-    this.confirmAdd = function () {
+    vm.confirmAdd = function () {
       //TODO: validate input
 
-      this.state.name = 'confirm-add';
-      this.state.style = 'success';
+      vm.state.name = 'confirm-add';
+      vm.state.style = 'success';
     };
 
-    this.confirmEdit = function (user) {
+    vm.confirmEdit = function (user) {
       //TODO: validate input
 
-      this.state.current = user;
-      this.state.name = 'confirm-edit';
-      this.state.style = 'warning';
+      vm.state.current = user;
+      vm.state.name = 'confirm-edit';
+      vm.state.style = 'warning';
     };
 
-    this.confirmRemove = function (user) {
+    vm.confirmRemove = function (user) {
       //TODO: validate input
 
-      this.state.current = user;
-      this.state.name = 'confirm-remove';
-      this.state.style = 'danger';
+      vm.state.current = user;
+      vm.state.name = 'confirm-remove';
+      vm.state.style = 'danger';
     };
 
-    this.submitAddUser = function () {
-      this.toggleSubmitLoading();
-      User.addUser(null, wrapUp.bind(this));
+    vm.submitAddUser = function () {
+      // TODO: temporary request object
+      var request = {
+        type: 'add'       
+      };
 
-      function wrapUp(error, request, response) {
-        this.toggleSubmitLoading();
+      vm.toggleSubmitLoading();
+      User.addUser(request, vm.setSubmitResult.bind(vm));
+    };
 
-        if(error) {
-          State.alert(true, 'danger', 'Unable to add user.  Please try again later.');
-          console.log(request, response);
-          return;
+    vm.submitEditUser = function () {
+      // TODO: temporary request object
+      var request = {
+        type: 'edit'       
+      };
+
+      vm.toggleSubmitLoading();
+      User.addUser(request, vm.setSubmitResult.bind(vm));
+    };
+
+    vm.submitRemoveUser = function () {
+      // TODO: temporary request object
+      var request = {
+        type: 'remove'       
+      };
+
+      vm.toggleSubmitLoading();
+      User.addUser(request, vm.setSubmitResult.bind(vm));
+    };
+
+    vm.setSubmitResult = function (error, request) { // (error, request, response)
+      vm.toggleSubmitLoading();
+
+      if(error) {
+        switch(request.type) {
+          case 'add':
+            State.alert(true, 'danger', 'Unable to add user.  Please try again later.');
+            break;
+          case 'edit':
+            State.alert(true, 'danger', 'Unable to edit user.  Please try again later.');
+            break;
+          case 'remove':
+            State.alert(true, 'danger', 'Unable to remove user.  Please try again later.');
+            break;
         }
 
-        State.alert(true, 'success', 'Activation email sent.');
+        return;
+      }
+
+      switch(request.type) {
+        case 'add':
+          State.alert(true, 'success', 'Activation email sent.');
+          vm.state.name = 'add';
+          vm.state.style = 'success';
+          break;
+        case 'edit':
+          State.alert(true, 'success', 'User successfully edited');
+          vm.state.name = 'edit';
+          vm.state.style = 'warning';
+          break;
+        case 'remove':
+          State.alert(true, 'success', 'User successfully removed');
+          vm.state.name = 'remove';
+          vm.state.style = 'danger';
+          break;
       }
     };
 
-    this.submitEditUser = function () {
-      this.toggleSubmitLoading();
-      User.addUser(null, wrapUp.bind(this));
-
-      function wrapUp(error, request, response) {
-        this.toggleSubmitLoading();
-
-        if(error) {
-          State.alert(true, 'danger', 'Unable to edit user.  Please try again later.');
-          console.log(request, response);
-          return;
-        }
-
-        State.alert(true, 'success', 'User successfully edited');
-        this.state.name = 'edit';
-        this.state.style = 'warning';
-      }
+    vm.toggleSubmitLoading = function () {
+      vm.state.submitLoading = !vm.state.submitLoading;
     };
 
-    this.submitRemoveUser = function () {
-      this.toggleSubmitLoading();
-      User.addUser(null, wrapUp.bind(this));
-
-      function wrapUp(error, request, response) {
-        this.toggleSubmitLoading();
-
-        if(error) {
-          State.alert(true, 'danger', 'Unable to remove user.  Please try again later.');
-          console.log(request, response);
-          return;
-        }
-
-        State.alert(true, 'success', 'User successfully removed');
-        this.state.name = 'remove';
-        this.state.style = 'danger';
-      }
+    vm.toggleActionLoading = function () {
+      vm.state.actionLoading = !vm.state.actionLoading;
     };
 
-    this.toggleSubmitLoading = function () {
-      this.state.submitLoading = !this.state.submitLoading;
-    };
-
-    this.toggleActionLoading = function () {
-      this.state.actionLoading = !this.state.actionLoading;
-    };
-
-    this.sortTable = function (key) {
-      Utility.sortTable.call(this, this.userList, this.table, key);
+    vm.sortTable = function (key) {
+      Utility.sortTable.call(vm, vm.userList, vm.table, key);
     };
   }
 }());
