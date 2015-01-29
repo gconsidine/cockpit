@@ -3,9 +3,9 @@
 
   angular.module('cockpit').controller('UserController', UserController);
   
-  UserController.$inject = ['State', 'User', 'Property', 'Utility'];
+  UserController.$inject = ['State', 'User', 'Property', 'Utility', 'Validate'];
 
-  function UserController(State, User, Property, Utility) {
+  function UserController(State, User, Property, Utility, Validate) {
     var vm = this || {};
 
     vm.state = {
@@ -108,23 +108,21 @@
     };
 
     vm.confirmAdd = function () {
-      //TODO: validate input
+      if(!vm.validateCurrentUser()) {
+        return false;
+      }
 
       vm.state.name = 'confirm-add';
       vm.state.style = 'success';
     };
 
     vm.confirmEdit = function (user) {
-      //TODO: validate input
-
       vm.state.current = user;
       vm.state.name = 'confirm-edit';
       vm.state.style = 'warning';
     };
 
     vm.confirmRemove = function (user) {
-      //TODO: validate input
-
       vm.state.current = user;
       vm.state.name = 'confirm-remove';
       vm.state.style = 'danger';
@@ -132,19 +130,19 @@
 
     vm.submitAddUser = function () {
       // TODO: temporary request object
-      var request = {
-        type: 'add'       
-      };
+      var request = {type: 'add'}; 
 
       vm.toggleSubmitLoading();
       User.addUser(request, vm.setSubmitResult.bind(vm));
     };
 
     vm.submitEditUser = function () {
+      if(!vm.validateCurrentUser()) {
+        return false;
+      }
+
       // TODO: temporary request object
-      var request = {
-        type: 'edit'       
-      };
+      var request = {type: 'edit'};
 
       vm.toggleSubmitLoading();
       User.addUser(request, vm.setSubmitResult.bind(vm));
@@ -208,6 +206,17 @@
 
     vm.sortTable = function (key) {
       Utility.sortTable.call(vm, vm.userList, vm.table, key);
+    };
+
+    vm.validateCurrentUser = function () {
+      if(!Validate.isEmail(vm.state.current.email) || !Validate.isName(vm.state.current.name) ||
+         !Validate.isRole(vm.state.current.role)) {
+
+         State.alert(true, 'warning', 'Please make sure your input is valid');
+         return false;
+      }
+
+      return true;
     };
   }
 }());

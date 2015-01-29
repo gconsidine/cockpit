@@ -6,17 +6,20 @@ describe('user.controller', function () {
       User,
       Property,
       Utility,
-      State;
+      State,
+      Validate;
 
   beforeEach(module('cockpit'));
 
-  beforeEach(inject(function(_$controller_, _$rootScope_, _Property_, _Utility_, _User_, _State_) {
+  beforeEach(inject(function(_$controller_, _$rootScope_, _Property_, _Utility_, _User_, _State_,
+                             _Validate_) {
     $controller = _$controller_;
     $rootScope = _$rootScope_;
     Utility = _Utility_;
     User = _User_;
     Property = _Property_;
     State = _State_;
+    Validate = _Validate_;
 
     Property.getRoles = function () {
       return ['merchant', 'blacksmith', 'alchemist'];
@@ -177,8 +180,12 @@ describe('user.controller', function () {
   });
 
   describe('submitEditUser()', function () {
-    it('should edit a user and callback the success of the operation', function () {
+    it('should edit a valid user and callback the success of the operation', function () {
       var user = $controller('UserController'); 
+
+      user.state.current.name = 'corwin';
+      user.state.current.email = 'corwin@amberites.com';
+      user.state.current.role = 'Amberite';
 
       user.setSubmitResult = {
         bind: function () { return 'mock bind'; }
@@ -191,6 +198,19 @@ describe('user.controller', function () {
 
       expect(user.toggleSubmitLoading).toHaveBeenCalled();
       expect(User.addUser).toHaveBeenCalled();
+    });
+
+    it('should not edit an invalid current and set an alert', function () {
+      var user = $controller('UserController'); 
+
+      user.state.current.name = 'julian';
+      user.state.current.email = 'i-have-a-steel-pony-thing';
+      user.state.current.role = 'Amberite';
+
+      user.submitEditUser();
+
+      expect(user.validateCurrentUser()).toBe(false);
+
     });
   });
 
@@ -280,12 +300,30 @@ describe('user.controller', function () {
   describe('confirmAdd()', function () {
     it('should set state values to mainpulate view for add confirmation', function () {
       var user = $controller('UserController'); 
-      
+
+      user.state.current.name = 'Brand';
+      user.state.current.email = 'Brand@amberites.com';
+      user.state.current.role = 'amberite';
+
       user.confirmAdd();
 
       expect(user.state.name).toBe('confirm-add');
       expect(user.state.style).toBe('success');
     });
+
+    it('should keep current state if current user is invalid', function () {
+      var user = $controller('UserController'); 
+
+      user.state.current.name = '!!!';
+      user.state.current.email = 'julian-strikes-again';
+      user.state.current.role = 'amberite';
+
+      user.confirmAdd();
+
+      expect(user.state.name).not.toBe('confirm-add');
+      expect(user.state.style).not.toBe('success');
+    });
+
   });
 
   describe('confirmEdit()', function () {
@@ -305,7 +343,7 @@ describe('user.controller', function () {
     });
   });
 
-  describe('confirmEdit()', function () {
+  describe('confirmRemove()', function () {
     it('should set state values to mainpulate view for remove confirmation', function () {
       var user = $controller('UserController'); 
       
@@ -352,6 +390,40 @@ describe('user.controller', function () {
 
       expect(Utility.sortTable).toHaveBeenCalled();
     });
+  });
+
+  describe('validateCurrentUser()', function () {
+    it('should loosely validate a good email, name, and role', function () {
+      var user = $controller('UserController'); 
+
+      user.state.current.name = 'Brand';
+      user.state.current.email = 'Brand@amberites.com';
+      user.state.current.role = 'amberite';
+      
+      spyOn(Validate, 'isEmail').and.returnValue(true); 
+      spyOn(Validate, 'isName').and.returnValue(true); 
+      spyOn(Validate, 'isRole').and.returnValue(true); 
+
+      expect(user.validateCurrentUser()).toBe(true);
+    });
+
+    it('should reject a bad email, name, or role and set an alert', function () {
+      var user = $controller('UserController'); 
+
+      user.state.current.name = 'Julian';
+      user.state.current.email = '';
+      user.state.current.role = '';
+      
+      spyOn(Validate, 'isEmail').and.returnValue(true); 
+      spyOn(Validate, 'isName').and.returnValue(false); 
+      spyOn(Validate, 'isRole').and.returnValue(false); 
+
+      spyOn(State, 'alert').and.returnValue(true); 
+
+      expect(user.validateCurrentUser()).toBe(false);
+      expect(State.alert).toHaveBeenCalled();
+    });
+
   });
 
 });

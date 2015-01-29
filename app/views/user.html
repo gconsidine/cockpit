@@ -80,16 +80,16 @@
               <div class="col-md-12">
                 <label>Name:</label>
                 <input ng-model="user.state.current.name" type="text" class="form-control" 
-                       placeholder="First Last"/> 
+                       placeholder="First Last" required/> 
               </div>
               <div class="col-md-12">
                 <label>Email:</label>
                 <input ng-model="user.state.current.email" type="email" class="form-control"
-                       placeholder="name@example.com"/> 
+                       placeholder="name@example.com" required/> 
               </div>
               <div class="col-md-12">
                 <label>Role:</label>
-                <select ng-model="user.state.current.role" class="form-control">
+                <select ng-model="user.state.current.role" class="form-control" required>
                   <option ng-repeat="role in user.roleList">{{ role }}</option>
                 </select>
               </div>
