@@ -2,11 +2,14 @@
   "name": "cockpit",
   "version": "0.0.1",
   "description": "An administrative front-end built to take advantage of plz-cms utilizing Bootstrap + AngularJS",
-  "main": "server.js",
+  "main": "sample-server/app.start.js",
+  "private": true,
   "dependencies": {},
   "devDependencies": {
+    "body-parser": "^1.11.0",
     "bower": "^1.3.12",
-    "connect": "^3.3.3",
+    "cookie-parser": "^1.3.3",
+    "express": "^4.11.1",
     "grunt": "^0.4.5",
     "grunt-bump": "0.0.16",
     "grunt-cli": "^0.1.13",
@@ -20,6 +23,7 @@
     "grunt-coveralls": "^1.0.0",
     "grunt-karma": "^0.10.1",
     "grunt-shell": "^1.1.1",
+    "jade": "^1.9.1",
     "jasmine-core": "^2.1.3",
     "jshint-stylish": "^1.0.0",
     "karma": "^0.12.28",
@@ -29,11 +33,12 @@
     "karma-ng-html2js-preprocessor": "^0.1.2",
     "karma-phantomjs-launcher": "^0.1.4",
     "less": "^2.1.2",
+    "morgan": "^1.5.1",
     "phantomjs": "^1.9.13",
-    "serve-static": "^1.8.0"
+    "plz-cms": "gconsidine/plz-cms"
   },
   "scripts": {
-    "start": "nodemon --ignore node_modules/ --ignore bower_components/ server.js",
+    "start": "nodemon --ignore node_modules/ --ignore bower_components/ sample-server/app.start.js",
     "test": "grunt travis-ci"
   },
   "repository": {
