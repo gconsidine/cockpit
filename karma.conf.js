@@ -23,7 +23,8 @@ module.exports = function(config) {
     },
 
     ngHtml2JsPreprocessor: {
-      moduleName: 'templates'
+      moduleName: 'templates',
+      prependPrefix: '/'
     },
 
     coverageReporter: {

@@ -129,8 +129,14 @@
     };
 
     vm.submitAddUser = function () {
-      // TODO: temporary request object
-      var request = {type: 'add'}; 
+      var request = {
+        user: {
+          name: vm.state.current.name,
+          email: vm.state.current.email,
+          role: vm.state.current.role
+        },
+        type: 'add'
+      };
 
       vm.toggleSubmitLoading();
       User.addUser(request, vm.setSubmitResult.bind(vm));
@@ -158,7 +164,7 @@
       User.addUser(request, vm.setSubmitResult.bind(vm));
     };
 
-    vm.setSubmitResult = function (error, request) { // (error, request, response)
+    vm.setSubmitResult = function (error, request) {
       vm.toggleSubmitLoading();
 
       if(error) {

@@ -2,8 +2,9 @@
   'use strict';
 
   angular.module('cockpit').service('User', User);
+  User.$inject = ['$http'];
 
-  function User() {
+  function User($http) {
     // TODO: temp return without API
     this.getUserList = function(limit, callback) {
       var users = [];
@@ -24,10 +25,14 @@
       callback(users);
     };
 
-    // TODO: temp return without API
-    this.addUser = function(userObj, callback) {
-      var response = {};
-      callback(false, userObj, response);
+    this.addUser = function(user, callback) {
+      $http.post('/cockpit-api/user', user)
+        .success(function (response) {
+          callback(false, user, response);
+        })
+        .error(function (response) {
+          callback(true, user, response);
+        });
     };
   }
 }());
