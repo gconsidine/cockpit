@@ -11,24 +11,12 @@ describe('user.service', function () {
     });
   });
 
-  describe('getUserList()', function () {
-    it('should return an array of user objects', function(done) {
-      User.getUserList(undefined, function (users) {
-        expect(users instanceof Array).toBe(true);
-        done();
-      });
-    });
+  describe('getUsers()', function () {
+    it('should return an array of user objects');
   });
 
   describe('addUser()', function () {
-    it('should make a http request to create a user and callback the success', function (done) {
-      User.addUser({}, function (error, request, response) {
-        expect(error).toBe(false);
-        expect(typeof request).toBe('object');
-        expect(typeof response).toBe('object');
-        done();
-      });
-    });
+    it('should make a http request to create a user and callback the success');
   });
 });
 

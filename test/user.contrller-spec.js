@@ -107,7 +107,7 @@ describe('user.controller', function () {
       };
 
       spyOn(user, 'toggleActionLoading').and.returnValue(true); 
-      spyOn(User, 'getUserList').and.returnValue(true); 
+      spyOn(User, 'getUsers').and.returnValue(true); 
 
       user.getUserList();
 
@@ -115,7 +115,7 @@ describe('user.controller', function () {
       expect(user.state.name).toBe('view');
 
       expect(user.toggleActionLoading).toHaveBeenCalled();
-      expect(User.getUserList).toHaveBeenCalled();
+      expect(User.getUsers).toHaveBeenCalled();
     });
   });
 
@@ -128,7 +128,7 @@ describe('user.controller', function () {
       };
 
       spyOn(user, 'toggleActionLoading').and.returnValue(true); 
-      spyOn(User, 'getUserList').and.returnValue(true); 
+      spyOn(User, 'getUsers').and.returnValue(true); 
 
       user.getEditList();
 
@@ -136,7 +136,7 @@ describe('user.controller', function () {
       expect(user.state.name).toBe('edit');
 
       expect(user.toggleActionLoading).toHaveBeenCalled();
-      expect(User.getUserList).toHaveBeenCalled();
+      expect(User.getUsers).toHaveBeenCalled();
     });
   });
 
@@ -149,7 +149,7 @@ describe('user.controller', function () {
       };
 
       spyOn(user, 'toggleActionLoading').and.returnValue(true); 
-      spyOn(User, 'getUserList').and.returnValue(true); 
+      spyOn(User, 'getUsers').and.returnValue(true); 
 
       user.getRemoveList();
 
@@ -157,7 +157,7 @@ describe('user.controller', function () {
       expect(user.state.name).toBe('remove');
 
       expect(user.toggleActionLoading).toHaveBeenCalled();
-      expect(User.getUserList).toHaveBeenCalled();
+      expect(User.getUsers).toHaveBeenCalled();
     });
   });
 
@@ -290,7 +290,7 @@ describe('user.controller', function () {
 
       spyOn(user, 'toggleActionLoading').and.returnValue(true); 
 
-      user.setUserList([{name: 'corwin'}]);
+      user.setUserList(false, null, [{name: 'corwin'}]);
 
       expect(user.toggleActionLoading).toHaveBeenCalled();
       expect(user.userList[0].name).toBe('corwin');

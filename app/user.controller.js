@@ -80,7 +80,7 @@
 
     vm.getUserList = function () {
       vm.toggleActionLoading();
-      User.getUserList(null, vm.setUserList.bind(vm));
+      User.getUsers({}, vm.setUserList.bind(vm));
 
       vm.state.style = 'primary';
       vm.state.name = 'view';
@@ -88,7 +88,7 @@
 
     vm.getEditList = function () {
       vm.toggleActionLoading();
-      User.getUserList(null, vm.setUserList.bind(vm));
+      User.getUsers({}, vm.setUserList.bind(vm));
 
       vm.state.style = 'warning';
       vm.state.name = 'edit';
@@ -96,15 +96,21 @@
 
     vm.getRemoveList = function () {
       vm.toggleActionLoading();
-      User.getUserList(null, vm.setUserList.bind(vm));
+      User.getUsers({}, vm.setUserList.bind(vm));
 
       vm.state.style = 'danger';
       vm.state.name = 'remove';
     };
 
-    vm.setUserList = function (userList) {
+    vm.setUserList = function (error, request, response) {
       vm.toggleActionLoading();
-      vm.userList = userList;
+
+      if(error) {
+        State.alert(true, 'danger', 'Unable to retrieve user list.  Please try again later.');
+        return;
+      }
+
+      vm.userList = response;
     };
 
     vm.confirmAdd = function () {
@@ -182,6 +188,8 @@
 
         return;
       }
+
+      vm.state.current = {};
 
       switch(request.type) {
         case 'add':
