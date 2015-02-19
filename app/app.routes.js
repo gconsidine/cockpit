@@ -22,6 +22,34 @@
           requiresLogin: false
         }
       }).
+      when('/login/email/:email', {
+        templateUrl: '/app/views/login.html',
+        controller: 'LoginController as login',
+        access: {
+          requiresLogin: false
+        }
+      }).
+      when('/activate/email/:email/temp-auth/:tempAuth', {
+        templateUrl: '/app/views/activate.html',
+        controller: 'ActivateController as activate',
+        access: {
+          requiresLogin: false
+        }
+      }).
+      when('/reset', {
+        templateUrl: '/app/views/reset.html',
+        controller: 'ResetController as reset',
+        access: {
+          requiresLogin: false
+        }
+      }).
+      when('/reset/email/:email/auth/:auth', {
+        templateUrl: '/app/views/reset.html',
+        controller: 'ResetController as reset',
+        access: {
+          requiresLogin: false
+        }
+      }).
       when('/settings', {
         templateUrl: '/app/views/settings.html',
         controller: 'SettingsController as settings',
@@ -70,26 +98,8 @@
           allowedRoles: CONFIG.access.report
         }
       }).
-      when('/page-not-found', {
-        templateUrl: '/app/views/page-not-found.html',
-        access: {
-          requiresLogin: false
-        }
-      }).
-      when('/forbidden', {
-        templateUrl: '/app/views/forbidden.html',
-        access: {
-          requiresLogin: false
-        }
-      }).
-      when('/unauthorized', {
-        templateUrl: '/app/views/unauthorized.html',
-        access: {
-          requiresLogin: true
-        }
-      }).
       otherwise({
-        redirectTo: '/login'
+        redirectTo: '/'
       });
   }
 }());

@@ -23,9 +23,7 @@ var PlzConfig = {
     },
     required: {
       name: 'string',
-      email: 'email',
-      createdAt: 'number',
-      status: 'string'
+      email: 'email'
     }
   },
   author: {
@@ -37,8 +35,6 @@ var PlzConfig = {
         visibility: 'string',
         contentType: 'string',
         content: 'string',
-        createdAt: 'number',
-        modifiedAt: 'number',
         status: 'string'
       }
     },
@@ -50,8 +46,6 @@ var PlzConfig = {
         visibility: 'string',
         contentType: 'string',
         content: 'string',
-        createdAt: 'number',
-        modifiedAt: 'number',
         status: 'string'
       }
     }

@@ -4,18 +4,38 @@ html(lang='en')
   head
     meta(charset="UTF-8")
     
-    title Activation Link
+    title
+      | Activation Link
   
   body
     
-    h3 Hello, #{user.name}
+    h3 Hello, #{user.name}!
+
+    p
+      | You've been granted access to INSERT_SITE_NAME_HERE.  Click on the link provided below to 
+      | complete the activation process.
 
     p
       | Activation Link: 
 
+      a(href='http://127.0.0.1:8080/cockpit/#/activate/email/' + user.email + '/temp-auth/' + user.tempAuth)
+        | Click here.
+
     p
-      | #{hash}
+      | If you're unable to click the link, copy and paste the following URL in your browser:
 
+    br
     
+    p
+      pre
+        | http://127.0.0.1:8080/cockpit/#/activate/email/#{user.email}/temp-auth/#{user.tempAuth}
 
+    br
 
+    p
+      | Thanks and welcome to INSERT_WHATEVER
+
+    p 
+      small
+        | If you did not request an activation link, simply ignore this email.  This link will 
+        | expire in 24 hours. Contact your administrator with any questions.

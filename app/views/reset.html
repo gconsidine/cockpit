@@ -1,0 +1,82 @@
+<div class="container" ng-init="reset.init()">
+
+  <div ng-if="reset.state.request" class="c-animate-if">
+    <div class="c-login">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="form-group">
+              <form role="form">
+                <label>Email: </label>
+
+                <div ng-if="!reset.state.sent">
+                  <input class="form-control" type="email" ng-model="reset.input.email" required />
+                  <br />
+                  <div class="col-md-offset-9 col-md-3">
+                    <button ng-if="!user.state.submitLoading" class="btn btn-success btn-block"
+                            ng-click="reset.submitRequest()">
+                      Submit
+                    </button>
+                    <button ng-if="user.state.submitLoading" 
+                            class="btn btn-success btn-block" disabled>
+                      Submiting...
+                    </button>
+                  </div>
+                </div>
+
+                <div ng-if="reset.state.sent">
+                  <input class="form-control" type="email" ng-model="reset.input.email" 
+                         required disabled />
+                  <br />
+                  <div class="col-md-offset-9 col-md-3">
+                    <button ng-if="!user.state.submitLoading" 
+                            class="btn btn-success btn-block" disabled>
+                      Submit
+                    </button>
+                  </div>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div ng-if="reset.state.process" class="c-animate-if">
+    <div class="c-login">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="form-group">
+              <form role="form">
+                <label>Email: </label>
+                <input class="form-control" type="email" ng-model="reset.input.email" required disabled/>
+                <label>Password:</label>
+                <input class="form-control" type="password" ng-model="reset.input.password" required/>
+                <label>Password (confirm):</label>
+                <input class="form-control" type="password" ng-model="reset.input.passwordConfirm" required/>
+
+                <input class="form-control" type="hidden" ng-model="reset.input.auth" required/>
+                <br />
+                <div class="col-md-offset-9 col-md-3">
+                  <button ng-if="!user.state.submitLoading" 
+                          class="btn btn-success btn-block pull-left"
+                          ng-click="reset.submitUpdate()">
+                    Submit
+                  </button>
+                  <button ng-if="user.state.submitLoading" 
+                          class="btn btn-success btn-block pull-right" disabled>
+                    Submiting...
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

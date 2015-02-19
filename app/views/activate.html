@@ -1,0 +1,54 @@
+<div class="container" ng-init="activate.init()">
+
+  <div ng-if="!user.state.actionLoading" class="ng-animate-if">
+
+    <div class="c-login">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="form-group">
+              <form role="form">
+                <label>Email: </label>
+                <input class="form-control" type="email" 
+                       ng-model="activate.input.email" required disabled/>
+                <label>Password:</label>
+                <input class="form-control" type="password" 
+                       ng-model="activate.input.passwordNew" required/>
+                <label>Password (confirm):</label>
+                <input class="form-control" type="password" 
+                       ng-model="activate.input.passwordConfirm" required/>
+
+                <input class="form-control" type="hidden" ng-model="activate.input.tempAuth" 
+                       required/>
+                <br />
+                <div class="col-md-offset-9 col-md-3">
+                  <button ng-if="!activate.state.submitLoading" 
+                          class="btn btn-success btn-block pull-left"
+                          ng-click="activate.submit()">
+                    Submit
+                  </button>
+                  <button ng-if="activate.state.submitLoading" 
+                          class="btn btn-success btn-block pull-right" disabled>
+                    Submiting...
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div ng-if="user.state.actionLoading" class="col-md-9 ng-animate-if">
+
+    <div class="c-loading-state">
+      <img src="/dist/img/loading.gif" alt="loading" />
+    </div>
+
+  </div>
+
+</div>
+
+

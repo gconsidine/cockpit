@@ -2,7 +2,6 @@
   'use strict';
 
   angular.module('cockpit').controller('UserController', UserController);
-  
   UserController.$inject = ['State', 'User', 'Property', 'Utility', 'Validate'];
 
   function UserController(State, User, Property, Utility, Validate) {
@@ -24,11 +23,11 @@
       status: 'minus'
     };
 
-    vm.roleList = Property.getRoles();
-
+    vm.roleList = [];
     vm.userList = [];
 
     vm.init = function () {
+      vm.roleList = Property.getRoles();
       vm.toggleAction('view');
     };
 
@@ -80,7 +79,7 @@
 
     vm.getUserList = function () {
       vm.toggleActionLoading();
-      User.getUsers({}, vm.setUserList.bind(vm));
+      User.get({}, vm.setUserList.bind(vm));
 
       vm.state.style = 'primary';
       vm.state.name = 'view';
@@ -88,7 +87,7 @@
 
     vm.getEditList = function () {
       vm.toggleActionLoading();
-      User.getUsers({}, vm.setUserList.bind(vm));
+      User.get({}, vm.setUserList.bind(vm));
 
       vm.state.style = 'warning';
       vm.state.name = 'edit';
@@ -96,7 +95,7 @@
 
     vm.getRemoveList = function () {
       vm.toggleActionLoading();
-      User.getUsers({}, vm.setUserList.bind(vm));
+      User.get({}, vm.setUserList.bind(vm));
 
       vm.state.style = 'danger';
       vm.state.name = 'remove';
@@ -145,7 +144,7 @@
       };
 
       vm.toggleSubmitLoading();
-      User.addUser(request, vm.setSubmitResult.bind(vm));
+      User.create(request, vm.setSubmitResult.bind(vm));
     };
 
     vm.submitEditUser = function () {
@@ -157,7 +156,7 @@
       var request = {type: 'edit'};
 
       vm.toggleSubmitLoading();
-      User.addUser(request, vm.setSubmitResult.bind(vm));
+      User.edit(request, vm.setSubmitResult.bind(vm));
     };
 
     vm.submitRemoveUser = function () {
@@ -167,7 +166,7 @@
       };
 
       vm.toggleSubmitLoading();
-      User.addUser(request, vm.setSubmitResult.bind(vm));
+      User.remove(request, vm.setSubmitResult.bind(vm));
     };
 
     vm.setSubmitResult = function (error, request) {

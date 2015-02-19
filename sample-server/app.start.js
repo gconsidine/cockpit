@@ -17,7 +17,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../')));
 
 require('./app.routes')(app, express, plz);
-require('./api.routes')(app, express, plz);
+require('./admin.routes')(app, express, plz);
 require('./error.routes')(app, express, plz);
 
 var server = app.listen(8080);

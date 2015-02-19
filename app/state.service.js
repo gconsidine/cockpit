@@ -22,22 +22,19 @@
     };
 
     function startWatch() {
-      // TODO: Temporary development login
-      // this.login('name@domain.tld', 'whatevs');
-
       $rootScope.$on('$routeChangeStart', function (event, next) {
         if(!verifyRoute(next)) {
-          $location.path('/page-not-found').replace();            
+          $location.path('/').replace();            
           return;  
         }
 
         if(!verifyLogin(next)) {
-          $location.path('/forbidden').replace();            
+          $location.path('/login').replace();            
           return;
         }
 
         if(!authorizeRoute(next)) {
-          $location.path('/unauthorized').replace();            
+          $location.path('/').replace();            
           return;
         }
 
@@ -101,25 +98,6 @@
       return permissions;
     }
 
-    function login(email, password) {
-      // TODO: Temporary login without API
-      if(email && password) {
-        $rootScope.state.user.email = email;
-        $rootScope.state.user.role = 'user';
-        $rootScope.state.user.loggedIn = true;
-        $rootScope.state.user.access = getAccess();
-
-        return true;
-      }
-
-      return false;
-    }
-
-    function logout() {
-      delete $rootScope.state;
-      $location.path('/login').replace();            
-    }
-
     function alert(active, type, message) {
       $rootScope.state.alert.active = active;
       $rootScope.state.alert.type = type;
@@ -133,8 +111,6 @@
       verifyLogin: verifyLogin,
       authorizeRoute: authorizeRoute,
       getAccess: getAccess,
-      login: login,
-      logout: logout,
       alert: alert
     };
   }

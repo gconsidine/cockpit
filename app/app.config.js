@@ -2,6 +2,7 @@
   'use strict';
 
   angular.module('cockpit').constant('CONFIG', {
+
     access: {
       home: ['user'], 
       settings: ['user'], 
@@ -12,31 +13,31 @@
       report: ['user'],
       shop: ['user']
     },
+
     api: {
-      get: {
-        report: '/cockpit-api/report',
-        user: '/cockpit-api/user',
-        post: '/cockpit-api/post',
-        page: '/cockpit-api/page'
-      },
-      post: {
-        login: '/cockpit-api/login',
-        logout: '/cockpit-api/logout',
-        user: '/cockpit-api/user',
-        post: '/cockpit-api/post',
-        page: '/cockpit-api/page'
-      },
-      put: {
-        user: '/cockpit-api/user',
-        post: '/cockpit-api/post',
-        page: '/cockpit-api/page'
-      },
-      delete: {
-        user: '/cockpit-api/user',
-        post: '/cockpit-api/post',
-        page: '/cockpit-api/page'
+      user: {
+        get: {
+          user: '/cockpit-api/user/',
+          activate: '/cockpit-api/user/activate',
+          reset: '/cockpit-api/user/reset'
+        },
+        post: {
+          user: '/cockpit-api/user',
+        },
+        put: {
+          user: '/cockpit-api/user',
+          activate: '/cockpit-api/user/activate',
+          reset: '/cockpit-api/user/reset',
+          login: '/cockpit-api/user/login',
+          logout: '/cockpit-api/user/logout'
+        },
+        delete: {
+          user: '/cockpit-api/user'
+        }
       }
+
     },
+
     property: {
       logo: 'http://fillmurray/100/100',
       name: 'Company Name',
