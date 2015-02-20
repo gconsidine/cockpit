@@ -85,9 +85,7 @@ var AdminRoutes = function (app, express, plz) {
       }
     };
 
-    console.log(options);
     plz.complete.activation(options, function (error, result) {
-      console.log(error, result);
       if(error) { 
         res.status(500).send(result); 
         return; 
