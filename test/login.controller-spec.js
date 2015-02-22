@@ -45,19 +45,7 @@ describe('login.controller', function () {
       expect($rootScope.state.alert.type).not.toBe('');
     });
 
-    it('should handle a valid login form submission', function() {
-      var login = $controller('LoginController'); 
-
-      expect(login.email.value).toBe('');
-      expect(login.password.value).toBe('');
-
-      login.email.value = 'name@example.com';
-      login.password.value = 'password';
-
-      login.submit();
-
-      expect($location.path()).toBe('/');
-    });
+    it('should handle a valid login form submission');
   });
 });
 

@@ -79,7 +79,7 @@
 
     vm.getUserList = function () {
       vm.toggleActionLoading();
-      User.get({}, vm.setUserList.bind(vm));
+      User.get({user: {}}, vm.setUserList.bind(vm));
 
       vm.state.style = 'primary';
       vm.state.name = 'view';
@@ -87,7 +87,7 @@
 
     vm.getEditList = function () {
       vm.toggleActionLoading();
-      User.get({}, vm.setUserList.bind(vm));
+      User.get({user: {}}, vm.setUserList.bind(vm));
 
       vm.state.style = 'warning';
       vm.state.name = 'edit';
@@ -95,7 +95,7 @@
 
     vm.getRemoveList = function () {
       vm.toggleActionLoading();
-      User.get({}, vm.setUserList.bind(vm));
+      User.get({user: {}}, vm.setUserList.bind(vm));
 
       vm.state.style = 'danger';
       vm.state.name = 'remove';
@@ -109,7 +109,7 @@
         return;
       }
 
-      vm.userList = response;
+      vm.userList = response.data;
     };
 
     vm.confirmAdd = function () {
@@ -152,24 +152,31 @@
         return false;
       }
 
-      // TODO: temporary request object
-      var request = {type: 'edit'};
+      var request = {
+        user: {
+          name: vm.state.current.name,
+          role: vm.state.current.role
+        },
+        type: 'edit'
+      };
 
       vm.toggleSubmitLoading();
       User.edit(request, vm.setSubmitResult.bind(vm));
     };
 
     vm.submitRemoveUser = function () {
-      // TODO: temporary request object
       var request = {
-        type: 'remove'       
+        user: {
+          email: vm.state.current.email
+        },
+        type: 'remove'
       };
 
       vm.toggleSubmitLoading();
       User.remove(request, vm.setSubmitResult.bind(vm));
     };
 
-    vm.setSubmitResult = function (error, request) {
+    vm.setSubmitResult = function (error, request, response) {
       vm.toggleSubmitLoading();
 
       if(error) {
@@ -188,6 +195,22 @@
         return;
       }
 
+      if(!response.ok) {
+        switch(request.type) {
+          case 'add':
+            State.alert(true, 'danger', 'User not created.');
+            break;
+          case 'edit':
+            State.alert(true, 'danger', 'No users affected by edit operation.');
+            break;
+          case 'remove':
+            State.alert(true, 'danger', 'No users affected by remove operation');
+            break;
+        }
+
+        return;
+      }
+
       vm.state.current = {};
 
       switch(request.type) {
@@ -200,11 +223,13 @@
           State.alert(true, 'success', 'User successfully edited');
           vm.state.name = 'edit';
           vm.state.style = 'warning';
+          vm.getEditList();
           break;
         case 'remove':
           State.alert(true, 'success', 'User successfully removed');
           vm.state.name = 'remove';
           vm.state.style = 'danger';
+          vm.getRemoveList();
           break;
       }
     };

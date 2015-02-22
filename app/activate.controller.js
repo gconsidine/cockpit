@@ -34,13 +34,13 @@
       }
 
       var request = {
-        params: {
+        user: {
           email: $routeParams.email,
           tempAuth: $routeParams.tempAuth
         }
       };
 
-      User.getPendingActivation(request, function (error, response) {
+      User.getPendingActivation(request, function (error, request, response) {
         vm.state.actionLoading = false;
 
         if(error) {
@@ -69,15 +69,17 @@
       }
 
       var request = {
-        email: vm.input.email,
-        tempAuth: vm.input.tempAuth,
-        password: {
-          new: vm.input.passwordNew,
-          confirm: vm.input.passwordConfirm
+        user: {
+          email: vm.input.email,
+          tempAuth: vm.input.tempAuth,
+          password: {
+            new: vm.input.passwordNew,
+            confirm: vm.input.passwordConfirm
+          }
         }
       };
 
-      User.activate(request, function (error, response) {
+      User.activate(request, function (error, request, response) {
         vm.state.submitLoading = false;
 
         if(error) {

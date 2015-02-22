@@ -85,7 +85,7 @@ function createPrimaryUser() {
 
   plz.create.user(options, function (error, result) {
     if(error) {
-      logError();
+      logError(result);
       process.exit();
     }
   });

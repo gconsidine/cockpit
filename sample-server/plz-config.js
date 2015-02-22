@@ -1,7 +1,6 @@
 var PlzConfig = {
   modules: {
-    admin: true,
-    author: true
+    admin: true
   },
   database: {
     default: {
@@ -16,7 +15,7 @@ var PlzConfig = {
     }
   },
   admin: {
-    collection: 'user',
+    collection: 'admin',
     roles: {
       admin: true,
       user: true
@@ -24,30 +23,6 @@ var PlzConfig = {
     required: {
       name: 'string',
       email: 'email'
-    }
-  },
-  author: {
-    page: {
-      collection: 'page',
-      required: {
-        userName: 'string',
-        title: 'string',
-        visibility: 'string',
-        contentType: 'string',
-        content: 'string',
-        status: 'string'
-      }
-    },
-    post: {
-      collection: 'post',
-      required: {
-        userName: 'string',
-        title: 'string',
-        visibility: 'string',
-        contentType: 'string',
-        content: 'string',
-        status: 'string'
-      }
     }
   }
 };

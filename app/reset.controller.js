@@ -17,7 +17,7 @@
       email: '',
       password: '',
       passwordConfirm: '',
-      auth: ''
+      tempAuth: ''
     };
 
     vm.init = function () {
@@ -33,16 +33,14 @@
     vm.submitRequest = function () {
       vm.state.submitLoading = true;
 
-      var validation = {
-        error: Validate.isEmail(vm.input.email),
-      };
+      var validated = Validate.isEmail(vm.input.email);
 
-      if(validation.error) {
+      if(!validated) {
         State.alert(true, 'danger', 'Invalid email address');
         return;
       }
 
-      User.resetRequest({ email: vm.input.email }, function (error, response) {
+      User.resetRequest({ email: vm.input.email }, function (error, request, response) {
         if(error) {
           State.alert(true, 'danger', 'Your request for a reset failed.  Please try later.');
           return;
@@ -65,7 +63,7 @@
         return;
       }
 
-      User.resetProcess(vm.input, function (error, response) {
+      User.resetProcess(vm.input, function (error, request, response) {
         if(error) {
           State.alert(true, 'danger', 'Your reset request failed.  Please try again later.');
           return;

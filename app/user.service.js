@@ -37,7 +37,13 @@
     };
 
     this.remove = function(request, callback) {
-      $http.delete(Property.getApi('user', 'delete', 'user'), request)
+      var options = {
+        params: {
+          email: request.user.email,
+        }
+      };
+
+      $http.delete(Property.getApi('user', 'delete', 'user'), options)
         .success(function (response) {
           callback(false, request, response);
         })
@@ -47,49 +53,58 @@
     };
 
     this.getPendingActivation = function(request, callback) {
-      $http.get(Property.getApi('user', 'get', 'activate'), request)
+      var options = {
+        params: {
+          email: request.user.email,
+          tempAuth: request.user.tempAuth
+        }
+      };
+
+      $http.get(Property.getApi('user', 'get', 'activate'), options)
         .success(function (response) {
           console.log(response);
-          callback(false, response);
+          callback(false, request, response);
         })
         .error(function (response) {
-          callback(true, response);
+          callback(true, request, response);
         });
     };
 
     this.activate = function(request, callback) {
       $http.put(Property.getApi('user', 'put', 'activate'), request)
         .success(function (response) {
-          callback(false, response);
+          callback(false, request, response);
         })
         .error(function (response) {
-          callback(true, response);
+          callback(true, request, response);
         });
     };
 
     this.getPendingReset = function(request, callback) {
-      $http.get(Property.getApi('user', 'get', 'reset'), request)
+      var options = {
+        params: {
+          email: request.user.email,
+          tempAuth: request.user.tempAuth
+        }
+      };
+
+      $http.get(Property.getApi('user', 'get', 'reset'), options)
         .success(function (response) {
-          callback(false, response);
+          callback(false, request, response);
         })
         .error(function (response) {
-          callback(true, response);
+          callback(true, request, response);
         });
     };
 
     this.reset = function(request, callback) {
       $http.put(Property.getApi('user', 'put', 'reset'), request)
         .success(function (response) {
-          callback(false, response);
+          callback(false, request, response);
         })
         .error(function (response) {
-          callback(true, response);
+          callback(true, request, response);
         });
-    };
-
-    this.logout = function () {
-      delete $rootScope.state;
-      $location.path('/login').replace();            
     };
 
     this.login = function (request, callback) {

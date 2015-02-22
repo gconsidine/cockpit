@@ -1,7 +1,6 @@
 (function () {
   'use strict';
 
-  /* jshint ignore:start*/
   angular.module('cockpit').controller('LoginController', LoginController);
 
   LoginController.$inject = [
@@ -39,8 +38,10 @@
       }
 
       var request = {
-        email: vm.email.value,
-        password: vm.password.value
+        user: {
+          email: vm.email.value,
+          password: vm.password.value
+        }
       };
 
       User.login(request, function(error, request, response) {
@@ -54,10 +55,10 @@
           return;
         }
 
-        console.log(response);
+        var user = response.data[0];
 
-        $rootScope.state.user.email = response.email;
-        $rootScope.state.user.role = response.role;
+        $rootScope.state.user.email = user.email;
+        $rootScope.state.user.role = user.role;
         $rootScope.state.user.access = State.getAccess();
         $rootScope.state.user.loggedIn = true;
 
@@ -65,5 +66,4 @@
       });
     };
   }
-  /* jshint ignore:end */
 }());

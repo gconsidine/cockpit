@@ -38,6 +38,8 @@
           return;
         }
 
+        $rootScope.state.alert.active = false;
+
         updateTitle($location.path());
       });
     }
@@ -104,6 +106,11 @@
       $rootScope.state.alert.message = message;
     }
 
+    function logout() {
+      delete $rootScope.state;
+      $location.path('/login').replace();            
+    }
+
     return {
       startWatch: startWatch,
       updateTitle: updateTitle,
@@ -111,6 +118,7 @@
       verifyLogin: verifyLogin,
       authorizeRoute: authorizeRoute,
       getAccess: getAccess,
+      logout: logout,
       alert: alert
     };
   }

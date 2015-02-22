@@ -11,11 +11,11 @@ describe('user.service', function () {
     });
   });
 
-  describe('getUsers()', function () {
+  describe('get()', function () {
     it('should return an array of user objects');
   });
 
-  describe('addUser()', function () {
+  describe('create()', function () {
     it('should make a http request to create a user and callback the success');
   });
 });

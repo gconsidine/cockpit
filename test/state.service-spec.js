@@ -53,21 +53,21 @@ describe('state.service', function () {
       });
     });
 
-    it('should redirect to page-not-found if route does not exist', function () {
+    it('should redirect to / if route does not exist', function () {
       rootScope.$broadcast('$routeChangeStart', next);
-      expect(location.url()).toBe('/page-not-found');
+      expect(location.url()).toBe('/');
     });
 
-    it('should redirect to forbidden if user is not logged in', function () {
+    it('should redirect to /login if user is not logged in', function () {
       next.access = { requiresLogin: true };
       rootScope.$broadcast('$routeChangeStart', next);
-      expect(location.url()).toBe('/forbidden');
+      expect(location.url()).toBe('/login');
     });
 
-    it('should redirect to unauthorized if user is not logged in', function () {
+    it('should redirect to / if user is not authorized for the route', function () {
       next.access = { allowedRoles: ['lords', 'ladies'] };
       rootScope.$broadcast('$routeChangeStart', next);
-      expect(location.url()).toBe('/unauthorized');
+      expect(location.url()).toBe('/');
     });
 
     it('should update state if user and route are authorized', function () {
@@ -155,26 +155,6 @@ describe('state.service', function () {
 
       expect(State.authorizeRoute(next)).toBe(false);
     });
-  });
-
-  describe('login()', function () {
-    it('should return the current user after login', inject(function(State, $rootScope) {
-      State.login('name@example.com', 'password');
-
-      expect($rootScope.state.user.loggedIn).toBeDefined();
-      expect($rootScope.state.user.loggedIn).toBe(true);
-
-      expect($rootScope.state.user.email).toBeDefined();
-      expect($rootScope.state.user.email).toBe('name@example.com');
-
-      expect($rootScope.state.user.role).toBeDefined();
-      expect($rootScope.state.user.access).toBeDefined();
-    }));
-
-    it('should return false on invalid login', inject(function(State) {
-      expect(State.login()).toBe(false);
-    }));
-
   });
 
   describe('logout()', function () {
