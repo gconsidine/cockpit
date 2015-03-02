@@ -97,6 +97,16 @@
         });
     };
 
+    this.resetRequest = function(request, callback) {
+      $http.put(Property.getApi('user', 'put', 'sendReset'), request)
+        .success(function (response) {
+          callback(false, request, response);
+        })
+        .error(function (response) {
+          callback(true, request, response);
+        });
+    };
+
     this.reset = function(request, callback) {
       $http.put(Property.getApi('user', 'put', 'reset'), request)
         .success(function (response) {

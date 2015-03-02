@@ -43,7 +43,7 @@
           requiresLogin: false
         }
       }).
-      when('/reset/email/:email/auth/:auth', {
+      when('/reset/email/:email/temp-auth/:tempAuth', {
         templateUrl: '/app/views/reset.html',
         controller: 'ResetController as reset',
         access: {

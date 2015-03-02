@@ -7,9 +7,10 @@ var AdminRoutes = function (app, express, plz) {
   router.get('/', get);
   router.put('/', edit);
   router.delete('/', remove);
+  router.put('/resend-activation', resendActivation);
   router.get('/activate', getPendingActivation);
   router.put('/activate', activate);
-  router.put('/resend-activation', resendActivation);
+  router.put('/send-reset', sendReset);
   router.get('/reset', getPendingReset);
   router.put('/reset', reset);
   router.put('/resend-reset', resendReset);
@@ -29,7 +30,6 @@ var AdminRoutes = function (app, express, plz) {
     var options = req.query;
 
     plz.remove.user(options, function (error, result) {
-      console.log(error, result);
       if(error) { 
         res.status(500).send(result); 
         return; 
@@ -43,7 +43,6 @@ var AdminRoutes = function (app, express, plz) {
     var options = req.query;
 
     plz.remove.user(options, function (error, result) {
-      console.log(error, result);
       if(error) { 
         res.status(500).send(result); 
         return; 
@@ -57,7 +56,6 @@ var AdminRoutes = function (app, express, plz) {
     var options = req.query;
 
     plz.get.user(options, function (error, result) {
-      console.log(result);
       if(error) { 
         res.status(500).send(result); 
         return; 
@@ -137,6 +135,40 @@ var AdminRoutes = function (app, express, plz) {
     });
   }
 
+  function sendReset(req, res) {
+    var user = req.body.user;
+
+    plz.prep.reset(user, function (error, result) {
+      if(error) { 
+        res.status(500).send(result); 
+        return; 
+      }
+
+      var options = {
+        user: result.data[0],
+        subject: 'Password Reset Link'
+      };
+
+      app.render('reset-email', options, function (error, html) {
+        if(error) { 
+          res.status(500).send(result); 
+          return; 
+        }
+
+        options.body = html;
+
+        plz.send.reset(options, function (error, result) {
+          if(error) { 
+            res.status(500).send(result); 
+            return; 
+          }
+
+          res.status(200).send(result);
+        });
+      });
+    });
+  }
+
   function getPendingReset(req, res) {
     var options = req.query;
 
@@ -155,6 +187,7 @@ var AdminRoutes = function (app, express, plz) {
 
     var options = {
       email: user.email,
+      tempAuth: user.tempAuth,
       password: {
         new: user.password.new,
         confirm: user.password.confirm,
@@ -184,7 +217,6 @@ var AdminRoutes = function (app, express, plz) {
     };
 
     plz.login.user(options, function (error, result) {
-      console.log(options, error, result);
       if(error) { 
         res.status(500).send(result); 
         return; 

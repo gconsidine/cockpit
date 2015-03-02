@@ -27,6 +27,7 @@
         put: {
           user: '/cockpit-api/user',
           activate: '/cockpit-api/user/activate',
+          sendReset: '/cockpit-api/user/send-reset',
           reset: '/cockpit-api/user/reset',
           login: '/cockpit-api/user/login',
           logout: '/cockpit-api/user/logout'

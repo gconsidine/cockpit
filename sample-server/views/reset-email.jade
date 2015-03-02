@@ -5,34 +5,27 @@ html(lang='en')
     meta(charset="UTF-8")
     
     title
-      | Reset Link
+      | Password Reset Link
   
   body
     
     h3 Hello, #{user.name}!
 
     p
-      | You've requested a password reset
+      | You've requested a password reset from INSERT_SITE_NAME_HERE.
 
     p
       | Activation Link: 
 
-      a(href='http://127.0.0.1:8080/cockpit/#/reset/email/' + user.email + '/auth/' + hash)
+      a(href='http://127.0.0.1:8080/cockpit/#/reset/email/' + user.email + '/temp-auth/' + user.tempAuth)
         | Click here.
 
     p
       | If you're unable to click the link, copy and paste the following URL in your browser:
 
-    br
-    
     p
       pre
-        | http://127.0.0.1:8080/cockpit/#/reset/email/#{user.email}/auth/#{hash}
-
-    br
-
-    p
-      | Thanks and welcome to INSERT_WHATEVER
+        | http://127.0.0.1:8080/cockpit/#/reset/email/#{user.email}/temp-auth/#{user.tempAuth}
 
     p 
       small
