@@ -117,6 +117,16 @@
         });
     };
 
+    this.resendActivation = function(request, callback) {
+      $http.put(Property.getApi('user', 'put', 'resendActivation'), request)
+        .success(function (response) {
+          callback(false, request, response);
+        })
+        .error(function (response) {
+          callback(true, request, response);
+        });
+    };
+
     this.login = function (request, callback) {
       $http.put(Property.getApi('user', 'put', 'login'), request)
         .success(function (response) {

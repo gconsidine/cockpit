@@ -246,18 +246,46 @@
                 </select>
               </div>
 
-              <div class="col-md-offset-9 col-md-3">
-                <button ng-if="!user.state.submitLoading" 
-                        class="btn btn-warning btn-block pull-left"
-                        ng-click="user.submitEditUser()">
-                  Submit Edit
-                </button>
-                <button ng-if="user.state.submitLoading" 
-                        class="btn btn-warning btn-block pull-right" disabled>
-                  Submiting...
+              <div ng-if="user.state.current.status == 'activation-pending' ||
+                          user.state.current.status == 'unactivated'">
+
+                 <button ng-if="!user.state.submitLoading" 
+                        class="btn btn-default pull-left"
+                        ng-click="user.toggleAction('resend-activation')">
+                  Resend Activation? <span class="glyphicon glyphicon-arrow-right"></span>
                 </button>
               </div>
+
+              <button ng-if="!user.state.submitLoading" 
+                      class="btn btn-warning pull-right"
+                      ng-click="user.submitEditUser()">
+                Submit Edit
+              </button>
+              <button ng-if="user.state.submitLoading" 
+                      class="btn btn-warning pull-right" disabled>
+                Submiting...
+              </button>
             </form>
+          </div>
+
+          <div ng-if="user.state.name == 'resend-activation'">
+            <div class="col-md-12">
+              <h4>Resend an activation link to the following user?</h4>
+              <p><b>Name:</b> {{ user.state.current.name }}</p>
+              <p><b>Email:</b> {{ user.state.current.email }}</p>
+            </div>
+
+            <div class="col-md-offset-9 col-md-3">
+              <button ng-if="!user.state.submitLoading" 
+                      class="btn btn-success btn-block pull-left"
+                      ng-click="user.resendActivation()">
+                Send
+              </button>
+              <button ng-if="user.state.submitLoading" 
+                      class="btn btn-success btn-block pull-right" disabled>
+                Sending...
+              </button>
+            </div>
           </div>
 
         </div>

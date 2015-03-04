@@ -58,7 +58,29 @@
         case 'confirm-remove':
           vm.confirmRemove(user);
           break;
+        case 'resend-activation':
+          vm.state.name = 'resend-activation';
+          vm.state.style = 'default';
+          break;
       }
+    };
+
+    vm.resendActivation = function () {
+      vm.toggleSubmitLoading();
+
+      var request = {
+        user: { email: vm.state.current.email }
+      };
+
+      User.resendActivation(request, function (error, request, response) {
+        if(!response.ok) {
+          State.alert(true, 'danger', 'Unable to resend activation.  Please try again later.');
+          return;
+        }
+        
+        vm.toggleSubmitLoading();
+        State.alert(true, 'success', 'Activation link resent.');
+      });
     };
 
     vm.getDisplayTitle = function() {
@@ -68,11 +90,6 @@
       for(var i = 0; i < parts.length; i++) {
         title += parts[i][0].toUpperCase() + parts[i].substring(1) + ' '; 
       }
-
-      if(title.indexOf('Confirm') === -1 ) {
-        return title + 'Users';
-      }
-
 
       return title;
     };

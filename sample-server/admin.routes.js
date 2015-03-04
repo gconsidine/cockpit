@@ -13,23 +13,49 @@ var AdminRoutes = function (app, express, plz) {
   router.put('/send-reset', sendReset);
   router.get('/reset', getPendingReset);
   router.put('/reset', reset);
-  router.put('/resend-reset', resendReset);
   router.put('/login', login);
   
   app.use('/cockpit-api/user', router);
   
   function resendActivation(req, res) {
+    var user = req.body.user;
 
+    plz.get.user(user, function (error, result) {
+      if(error) { 
+        res.status(500).send(result); 
+        return; 
+      }
+
+      var options = {
+        user: result.data[0],
+        subject: 'Activation Link'
+      };
+
+      app.render('activate-email', options, function (error, html) {
+        if(error) { 
+          res.status(500).send(result); 
+          return; 
+        }
+
+        options.body = html;
+
+        plz.send.activation(options, function (error, result) {
+          if(error) { 
+            res.status(500).send(result); 
+            return; 
+          }
+
+          res.status(200).send(result);
+        });
+      });
+    });
   }
 
-  function resendReset(req, res) {
-
-  }
-
+  // TODO: determine changed properties and $set those only
   function edit(req, res) {
-    var options = req.query;
+    var user = req.body.user;
 
-    plz.remove.user(options, function (error, result) {
+    plz.edit.user(user, function (error, result) {
       if(error) { 
         res.status(500).send(result); 
         return; 
@@ -40,9 +66,9 @@ var AdminRoutes = function (app, express, plz) {
   }
 
   function remove(req, res) {
-    var options = req.query;
+    var user = req.body.user;
 
-    plz.remove.user(options, function (error, result) {
+    plz.remove.user(user, function (error, result) {
       if(error) { 
         res.status(500).send(result); 
         return; 

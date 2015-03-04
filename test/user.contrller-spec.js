@@ -90,9 +90,6 @@ describe('user.controller', function () {
     it('should return title based on action appropriate for the panel header', function () {
       var user = $controller('UserController'); 
       
-      user.state.name = 'view';
-      expect(user.getDisplayTitle()).toBe('View Users');
-
       user.state.name = 'confirm-edit';
       expect(user.getDisplayTitle()).toBe('Confirm Edit ');
     });
