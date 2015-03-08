@@ -61,6 +61,7 @@
       when('/user', {
         templateUrl: '/app/views/user.html',
         controller: 'UserController as user',
+        reloadOnSearch: false,
         access: {
           requiresLogin: true,
           allowedRoles: CONFIG.access.user

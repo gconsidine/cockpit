@@ -29,6 +29,15 @@
       if($routeParams.email) {
         vm.email.value = $routeParams.email;
       }
+
+      // TODO: Dev login
+      $rootScope.state.user.email = 'greg@caprahorn.com';
+      $rootScope.state.user.role = 'user';
+      $rootScope.state.user.access = State.getAccess();
+      $rootScope.state.user.loggedIn = true;
+
+      $location.path('/').replace();
+      return;
     };
 
     vm.submit = function () {

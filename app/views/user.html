@@ -46,7 +46,7 @@
         </div>
         <div class="panel-body">
 
-          <div ng-if="user.state.name == 'view'">
+          <div ng-if="user.state.action == 'view'">
             <table class="table table-striped">
               <tr>
                 <th ng-click="user.sortTable('id')">
@@ -75,7 +75,7 @@
             </table>
           </div>
 
-          <div ng-if="user.state.name == 'add'">
+          <div ng-if="user.state.action == 'add'">
             <form role="form">
               <div class="col-md-12">
                 <label>Name:</label>
@@ -103,7 +103,7 @@
             </form>
           </div>
 
-          <div ng-if="user.state.name == 'edit'">
+          <div ng-if="user.state.action == 'edit'">
             <table class="table table-striped">
               <tr>
                 <th ng-click="user.sortTable('id')">
@@ -131,7 +131,7 @@
                 <td>{{ userEntry.status }}</td>
                 <td>
                   <button class="btn btn-block btn-warning"
-                          ng-click="user.toggleAction('confirm-edit', userEntry)">
+                          ng-click="user.toggleAction('confirm-edit', $index)">
                     <span class="glyphicon glyphicon-pencil"></span>
                   </button>
                 </td>
@@ -139,7 +139,7 @@
             </table>
           </div>
 
-          <div ng-if="user.state.name == 'remove'">
+          <div ng-if="user.state.action == 'remove'">
             <table class="table table-striped">
               <tr>
                 <th ng-click="user.sortTable('id')">
@@ -167,7 +167,7 @@
                 <td>{{ userEntry.status }}</td>
                 <td>
                   <button class="btn btn-block btn-danger"
-                          ng-click="user.toggleAction('confirm-remove', userEntry)">
+                          ng-click="user.toggleAction('confirm-remove', $index)">
                     <span class="glyphicon glyphicon-remove"></span>
                   </button>
                 </td>
@@ -175,7 +175,7 @@
             </table>
           </div>
 
-          <div ng-if="user.state.name == 'confirm-add'">
+          <div ng-if="user.state.action == 'confirm-add'">
             <div class="col-md-12">
               <p><b>Name:</b> {{ user.state.current.name }}</p>
               <p><b>Email:</b> {{ user.state.current.email }}</p>
@@ -195,7 +195,7 @@
             </div>
           </div>
 
-          <div ng-if="user.state.name == 'confirm-remove'">
+          <div ng-if="user.state.action == 'confirm-remove'">
             <div class="col-md-12">
               <p><b>Name:</b> {{ user.state.current.name }}</p>
               <p><b>Role:</b> {{ user.state.current.role }}</p>
@@ -217,7 +217,7 @@
             </div>
           </div>
 
-          <div ng-if="user.state.name == 'confirm-edit'">
+          <div ng-if="user.state.action == 'confirm-edit'">
             <form role="form">
               <div class="col-md-12">
                 <label>Name:</label>
@@ -268,7 +268,7 @@
             </form>
           </div>
 
-          <div ng-if="user.state.name == 'resend-activation'">
+          <div ng-if="user.state.action == 'resend-activation'">
             <div class="col-md-12">
               <h4>Resend an activation link to the following user?</h4>
               <p><b>Name:</b> {{ user.state.current.name }}</p>

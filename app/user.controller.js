@@ -8,7 +8,7 @@
     var vm = this || {};
 
     vm.state = {
-      name: 'view',
+      action: 'view',
       style: 'primary',
       actionLoading: false,
       submitLoading: false,
@@ -23,44 +23,68 @@
       status: 'minus'
     };
 
+    vm.context = {
+      view: 'primary',
+      add: 'success',
+      edit: 'warning',
+      remove: 'danger',
+      'confirm-add': 'success',
+      'confirm-edit': 'warning',
+      'confirm-remove': 'danger',
+      'resend-activation': 'default'
+    };
+
     vm.roleList = [];
     vm.userList = [];
 
     vm.init = function () {
-      vm.roleList = Property.getRoles();
-      vm.toggleAction('view');
+      State.startActionWatch(this.updateAction.bind(this));
+      vm.updateAction({ action: 'view' });
     };
 
-    vm.toggleAction = function(name, user) {
-      State.alert(false);
+    vm.toggleAction = function (action, userIndex) {
+      if(vm.validateAction(action, userIndex)) {
+        State.toggleAction({
+          action: action, 
+          userIndex: userIndex
+        });
+      }
+    };
 
-      switch(name) {
+    vm.validateAction = function (action) {
+      switch(action) {
+        case 'confirm-add':
+          return vm.validateCurrentUser();
+      }
+
+      return true;
+    };
+
+    vm.updateAction = function (params) {
+      State.alert(false);
+      
+      var action = params.action,
+          userIndex = params.userIndex;
+
+      vm.state.action = action;
+      vm.state.style = vm.context[action];
+
+      switch(action) {
         case 'view':
+        case 'remove':
+        case 'edit':
           vm.getUserList();
           break;
         case 'add':
           vm.state.current = {};
-          vm.state.name = 'add';
-          vm.state.style = 'success';
-          break;
-        case 'confirm-add':
-          vm.confirmAdd();
-          break;
-        case 'edit':
-          vm.getEditList();
+          vm.roleList = Property.getRoles();
           break;
         case 'confirm-edit':
-          vm.confirmEdit(user);
-          break;
-        case 'remove':
-          vm.getRemoveList();
-          break;
         case 'confirm-remove':
-          vm.confirmRemove(user);
+          vm.state.current = vm.userList[userIndex];
           break;
-        case 'resend-activation':
-          vm.state.name = 'resend-activation';
-          vm.state.style = 'default';
+        default:
+          vm.updateAction({ action: 'view' });
           break;
       }
     };
@@ -84,7 +108,7 @@
     };
 
     vm.getDisplayTitle = function() {
-      var parts = vm.state.name.split('-'),
+      var parts = vm.state.action.split('-'),
           title = '';
 
       for(var i = 0; i < parts.length; i++) {
@@ -97,25 +121,6 @@
     vm.getUserList = function () {
       vm.toggleActionLoading();
       User.get({user: {}}, vm.setUserList.bind(vm));
-
-      vm.state.style = 'primary';
-      vm.state.name = 'view';
-    };
-
-    vm.getEditList = function () {
-      vm.toggleActionLoading();
-      User.get({user: {}}, vm.setUserList.bind(vm));
-
-      vm.state.style = 'warning';
-      vm.state.name = 'edit';
-    };
-
-    vm.getRemoveList = function () {
-      vm.toggleActionLoading();
-      User.get({user: {}}, vm.setUserList.bind(vm));
-
-      vm.state.style = 'danger';
-      vm.state.name = 'remove';
     };
 
     vm.setUserList = function (error, request, response) {
@@ -127,27 +132,6 @@
       }
 
       vm.userList = response.data;
-    };
-
-    vm.confirmAdd = function () {
-      if(!vm.validateCurrentUser()) {
-        return false;
-      }
-
-      vm.state.name = 'confirm-add';
-      vm.state.style = 'success';
-    };
-
-    vm.confirmEdit = function (user) {
-      vm.state.current = user;
-      vm.state.name = 'confirm-edit';
-      vm.state.style = 'warning';
-    };
-
-    vm.confirmRemove = function (user) {
-      vm.state.current = user;
-      vm.state.name = 'confirm-remove';
-      vm.state.style = 'danger';
     };
 
     vm.submitAddUser = function () {
@@ -197,58 +181,18 @@
       vm.toggleSubmitLoading();
 
       if(error) {
-        switch(request.type) {
-          case 'add':
-            State.alert(true, 'danger', 'Unable to add user.  Please try again later.');
-            break;
-          case 'edit':
-            State.alert(true, 'danger', 'Unable to edit user.  Please try again later.');
-            break;
-          case 'remove':
-            State.alert(true, 'danger', 'Unable to remove user.  Please try again later.');
-            break;
-        }
-
+        State.alert(true, 'danger', 'Unable to '+ request.type +' user.  Please try again later.');
         return;
       }
 
       if(!response.ok) {
-        switch(request.type) {
-          case 'add':
-            State.alert(true, 'danger', 'User not created.');
-            break;
-          case 'edit':
-            State.alert(true, 'danger', 'No users affected by edit operation.');
-            break;
-          case 'remove':
-            State.alert(true, 'danger', 'No users affected by remove operation');
-            break;
-        }
-
+        State.alert(true, 'danger', response.message);
         return;
       }
 
       vm.state.current = {};
-
-      switch(request.type) {
-        case 'add':
-          State.alert(true, 'success', 'Activation email sent.');
-          vm.state.name = 'add';
-          vm.state.style = 'success';
-          break;
-        case 'edit':
-          State.alert(true, 'success', 'User successfully edited');
-          vm.state.name = 'edit';
-          vm.state.style = 'warning';
-          vm.getEditList();
-          break;
-        case 'remove':
-          State.alert(true, 'success', 'User successfully removed');
-          vm.state.name = 'remove';
-          vm.state.style = 'danger';
-          vm.getRemoveList();
-          break;
-      }
+      vm.toggleAction(request.type);
+      State.alert(true, 'success', response.message);
     };
 
     vm.toggleSubmitLoading = function () {

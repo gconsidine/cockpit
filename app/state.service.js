@@ -23,6 +23,8 @@
 
     function startWatch() {
       $rootScope.$on('$routeChangeStart', function (event, next) {
+        $location.search({});
+
         if(!verifyRoute(next)) {
           $location.path('/').replace();            
           return;  
@@ -42,6 +44,16 @@
 
         updateTitle($location.path());
       });
+    }
+
+    function startActionWatch(callback) {
+      $rootScope.$on('$routeUpdate', function (event, route) {
+        callback(route.params);
+      });
+    }
+
+    function toggleAction(params) {
+      $location.search(params);
     }
 
     function updateTitle(path) {
@@ -113,6 +125,8 @@
 
     return {
       startWatch: startWatch,
+      startActionWatch: startActionWatch,
+      toggleAction: toggleAction,
       updateTitle: updateTitle,
       verifyRoute: verifyRoute,
       verifyLogin: verifyLogin,

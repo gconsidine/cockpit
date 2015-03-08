@@ -37,52 +37,34 @@ describe('user.controller', function () {
   });
 
   describe('init()', function () {
-    it('should call toggleAction with "view list" default', function () {
+    it('should startActionWatch and update action to view', function () {
       var user = $controller('UserController'); 
+      user.updateAction = {
+        bind: function () { return 'mock bind'; }
+      };
 
-      spyOn(user, 'toggleAction').and.returnValue(true); 
+      spyOn(State, 'startActionWatch').and.returnValue(true); 
+      spyOn(user, 'updateAction').and.returnValue(true); 
 
       user.init();
 
-      expect(user.toggleAction).toHaveBeenCalled();
+      expect(State.startActionWatch).toHaveBeenCalled();
+      expect(State.startActionWatch.calls.argsFor(0)[0]).toBe('mock bind');
+      expect(user.updateAction).toHaveBeenCalled();
+      expect(user.updateAction.calls.argsFor(0)[0].action).toBe('view');
     });
   });
 
   describe('toggleAction()', function () {
-    it('should load the appropriate state based on state name and user', function () {
+    it('should toggle State\'s action if validation passes', function () {
       var user = $controller('UserController'); 
 
-      spyOn(user, 'getUserList').and.returnValue(true); 
-      spyOn(user, 'confirmAdd').and.returnValue(true); 
-      spyOn(user, 'getEditList').and.returnValue(true); 
-      spyOn(user, 'confirmEdit').and.returnValue(true); 
-      spyOn(user, 'getRemoveList').and.returnValue(true); 
-      spyOn(user, 'confirmRemove').and.returnValue(true); 
+      spyOn(user, 'validateAction').and.returnValue(true); 
+      spyOn(State, 'toggleAction').and.returnValue(true); 
 
-      user.init();
-
-      user.toggleAction('view');
-      expect(user.getUserList).toHaveBeenCalled();
-
-      user.toggleAction('add');
-      expect(typeof user.state.current === 'object').toBe(true);
-      expect(user.state.name === 'add').toBe(true);
-      expect(user.state.style === 'success').toBe(true);
-
-      user.toggleAction('confirm-add');
-      expect(user.confirmAdd).toHaveBeenCalled();
-
-      user.toggleAction('edit');
-      expect(user.getEditList).toHaveBeenCalled();
-
-      user.toggleAction('confirm-edit');
-      expect(user.confirmEdit).toHaveBeenCalled();
-
-      user.toggleAction('remove');
-      expect(user.getRemoveList).toHaveBeenCalled();
-
-      user.toggleAction('confirm-remove');
-      expect(user.confirmRemove).toHaveBeenCalled();
+      user.toggleAction();
+      expect(user.validateAction).toHaveBeenCalled();
+      expect(State.toggleAction).toHaveBeenCalled();
     });
   });
 
@@ -90,7 +72,7 @@ describe('user.controller', function () {
     it('should return title based on action appropriate for the panel header', function () {
       var user = $controller('UserController'); 
       
-      user.state.name = 'confirm-edit';
+      user.state.action = 'confirm-edit';
       expect(user.getDisplayTitle()).toBe('Confirm Edit ');
     });
   });
@@ -109,49 +91,7 @@ describe('user.controller', function () {
       user.getUserList();
 
       expect(user.state.style).toBe('primary');
-      expect(user.state.name).toBe('view');
-
-      expect(user.toggleActionLoading).toHaveBeenCalled();
-      expect(User.get).toHaveBeenCalled();
-    });
-  });
-
-  describe('getEditList()', function () {
-    it('should fetch a list of users and load the edit state', function () {
-      var user = $controller('UserController'); 
-
-      user.setUserList = {
-        bind: function () { return 'mock bind'; }
-      };
-
-      spyOn(user, 'toggleActionLoading').and.returnValue(true); 
-      spyOn(User, 'get').and.returnValue(true); 
-
-      user.getEditList();
-
-      expect(user.state.style).toBe('warning');
-      expect(user.state.name).toBe('edit');
-
-      expect(user.toggleActionLoading).toHaveBeenCalled();
-      expect(User.get).toHaveBeenCalled();
-    });
-  });
-
-  describe('getRemoveList()', function () {
-    it('should fetch a list of users and load the remove state', function () {
-      var user = $controller('UserController'); 
-
-      user.setUserList = {
-        bind: function () { return 'mock bind'; }
-      };
-
-      spyOn(user, 'toggleActionLoading').and.returnValue(true); 
-      spyOn(User, 'get').and.returnValue(true); 
-
-      user.getRemoveList();
-
-      expect(user.state.style).toBe('danger');
-      expect(user.state.name).toBe('remove');
+      expect(user.state.action).toBe('view');
 
       expect(user.toggleActionLoading).toHaveBeenCalled();
       expect(User.get).toHaveBeenCalled();
@@ -260,69 +200,6 @@ describe('user.controller', function () {
 
   describe('setUserList()', function () {
     it('should set a list of users and toggle loading off');
-  });
-
-  describe('confirmAdd()', function () {
-    it('should set state values to mainpulate view for add confirmation', function () {
-      var user = $controller('UserController'); 
-
-      user.state.current.name = 'Brand';
-      user.state.current.email = 'Brand@amberites.com';
-      user.state.current.role = 'amberite';
-
-      user.confirmAdd();
-
-      expect(user.state.name).toBe('confirm-add');
-      expect(user.state.style).toBe('success');
-    });
-
-    it('should keep current state if current user is invalid', function () {
-      var user = $controller('UserController'); 
-
-      user.state.current.name = '!!!';
-      user.state.current.email = 'julian-strikes-again';
-      user.state.current.role = 'amberite';
-
-      user.confirmAdd();
-
-      expect(user.state.name).not.toBe('confirm-add');
-      expect(user.state.style).not.toBe('success');
-    });
-
-  });
-
-  describe('confirmEdit()', function () {
-    it('should set state values to mainpulate view for edit confirmation', function () {
-      var user = $controller('UserController'); 
-      
-      var userObject = {
-        name: 'Bleys',
-        email: 'bleys@amber.com'
-      };
-
-      user.confirmEdit(userObject);
-
-      expect(user.state.current.name).toBe('Bleys');
-      expect(user.state.name).toBe('confirm-edit');
-      expect(user.state.style).toBe('warning');
-    });
-  });
-
-  describe('confirmRemove()', function () {
-    it('should set state values to mainpulate view for remove confirmation', function () {
-      var user = $controller('UserController'); 
-      
-      var userObject = {
-        name: 'Bleys',
-        email: 'bleys@amber.com'
-      };
-
-      user.confirmRemove(userObject);
-
-      expect(user.state.current.name).toBe('Bleys');
-      expect(user.state.name).toBe('confirm-remove');
-      expect(user.state.style).toBe('danger');
-    });
   });
 
   describe('toggleSubmitLoading()', function () {
