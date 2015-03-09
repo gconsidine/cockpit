@@ -55,6 +55,11 @@ var AdminRoutes = function (app, express, plz) {
   function edit(req, res) {
     var user = req.body.user;
 
+    var options = {
+      criteria: user.criteria,
+      update: user.update
+    }
+
     plz.edit.user(user, function (error, result) {
       if(error) { 
         res.status(500).send(result); 
@@ -66,7 +71,7 @@ var AdminRoutes = function (app, express, plz) {
   }
 
   function remove(req, res) {
-    var user = req.body.user;
+    var user = req.query;
 
     plz.remove.user(user, function (error, result) {
       if(error) { 

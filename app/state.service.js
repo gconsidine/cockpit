@@ -122,6 +122,10 @@
       delete $rootScope.state;
       $location.path('/login').replace();            
     }
+    
+    function getLoggedInUser() {
+      return $rootScope.state.user;
+    }
 
     return {
       startWatch: startWatch,
@@ -132,6 +136,7 @@
       verifyLogin: verifyLogin,
       authorizeRoute: authorizeRoute,
       getAccess: getAccess,
+      getLoggedInUser: getLoggedInUser,
       logout: logout,
       alert: alert
     };

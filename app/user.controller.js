@@ -39,6 +39,8 @@
 
     vm.init = function () {
       State.startActionWatch(this.updateAction.bind(this));
+
+      vm.roleList = Property.getRoles();
       vm.updateAction({ action: 'view' });
     };
 
@@ -61,8 +63,6 @@
     };
 
     vm.updateAction = function (params) {
-      State.alert(false);
-      
       var action = params.action,
           userIndex = params.userIndex;
 
@@ -77,11 +77,13 @@
           break;
         case 'add':
           vm.state.current = {};
-          vm.roleList = Property.getRoles();
           break;
         case 'confirm-edit':
         case 'confirm-remove':
           vm.state.current = vm.userList[userIndex];
+          break;
+        case 'confirm-add':
+        case 'resend-activation':
           break;
         default:
           vm.updateAction({ action: 'view' });
@@ -97,13 +99,18 @@
       };
 
       User.resendActivation(request, function (error, request, response) {
+        if(error) {
+          State.alert(true, 'danger', 'Unable to send.  Please try again later.');
+          return;
+        }
+
         if(!response.ok) {
-          State.alert(true, 'danger', 'Unable to resend activation.  Please try again later.');
+          State.alert(true, 'danger', response.message);
           return;
         }
         
         vm.toggleSubmitLoading();
-        State.alert(true, 'success', 'Activation link resent.');
+        State.alert(true, 'success', response.message);
       });
     };
 
@@ -126,9 +133,17 @@
     vm.setUserList = function (error, request, response) {
       vm.toggleActionLoading();
 
+      var loggedInUser = State.getLoggedInUser();
+
       if(error) {
         State.alert(true, 'danger', 'Unable to retrieve user list.  Please try again later.');
         return;
+      }
+
+      for(var i = 0; i < response.data.length; i++) {
+        if(response.data[i].email === loggedInUser.email) {
+          response.data.splice(i, 1);
+        }
       }
 
       vm.userList = response.data;
@@ -155,8 +170,8 @@
 
       var request = {
         user: {
-          name: vm.state.current.name,
-          role: vm.state.current.role
+          criteria: { email: vm.state.current.email },
+          update: { role: vm.state.current.role }
         },
         type: 'edit'
       };
