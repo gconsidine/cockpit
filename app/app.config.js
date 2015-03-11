@@ -15,7 +15,7 @@
     },
 
     api: {
-      user: {
+      admin: {
         get: {
           user: '/cockpit-api/user/',
           activate: '/cockpit-api/user/activate',

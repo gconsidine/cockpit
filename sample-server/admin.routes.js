@@ -51,7 +51,6 @@ var AdminRoutes = function (app, express, plz) {
     });
   }
 
-  // TODO: determine changed properties and $set those only
   function edit(req, res) {
     var user = req.body.user;
 

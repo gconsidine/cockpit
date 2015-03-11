@@ -47,6 +47,20 @@ describe('property.service', function () {
     }));
   });
 
+  describe('getApi()', function () {
+    it('should return a URL for a given call', inject(function(Property, CONFIG) {
+      CONFIG.api = {
+        admin: {
+          get: {
+            user: '/path-to-user-api'
+          }
+        }
+      };
+
+      expect(Property.getApi('admin', 'get', 'user')).toBe('/path-to-user-api');
+    }));
+  });
+
   describe('getRoles()', function () {
     it('should return the array of roles set', inject(function(Property, CONFIG) {
       CONFIG.property = {

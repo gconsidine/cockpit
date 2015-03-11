@@ -7,7 +7,7 @@
   function User($http, $rootScope, $location, Property) {
 
     this.get = function(request, callback) {
-      $http.get(Property.getApi('user', 'get', 'user'))
+      $http.get(Property.getApi('admin', 'get', 'user'))
         .success(function (response) {
           callback(false, request, response);
         })
@@ -17,7 +17,7 @@
     };
 
     this.create = function(request, callback) {
-      $http.post(Property.getApi('user', 'post', 'user'), request)
+      $http.post(Property.getApi('admin', 'post', 'user'), request)
         .success(function (response) {
           callback(false, request, response);
         })
@@ -27,7 +27,7 @@
     };
 
     this.edit = function(request, callback) {
-      $http.put(Property.getApi('user', 'put', 'user'), request)
+      $http.put(Property.getApi('admin', 'put', 'user'), request)
         .success(function (response) {
           callback(false, request, response);
         })
@@ -43,7 +43,7 @@
         }
       };
 
-      $http.delete(Property.getApi('user', 'delete', 'user'), options)
+      $http.delete(Property.getApi('admin', 'delete', 'user'), options)
         .success(function (response) {
           callback(false, request, response);
         })
@@ -60,7 +60,7 @@
         }
       };
 
-      $http.get(Property.getApi('user', 'get', 'activate'), options)
+      $http.get(Property.getApi('admin', 'get', 'activate'), options)
         .success(function (response) {
           console.log(response);
           callback(false, request, response);
@@ -71,7 +71,7 @@
     };
 
     this.activate = function(request, callback) {
-      $http.put(Property.getApi('user', 'put', 'activate'), request)
+      $http.put(Property.getApi('admin', 'put', 'activate'), request)
         .success(function (response) {
           callback(false, request, response);
         })
@@ -88,7 +88,7 @@
         }
       };
 
-      $http.get(Property.getApi('user', 'get', 'reset'), options)
+      $http.get(Property.getApi('admin', 'get', 'reset'), options)
         .success(function (response) {
           callback(false, request, response);
         })
@@ -98,7 +98,7 @@
     };
 
     this.resetRequest = function(request, callback) {
-      $http.put(Property.getApi('user', 'put', 'sendReset'), request)
+      $http.put(Property.getApi('admin', 'put', 'sendReset'), request)
         .success(function (response) {
           callback(false, request, response);
         })
@@ -108,7 +108,7 @@
     };
 
     this.reset = function(request, callback) {
-      $http.put(Property.getApi('user', 'put', 'reset'), request)
+      $http.put(Property.getApi('admin', 'put', 'reset'), request)
         .success(function (response) {
           callback(false, request, response);
         })
@@ -118,7 +118,7 @@
     };
 
     this.resendActivation = function(request, callback) {
-      $http.put(Property.getApi('user', 'put', 'resendActivation'), request)
+      $http.put(Property.getApi('admin', 'put', 'resendActivation'), request)
         .success(function (response) {
           callback(false, request, response);
         })
@@ -128,7 +128,7 @@
     };
 
     this.login = function (request, callback) {
-      $http.put(Property.getApi('user', 'put', 'login'), request)
+      $http.put(Property.getApi('admin', 'put', 'login'), request)
         .success(function (response) {
           callback(false, request, response);
         })
