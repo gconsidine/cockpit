@@ -77,6 +77,69 @@ describe('state.service', function () {
     });
   });
 
+  describe('startActionWatch()', function () {
+    var rootScope,
+        location,
+        state;
+
+    beforeEach(function () {
+      inject(function(State, $rootScope, $location) {
+        state = State;
+        rootScope = $rootScope;
+        location = $location;
+      });
+    });
+
+    it('should listen for query string changes on a URL', function (done) {
+      state.startActionWatch(function (params) {
+        expect(params).toBe('test');
+        done();
+      });
+
+      rootScope.$broadcast('$routeUpdate', {params: 'test'});
+    });
+  });
+
+  describe('getLoggedInUser()', function () {
+    var rootScope,
+        state;
+
+    beforeEach(function () {
+      inject(function(State, $rootScope) {
+        state = State;
+        rootScope = $rootScope;
+      });
+    });
+
+    it('should listen for query string changes on a URL', function () {
+      rootScope.state = {
+        user: 'name@domain.com'
+      };
+
+      expect(state.getLoggedInUser()).toBe('name@domain.com');
+    });
+  });
+
+  describe('toggleAction()', function () {
+    var location,
+        state;
+
+    beforeEach(function () {
+      inject(function(State, $rootScope, $location) {
+        state = State;
+        location = $location;
+      });
+    });
+
+    it('should update the query string by using $location', function () {
+      expect(JSON.stringify(location.search())).toBe('{}');
+      state.toggleAction({key: 'value'});
+
+      var query = location.search();
+      expect(query.key).toBe('value');
+    });
+  });
+  
   describe('updateTitle()', function () {
     it('should change page title based on path', inject(function(State, $rootScope) {
       State.updateTitle('/test');
