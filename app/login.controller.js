@@ -29,15 +29,6 @@
       if($routeParams.email) {
         vm.email.value = $routeParams.email;
       }
-
-      // TODO: Dev login
-      $rootScope.state.user.email = 'greg@caprahorn.com';
-      $rootScope.state.user.role = 'user';
-      $rootScope.state.user.access = State.getAccess();
-      $rootScope.state.user.loggedIn = true;
-
-      $location.path('/').replace();
-      return;
     };
 
     vm.submit = function () {
@@ -53,26 +44,28 @@
         }
       };
 
-      User.login(request, function(error, request, response) {
-        if(error) {
-          State.alert(true, 'danger', 'Server not responding. Please try later.');
-          return;
-        }
+      User.login(request, vm.complete.bind(vm));
+    };
 
-        if(!response.ok) {
-          State.alert(true, 'danger', 'Invalid login credentials.');
-          return;
-        }
+    vm.complete = function (error, request, response) {
+      if(error) {
+        State.alert(true, 'danger', 'Server not responding. Please try later.');
+        return;
+      }
 
-        var user = response.data[0];
+      if(!response.ok) {
+        State.alert(true, 'danger', 'Invalid login credentials.');
+        return;
+      }
 
-        $rootScope.state.user.email = user.email;
-        $rootScope.state.user.role = user.role;
-        $rootScope.state.user.access = State.getAccess();
-        $rootScope.state.user.loggedIn = true;
+      var user = response.data[0];
 
-        $location.path('/').replace();
-      });
+      $rootScope.state.user.email = user.email;
+      $rootScope.state.user.role = user.role;
+      $rootScope.state.user.access = State.getAccess();
+      $rootScope.state.user.loggedIn = true;
+
+      $location.path('/').replace();
     };
   }
 }());
