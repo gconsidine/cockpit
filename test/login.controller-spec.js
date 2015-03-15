@@ -56,7 +56,7 @@ describe('login.controller', function () {
     });
   });
 
-  describe('completeLogin()', function () {
+  describe('complete()', function () {
     it('should alert user if response error\'d out', function() {
       var login = $controller('LoginController'); 
 

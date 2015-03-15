@@ -98,20 +98,22 @@
         user: { email: vm.state.current.email }
       };
 
-      User.resendActivation(request, function (error, request, response) {
-        if(error) {
-          State.alert(true, 'danger', 'Unable to send.  Please try again later.');
-          return;
-        }
+      User.resendActivation(request, vm.resendActivationComplete.bind(vm));
+    };
 
-        if(!response.ok) {
-          State.alert(true, 'danger', response.message);
-          return;
-        }
-        
-        vm.toggleSubmitLoading();
-        State.alert(true, 'success', response.message);
-      });
+    vm.resendActivationComplete = function (error, request, response) {
+      if(error) {
+        State.alert(true, 'danger', 'Unable to send.  Please try again later.');
+        return;
+      }
+
+      if(!response.ok) {
+        State.alert(true, 'danger', response.message);
+        return;
+      }
+      
+      vm.toggleSubmitLoading();
+      State.alert(true, 'success', response.message);
     };
 
     vm.getDisplayTitle = function() {

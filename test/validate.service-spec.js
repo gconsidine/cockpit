@@ -34,6 +34,11 @@ describe('validate.service', function () {
       expect(Validate.isEmail(email)).toBe(true);
     });
 
+    it('should return false for undefined input', function () {
+      var role;
+      expect(Validate.isEmail(role)).toBe(false);
+    });
+
     it('should return false for invalid email types', function () {
       var email = 'uhhhhhh...';
       expect(Validate.isEmail(email)).toBe(false);
