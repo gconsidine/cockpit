@@ -11,10 +11,6 @@
       return CONFIG.property.name;
     }
     
-    function getLogo() {
-      return CONFIG.property.logo;
-    }
-
     function getAccess() {
       return CONFIG.access;
     }
@@ -33,7 +29,6 @@
 
     return {
       getName: getName,
-      getLogo: getLogo,
       getAccess: getAccess,
       getEnvironment: getEnvironment,
       getRoles: getRoles,

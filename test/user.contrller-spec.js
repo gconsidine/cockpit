@@ -255,7 +255,7 @@ describe('user.controller', function () {
       spyOn(State, 'getLoggedInUser').and.returnValue(true); 
       spyOn(State, 'alert').and.returnValue(true);
 
-      vm.setSubmitResult(true, {}, {ok: false});
+      vm.setSubmitResult(false, {}, {ok: false});
 
       expect(State.alert).toHaveBeenCalled();
     });

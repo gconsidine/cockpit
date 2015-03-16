@@ -49,11 +49,6 @@ describe('user.service', function () {
 
       $httpBackend.flush();
     });
-   
-    afterEach(function() {
-      $httpBackend.verifyNoOutstandingExpectation();
-      $httpBackend.verifyNoOutstandingRequest();
-    });
   });
 
   describe('create()', function () {
@@ -94,11 +89,6 @@ describe('user.service', function () {
 
       $httpBackend.flush();
     });
-
-    afterEach(function() {
-      $httpBackend.verifyNoOutstandingExpectation();
-      $httpBackend.verifyNoOutstandingRequest();
-    });
   });
 
   describe('edit()', function () {
@@ -134,11 +124,6 @@ describe('user.service', function () {
       });
 
       $httpBackend.flush();
-    });
-
-    afterEach(function() {
-      $httpBackend.verifyNoOutstandingExpectation();
-      $httpBackend.verifyNoOutstandingRequest();
     });
   });
 
@@ -177,12 +162,268 @@ describe('user.service', function () {
 
       $httpBackend.flush();
     });
+  });
 
-    afterEach(function() {
-      $httpBackend.verifyNoOutstandingExpectation();
-      $httpBackend.verifyNoOutstandingRequest();
+  describe('getPendingActivation()', function () {
+    var call;
+
+    beforeEach(function (){
+      call = Property.getApi('admin', 'get', 'activate') + 
+             '?email=name@domain.com' +
+             '&tempAuth=fake';
+    });
+
+    it('should get a user if there\'s a match for email and status', function () {
+      $httpBackend.expectGET(call)
+                  .respond(200, {ok: true, message: 'success', data: [
+                    {
+                      name: 'fake name',
+                      email: 'name@domain.tld',
+                      status: 'activation-pending',
+                      createdAt: Date.now(),
+                      role: 'user'
+                    }
+                  ]});
+
+      var request = {
+        user: { 
+          email: 'name@domain.com',
+          tempAuth: 'fake'
+        }
+      };
+
+      User.getPendingActivation(request, function (error, request, response) { 
+        expect(error).toBe(false);
+        expect(response.data).toBeTruthy();
+      });
+
+      $httpBackend.flush();
+    });
+
+    it('should show a JSON error response on server error', function () {
+      $httpBackend.expectGET(call).respond(500, {ok: false, message: '', data: null });
+
+      var request = { 
+        user: { 
+          email: 'name@domain.com',
+          tempAuth: 'fake'
+        }
+      };
+
+      User.getPendingActivation(request, function (error, request, response) { 
+        expect(error).toBe(true);
+        expect(response.ok).toBe(false);
+      });
+
+      $httpBackend.flush();
     });
   });
 
+  describe('activate()', function () {
+    it('should activate an existing user', function () {
+      $httpBackend.expectPUT(Property.getApi('admin', 'put', 'activate'))
+                  .respond(200, {ok: true, message: 'success', data: {updatedExisting: true, n:1}});
+
+      var request = {
+        user: {
+          email: 'name@domain.com',
+          tempAuth: 'temp',
+          password: {
+            new: 'fakeandweak',
+            confirm: 'fakeandweak' 
+          }
+        }
+      };
+
+      User.activate(request, function (error, request, response) { 
+        expect(error).toBe(false);
+        expect(response.data.updatedExisting).toBeTruthy();
+      });
+
+      $httpBackend.flush();
+    });
+
+    it('should show a JSON error response on server error', function () {
+      $httpBackend.expectPUT(Property.getApi('admin', 'put', 'activate'))
+                  .respond(500, {ok: false, message: '', data: null });
+
+      var request = {};
+
+      User.activate(request, function (error, request, response) { 
+        expect(error).toBe(true);
+        expect(response.ok).toBe(false);
+      });
+
+      $httpBackend.flush();
+    });
+  });
+
+  describe('reset()', function () {
+    it('should reset an existing user\'s password', function () {
+      $httpBackend.expectPUT(Property.getApi('admin', 'put', 'reset'))
+                  .respond(200, {ok: true, message: 'success', data: {updatedExisting: true, n:1}});
+
+      var request = {
+        user: {
+          email: 'name@domain.com',
+          tempAuth: 'temp',
+          password: {
+            new: 'fakeandweak',
+            confirm: 'fakeandweak' 
+          }
+        }
+      };
+
+      User.reset(request, function (error, request, response) { 
+        expect(error).toBe(false);
+        expect(response.data.updatedExisting).toBeTruthy();
+      });
+
+      $httpBackend.flush();
+    });
+
+    it('should show a JSON error response on server error', function () {
+      $httpBackend.expectPUT(Property.getApi('admin', 'put', 'reset'))
+                  .respond(500, {ok: false, message: '', data: null });
+
+      var request = {};
+
+      User.reset(request, function (error, request, response) { 
+        expect(error).toBe(true);
+        expect(response.ok).toBe(false);
+      });
+
+      $httpBackend.flush();
+    });
+  });
+
+  describe('getPendingReset()', function () {
+    var call;
+
+    beforeEach(function (){
+      call = Property.getApi('admin', 'get', 'reset') + 
+             '?email=name@domain.com' +
+             '&tempAuth=fake';
+    });
+
+    it('should get a user if there\'s a match for email and status', function () {
+      $httpBackend.expectGET(call)
+                  .respond(200, {ok: true, message: 'success', data: [
+                    {
+                      name: 'fake name',
+                      email: 'name@domain.tld',
+                      status: 'reset-pending',
+                      createdAt: Date.now(),
+                      role: 'user'
+                    }
+                  ]});
+
+      var request = {
+        user: { 
+          email: 'name@domain.com',
+          tempAuth: 'fake'
+        }
+      };
+
+      User.getPendingReset(request, function (error, request, response) { 
+        expect(error).toBe(false);
+        expect(response.data).toBeTruthy();
+      });
+
+      $httpBackend.flush();
+    });
+
+    it('should show a JSON error response on server error', function () {
+      $httpBackend.expectGET(call).respond(500, {ok: false, message: '', data: null });
+
+      var request = { 
+        user: { 
+          email: 'name@domain.com',
+          tempAuth: 'fake'
+        }
+      };
+
+      User.getPendingReset(request, function (error, request, response) { 
+        expect(error).toBe(true);
+        expect(response.ok).toBe(false);
+      });
+
+      $httpBackend.flush();
+    });
+  });
+
+  describe('resendActivation()', function () {
+    it('should make a request to resend a user\'s activation email', function () {
+      $httpBackend.expectPUT(Property.getApi('admin', 'put', 'resendActivation'))
+                  .respond(200, {ok: true, message: 'success', data: {updatedExisting: true, n:1}});
+
+      var request = {
+        user: {
+          criteria: { email: 'name@domain.com' }
+        }
+      };
+
+      User.resendActivation(request, function (error, request, response) { 
+        expect(error).toBe(false);
+        expect(response.data).toBeTruthy();
+      });
+
+      $httpBackend.flush();
+    });
+
+    it('should show a JSON error response on server error', function () {
+      $httpBackend.expectPUT(Property.getApi('admin', 'put', 'resendActivation'))
+                  .respond(500, {ok: false, message: '', data: null });
+
+      var request = {};
+
+      User.resendActivation(request, function (error, request, response) { 
+        expect(error).toBe(true);
+        expect(response.ok).toBe(false);
+      });
+
+      $httpBackend.flush();
+    });
+  });
+
+  describe('login()', function () {
+    it('should make a request to login a user', function () {
+      $httpBackend.expectPUT(Property.getApi('admin', 'put', 'login'))
+                  .respond(200, {ok: true, message: 'success', data: {updatedExisting: true, n:1}});
+
+      var request = {
+        user: {
+          email: 'name@domain.com',
+          password: 'fakepassword'
+        }
+      };
+
+      User.login(request, function (error, request, response) { 
+        expect(error).toBe(false);
+        expect(response.data).toBeTruthy();
+      });
+
+      $httpBackend.flush();
+    });
+
+    it('should show a JSON error response on server error', function () {
+      $httpBackend.expectPUT(Property.getApi('admin', 'put', 'login'))
+                  .respond(500, {ok: false, message: '', data: null });
+
+      var request = {};
+
+      User.login(request, function (error, request, response) { 
+        expect(error).toBe(true);
+        expect(response.ok).toBe(false);
+      });
+
+      $httpBackend.flush();
+    });
+  });
+
+  afterEach(function () {
+    $httpBackend.verifyNoOutstandingExpectation();
+    $httpBackend.verifyNoOutstandingRequest();
+  });
 });
 

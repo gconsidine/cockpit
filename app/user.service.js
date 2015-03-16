@@ -62,7 +62,6 @@
 
       $http.get(Property.getApi('admin', 'get', 'activate'), options)
         .success(function (response) {
-          console.log(response);
           callback(false, request, response);
         })
         .error(function (response) {
