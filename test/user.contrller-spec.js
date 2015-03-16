@@ -108,9 +108,14 @@ describe('user.controller', function () {
     it('should default to the view action if no other case is matched', function () {
       var vm = $controller('UserController'); 
 
-      spyOn(vm, 'updateAction').and.returnValue(true); 
-      vm.updateAction({});
-      expect(vm.updateAction).toHaveBeenCalled();
+      spyOn(vm, 'getUserList').and.returnValue(true); 
+      spyOn(vm, 'updateAction').and.callThrough(); 
+
+      vm.updateAction({action: 'fake'});
+
+      expect(vm.updateAction.calls.count()).toBe(2);
+      expect(vm.updateAction.calls.argsFor(0)[0].action).toBe('fake');
+      expect(vm.updateAction.calls.argsFor(1)[0].action).toBe('view');
     });
   });
 
@@ -366,12 +371,6 @@ describe('user.controller', function () {
       expect(State.alert.calls.allArgs()[2][1]).toBe('danger');
       expect(State.alert.calls.allArgs()[2][2]).toMatch(/remove/);
     });
-
-    it('should set state based on results of successful submit action'); 
-  });
-
-  describe('setUserList()', function () {
-    it('should set a list of users and toggle loading off');
   });
 
   describe('toggleSubmitLoading()', function () {

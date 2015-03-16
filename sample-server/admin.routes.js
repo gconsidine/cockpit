@@ -65,6 +65,7 @@ var AdminRoutes = function (app, express, plz) {
         return; 
       } 
 
+      console.log(result);
       res.status(200).send(result);
     });
   }
@@ -78,6 +79,7 @@ var AdminRoutes = function (app, express, plz) {
         return; 
       } 
 
+      console.log(result);
       res.status(200).send(result);
     });
   }
@@ -123,6 +125,7 @@ var AdminRoutes = function (app, express, plz) {
             return; 
           }
 
+          console.log(result);
           res.status(200).send(result);
         });
       });

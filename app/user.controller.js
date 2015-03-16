@@ -68,7 +68,7 @@
 
       vm.state.action = action;
       vm.state.style = vm.context[action];
-
+      
       switch(action) {
         case 'view':
         case 'remove':

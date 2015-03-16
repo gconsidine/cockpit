@@ -17,12 +17,12 @@
     api: {
       admin: {
         get: {
-          user: '/cockpit-api/user/',
+          user: '/cockpit-api/user',
           activate: '/cockpit-api/user/activate',
           reset: '/cockpit-api/user/reset'
         },
         post: {
-          user: '/cockpit-api/user',
+          user: '/cockpit-api/user'
         },
         put: {
           user: '/cockpit-api/user',
@@ -37,13 +37,11 @@
           user: '/cockpit-api/user'
         }
       }
-
     },
 
     property: {
-      logo: 'http://fillmurray/100/100',
-      name: 'Company Name',
-      environment: 'test',
+      name: 'Cockpit',
+      environment: 'development',
       roles: ['user', 'peasant', 'sellsword', 'merchant']
     }
   });
