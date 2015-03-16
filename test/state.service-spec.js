@@ -53,21 +53,21 @@ describe('state.service', function () {
       });
     });
 
-    it('should redirect to page-not-found if route does not exist', function () {
+    it('should redirect to / if route does not exist', function () {
       rootScope.$broadcast('$routeChangeStart', next);
-      expect(location.url()).toBe('/page-not-found');
+      expect(location.url()).toBe('/');
     });
 
-    it('should redirect to forbidden if user is not logged in', function () {
+    it('should redirect to /login if user is not logged in', function () {
       next.access = { requiresLogin: true };
       rootScope.$broadcast('$routeChangeStart', next);
-      expect(location.url()).toBe('/forbidden');
+      expect(location.url()).toBe('/login');
     });
 
-    it('should redirect to unauthorized if user is not logged in', function () {
+    it('should redirect to / if user is not authorized for the route', function () {
       next.access = { allowedRoles: ['lords', 'ladies'] };
       rootScope.$broadcast('$routeChangeStart', next);
-      expect(location.url()).toBe('/unauthorized');
+      expect(location.url()).toBe('/');
     });
 
     it('should update state if user and route are authorized', function () {
@@ -77,6 +77,69 @@ describe('state.service', function () {
     });
   });
 
+  describe('startActionWatch()', function () {
+    var rootScope,
+        location,
+        state;
+
+    beforeEach(function () {
+      inject(function(State, $rootScope, $location) {
+        state = State;
+        rootScope = $rootScope;
+        location = $location;
+      });
+    });
+
+    it('should listen for query string changes on a URL', function (done) {
+      state.startActionWatch(function (params) {
+        expect(params).toBe('test');
+        done();
+      });
+
+      rootScope.$broadcast('$routeUpdate', {params: 'test'});
+    });
+  });
+
+  describe('getLoggedInUser()', function () {
+    var rootScope,
+        state;
+
+    beforeEach(function () {
+      inject(function(State, $rootScope) {
+        state = State;
+        rootScope = $rootScope;
+      });
+    });
+
+    it('should listen for query string changes on a URL', function () {
+      rootScope.state = {
+        user: 'name@domain.com'
+      };
+
+      expect(state.getLoggedInUser()).toBe('name@domain.com');
+    });
+  });
+
+  describe('toggleAction()', function () {
+    var location,
+        state;
+
+    beforeEach(function () {
+      inject(function(State, $rootScope, $location) {
+        state = State;
+        location = $location;
+      });
+    });
+
+    it('should update the query string by using $location', function () {
+      expect(JSON.stringify(location.search())).toBe('{}');
+      state.toggleAction({key: 'value'});
+
+      var query = location.search();
+      expect(query.key).toBe('value');
+    });
+  });
+  
   describe('updateTitle()', function () {
     it('should change page title based on path', inject(function(State, $rootScope) {
       State.updateTitle('/test');
@@ -155,26 +218,6 @@ describe('state.service', function () {
 
       expect(State.authorizeRoute(next)).toBe(false);
     });
-  });
-
-  describe('login()', function () {
-    it('should return the current user after login', inject(function(State, $rootScope) {
-      State.login('name@example.com', 'password');
-
-      expect($rootScope.state.user.loggedIn).toBeDefined();
-      expect($rootScope.state.user.loggedIn).toBe(true);
-
-      expect($rootScope.state.user.email).toBeDefined();
-      expect($rootScope.state.user.email).toBe('name@example.com');
-
-      expect($rootScope.state.user.role).toBeDefined();
-      expect($rootScope.state.user.access).toBeDefined();
-    }));
-
-    it('should return false on invalid login', inject(function(State) {
-      expect(State.login()).toBe(false);
-    }));
-
   });
 
   describe('logout()', function () {

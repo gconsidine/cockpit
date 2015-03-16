@@ -2,32 +2,138 @@
   'use strict';
 
   angular.module('cockpit').service('User', User);
+  User.$inject = ['$http', '$rootScope', '$location', 'Property'];
 
-  function User() {
-    // TODO: temp return without API
-    this.getUserList = function(limit, callback) {
-      var users = [];
+  function User($http, $rootScope, $location, Property) {
 
-      if(!limit) {
-        for(var i = 0; i < 10; i++) {
-          users[i] = {
-            id: i,
-            name: 'First Last' + i,
-            email: 'name' + i + '@domain.com',
-            createdAt: Date.now(),
-            role: 'user',
-            status: 'activated'
-          };
-        }
-      }
-
-      callback(users);
+    this.get = function(request, callback) {
+      $http.get(Property.getApi('admin', 'get', 'user'))
+        .success(function (response) {
+          callback(false, request, response);
+        })
+        .error(function (response) {
+          callback(true, request, response);
+        });
     };
 
-    // TODO: temp return without API
-    this.addUser = function(userObj, callback) {
-      var response = {};
-      callback(false, userObj, response);
+    this.create = function(request, callback) {
+      $http.post(Property.getApi('admin', 'post', 'user'), request)
+        .success(function (response) {
+          callback(false, request, response);
+        })
+        .error(function (response) {
+          callback(true, request, response);
+        });
+    };
+
+    this.edit = function(request, callback) {
+      $http.put(Property.getApi('admin', 'put', 'user'), request)
+        .success(function (response) {
+          callback(false, request, response);
+        })
+        .error(function (response) {
+          callback(true, request, response);
+        });
+    };
+
+    this.remove = function(request, callback) {
+      var options = {
+        params: {
+          email: request.user.email,
+        }
+      };
+
+      $http.delete(Property.getApi('admin', 'delete', 'user'), options)
+        .success(function (response) {
+          callback(false, request, response);
+        })
+        .error(function (response) {
+          callback(true, request, response);
+        });
+    };
+
+    this.getPendingActivation = function(request, callback) {
+      var options = {
+        params: {
+          email: request.user.email,
+          tempAuth: request.user.tempAuth
+        }
+      };
+
+      $http.get(Property.getApi('admin', 'get', 'activate'), options)
+        .success(function (response) {
+          callback(false, request, response);
+        })
+        .error(function (response) {
+          callback(true, request, response);
+        });
+    };
+
+    this.activate = function(request, callback) {
+      $http.put(Property.getApi('admin', 'put', 'activate'), request)
+        .success(function (response) {
+          callback(false, request, response);
+        })
+        .error(function (response) {
+          callback(true, request, response);
+        });
+    };
+
+    this.getPendingReset = function(request, callback) {
+      var options = {
+        params: {
+          email: request.user.email,
+          tempAuth: request.user.tempAuth
+        }
+      };
+
+      $http.get(Property.getApi('admin', 'get', 'reset'), options)
+        .success(function (response) {
+          callback(false, request, response);
+        })
+        .error(function (response) {
+          callback(true, request, response);
+        });
+    };
+
+    this.resetRequest = function(request, callback) {
+      $http.put(Property.getApi('admin', 'put', 'sendReset'), request)
+        .success(function (response) {
+          callback(false, request, response);
+        })
+        .error(function (response) {
+          callback(true, request, response);
+        });
+    };
+
+    this.reset = function(request, callback) {
+      $http.put(Property.getApi('admin', 'put', 'reset'), request)
+        .success(function (response) {
+          callback(false, request, response);
+        })
+        .error(function (response) {
+          callback(true, request, response);
+        });
+    };
+
+    this.resendActivation = function(request, callback) {
+      $http.put(Property.getApi('admin', 'put', 'resendActivation'), request)
+        .success(function (response) {
+          callback(false, request, response);
+        })
+        .error(function (response) {
+          callback(true, request, response);
+        });
+    };
+
+    this.login = function (request, callback) {
+      $http.put(Property.getApi('admin', 'put', 'login'), request)
+        .success(function (response) {
+          callback(false, request, response);
+        })
+        .error(function (response) {
+          callback(true, request, response);
+        });
     };
   }
 }());

@@ -1,46 +1,14 @@
 doctype html
-html(lang='en' ng-app='cockpit')
+html(lang='en')
 
   head
     meta(charset="UTF-8")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
     
-    title Dashboard | {{ state.title }}
-
-    link(href="dist/css/cockpit.css" rel="stylesheet")
+    title Content Site
   
   body
-    navigation
 
-    user-alert
+    a(href='/cockpit/#/login')
+      | Cockpit
 
-    div(class="c-site-content" data-ng-view)
-
-    footer
-
-    script(src="/vendor/js/jquery.js")
-    script(src="/vendor/js/bootstrap.js")
-    script(src="/vendor/js/validator.js")
-    script(src="/vendor/js/angular.js")
-    script(src="/vendor/js/angular-route.js")
-    script(src="/vendor/js/angular-animate.js")
-
-    script(src="/app/app.module.js")
-    script(src="/app/app.config.js")
-    script(src="/app/app.routes.js")
-    script(src="/app/app.run.js")
-
-    script(src="/app/property.service.js")
-    script(src="/app/validate.service.js")
-    script(src="/app/utility.service.js")
-    script(src="/app/state.service.js")
-    script(src="/app/user.service.js")
-
-    script(src="/app/state.directive.js")
-
-    script(src="/app/user.controller.js")
-    script(src="/app/page.controller.js")
-    script(src="/app/post.controller.js")
-    script(src="/app/media.controller.js")
-    script(src="/app/settings.controller.js")
-    script(src="/app/report.controller.js")

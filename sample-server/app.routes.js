@@ -7,6 +7,10 @@ var AppRoutes = function (app, express, plz) {
     res.render('index');
   });
 
+  router.get('/cockpit', function (req, res) {
+    res.render('cockpit');
+  });
+
   app.use('/', router);
 };
 
