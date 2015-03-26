@@ -43,22 +43,24 @@
         user: { email: vm.input.email }
       };
 
-      User.resetRequest(request, function (error, request, response) {
-        vm.state.submitLoading = false;
+      User.resetRequest(request, this.requestComplete.bind(this));
+    };
 
-        if(error) {
-          State.alert(true, 'danger', 'Your request for a reset failed.  Please try later.');
-          return;
-        }
+    vm.requestComplete = function (error, request, response) {
+      vm.state.submitLoading = false;
 
-        if(!response.ok) {
-          State.alert(true, 'danger', 'Your request is invalid.  Please check your input.');
-          return;
-        }
+      if(error) {
+        State.alert(true, 'danger', 'Your request for a reset failed.  Please try later.');
+        return;
+      }
 
-        State.alert(true, 'success', 'A password reset request has been emailed to you');
-        vm.state.sent = true;
-      });
+      if(!response.ok) {
+        State.alert(true, 'danger', 'Your request is invalid.  Please check your input.');
+        return;
+      }
+
+      State.alert(true, 'success', 'A password reset request has been emailed to you');
+      vm.state.sent = true;
     };
 
     vm.getPending = function () {
@@ -76,21 +78,23 @@
         }
       };
 
-      User.getPendingReset(request, function (error, request, response) {
-        vm.state.submitLoading = false;
+      User.getPendingReset(request, vm.getPendingComplete.bind(vm));
+    };
 
-        if(error) {
-          State.alert(true, 'danger', 'Your request for a reset failed.  Please try later.');
-          return;
-        }
+    vm.getPendingComplete = function (error, request, response) {
+      vm.state.submitLoading = false;
 
-        if(!response.ok) {
-          State.alert(true, 'danger', 'Invalid reset link.');
-          return;
-        }
+      if(error) {
+        State.alert(true, 'danger', 'Your request for a reset failed.  Please try later.');
+        return;
+      }
 
-        vm.state.process = true;
-      });
+      if(!response.ok) {
+        State.alert(true, 'danger', 'Invalid reset link.');
+        return;
+      }
+
+      vm.state.process = true;
     };
 
     vm.submit = function () {
@@ -113,25 +117,27 @@
         }
       };
 
-      User.reset(request, function (error, request, response) {
-        vm.state.submitLoading = false;
+      User.reset(request, vm.submitComplete.bind(vm));
+    };
 
-        if(error) {
-          State.alert(true, 'danger', 'Your reset request failed.  Please try again later.');
-          return;
-        }
+    vm.submitComplete = function (error, request, response) {
+      vm.state.submitLoading = false;
 
-        if(!response.ok) {
-          State.alert(true, 'danger', 'Reset unsuccessful. Please check your input.');
-          return;
-        }
+      if(error) {
+        State.alert(true, 'danger', 'Your reset request failed.  Please try again later.');
+        return;
+      }
 
-        State.alert(true, 'success', 'Reset successful. You will be redirected momentarily');
-        
-        $timeout(function () {
-          $location.path('/login/email/' + vm.input.email).replace();
-        }, 2000);
-      });
+      if(!response.ok) {
+        State.alert(true, 'danger', 'Reset unsuccessful. Please check your input.');
+        return;
+      }
+
+      State.alert(true, 'success', 'Reset successful. You will be redirected momentarily');
+      
+      $timeout(function () {
+        $location.path('/login/email/' + vm.input.email).replace();
+      }, 2000);
     };
 
     vm.validateInput = function () {

@@ -3,7 +3,6 @@
 describe('activate.controller', function () {
   var $controller,
       $location,
-      $rootScope,
       $routeParams,
       $timeout,
       User,
@@ -12,9 +11,8 @@ describe('activate.controller', function () {
 
   beforeEach(module('cockpit'));
 
-  beforeEach(inject(function(_$controller_, _$routeParams_, _$location_, _$rootScope_, _$timeout_,
-                             _User_, _State_, _Validate_) {
-    $rootScope = _$rootScope_;
+  beforeEach(inject(function(_$controller_, _$routeParams_, _$location_, _$timeout_, _User_, 
+                             _State_, _Validate_) {
     $routeParams = _$routeParams_;
     $location = _$location_;
     $controller = _$controller_;
