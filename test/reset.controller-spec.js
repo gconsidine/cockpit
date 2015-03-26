@@ -140,6 +140,32 @@ describe('reset.controller', function () {
     });
   });
 
+  describe('getPendingComplete()', function () {
+    it('should alert if request errors out', function () {
+      var reset = $controller('ResetController');
+      spyOn(State, 'alert').and.returnValue(true);
+
+      reset.getPendingComplete(true);
+      expect(State.alert).toHaveBeenCalled();
+    });
+
+    it('should alert if response indicates invalid parameters given', function () {
+      var reset = $controller('ResetController');
+      spyOn(State, 'alert').and.returnValue(true);
+
+      reset.getPendingComplete(false, {}, {ok: false});
+      expect(State.alert).toHaveBeenCalled();
+    });
+
+    it('should set state process to true if response is a success', function () {
+      var reset = $controller('ResetController');
+      spyOn(State, 'alert').and.returnValue(true);
+
+      reset.getPendingComplete(false, {}, {ok: true});
+      expect(reset.state.process).toBe(true);
+    });
+  });
+
   describe('submit()', function () {
     it('should alert if parameters are invalid upon submission', function () {
       var reset = $controller('ResetController');
