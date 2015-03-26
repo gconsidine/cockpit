@@ -11,10 +11,6 @@
       return CONFIG.property.name;
     }
     
-    function getLogo() {
-      return CONFIG.property.logo;
-    }
-
     function getAccess() {
       return CONFIG.access;
     }
@@ -27,12 +23,16 @@
       return CONFIG.property.roles;
     }
 
+    function getApi(component, verb, call) {
+      return CONFIG.api[component][verb][call];
+    }
+
     return {
       getName: getName,
-      getLogo: getLogo,
       getAccess: getAccess,
       getEnvironment: getEnvironment,
-      getRoles: getRoles
+      getRoles: getRoles,
+      getApi: getApi
     };
   }
 

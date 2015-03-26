@@ -79,7 +79,7 @@ describe('state.directive', function () {
       $rootScope = _$rootScope_;
     }));
 
-    it('should do things', function() {
+    it('should sort a table by id onclick', function() {
       var td = $compile('<td sort-table="id" order=""></td>')($rootScope);
 
       $rootScope.$digest();

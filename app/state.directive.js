@@ -6,7 +6,7 @@
   function navigation() {
     return {
       restrict: 'E',
-      templateUrl: 'app/partials/navigation.html'
+      templateUrl: '/app/partials/navigation.html'
     };
   }
 
@@ -15,7 +15,7 @@
   function footer() {
     return {
       restrict: 'E',
-      templateUrl: 'app/partials/footer.html'
+      templateUrl: '/app/partials/footer.html'
     };
   }
 
@@ -24,7 +24,7 @@
   function userAlert() {
     return {
       restrict: 'E',
-      templateUrl: 'app/partials/user-alert.html'
+      templateUrl: '/app/partials/user-alert.html'
     };
   }
 

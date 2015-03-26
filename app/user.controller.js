@@ -2,14 +2,13 @@
   'use strict';
 
   angular.module('cockpit').controller('UserController', UserController);
-  
   UserController.$inject = ['State', 'User', 'Property', 'Utility', 'Validate'];
 
   function UserController(State, User, Property, Utility, Validate) {
     var vm = this || {};
 
     vm.state = {
-      name: 'view',
+      action: 'view',
       style: 'primary',
       actionLoading: false,
       submitLoading: false,
@@ -24,116 +23,146 @@
       status: 'minus'
     };
 
-    vm.roleList = Property.getRoles();
+    vm.context = {
+      view: 'primary',
+      add: 'success',
+      edit: 'warning',
+      remove: 'danger',
+      'confirm-add': 'success',
+      'confirm-edit': 'warning',
+      'confirm-remove': 'danger',
+      'resend-activation': 'default'
+    };
 
+    vm.roleList = [];
     vm.userList = [];
 
     vm.init = function () {
-      vm.toggleAction('view');
+      State.startActionWatch(this.updateAction.bind(this));
+
+      vm.roleList = Property.getRoles();
+      vm.updateAction({ action: 'view' });
     };
 
-    vm.toggleAction = function(name, user) {
-      State.alert(false);
+    vm.toggleAction = function (action, userIndex) {
+      if(vm.validateAction(action, userIndex)) {
+        State.toggleAction({
+          action: action, 
+          userIndex: userIndex
+        });
+      }
+    };
 
-      switch(name) {
+    vm.validateAction = function (action) {
+      switch(action) {
+        case 'confirm-add':
+          return vm.validateCurrentUser();
+      }
+
+      return true;
+    };
+
+    vm.updateAction = function (params) {
+      var action = params.action,
+          userIndex = params.userIndex;
+
+      vm.state.action = action;
+      vm.state.style = vm.context[action];
+      
+      switch(action) {
         case 'view':
+        case 'remove':
+        case 'edit':
           vm.getUserList();
           break;
         case 'add':
           vm.state.current = {};
-          vm.state.name = 'add';
-          vm.state.style = 'success';
-          break;
-        case 'confirm-add':
-          vm.confirmAdd();
-          break;
-        case 'edit':
-          vm.getEditList();
           break;
         case 'confirm-edit':
-          vm.confirmEdit(user);
-          break;
-        case 'remove':
-          vm.getRemoveList();
-          break;
         case 'confirm-remove':
-          vm.confirmRemove(user);
+          vm.state.current = vm.userList[userIndex];
+          break;
+        case 'confirm-add':
+        case 'resend-activation':
+          break;
+        default:
+          vm.updateAction({ action: 'view' });
           break;
       }
     };
 
+    vm.resendActivation = function () {
+      vm.toggleSubmitLoading();
+
+      var request = {
+        user: { email: vm.state.current.email }
+      };
+
+      User.resendActivation(request, vm.resendActivationComplete.bind(vm));
+    };
+
+    vm.resendActivationComplete = function (error, request, response) {
+      if(error) {
+        State.alert(true, 'danger', 'Unable to send.  Please try again later.');
+        return;
+      }
+
+      if(!response.ok) {
+        State.alert(true, 'danger', response.message);
+        return;
+      }
+      
+      vm.toggleSubmitLoading();
+      State.alert(true, 'success', response.message);
+    };
+
     vm.getDisplayTitle = function() {
-      var parts = vm.state.name.split('-'),
+      var parts = vm.state.action.split('-'),
           title = '';
 
       for(var i = 0; i < parts.length; i++) {
         title += parts[i][0].toUpperCase() + parts[i].substring(1) + ' '; 
       }
 
-      if(title.indexOf('Confirm') === -1 ) {
-        return title + 'Users';
-      }
-
-
       return title;
     };
 
     vm.getUserList = function () {
       vm.toggleActionLoading();
-      User.getUserList(null, vm.setUserList.bind(vm));
-
-      vm.state.style = 'primary';
-      vm.state.name = 'view';
+      User.get({user: {}}, vm.setUserList.bind(vm));
     };
 
-    vm.getEditList = function () {
+    vm.setUserList = function (error, request, response) {
       vm.toggleActionLoading();
-      User.getUserList(null, vm.setUserList.bind(vm));
 
-      vm.state.style = 'warning';
-      vm.state.name = 'edit';
-    };
+      var loggedInUser = State.getLoggedInUser();
 
-    vm.getRemoveList = function () {
-      vm.toggleActionLoading();
-      User.getUserList(null, vm.setUserList.bind(vm));
-
-      vm.state.style = 'danger';
-      vm.state.name = 'remove';
-    };
-
-    vm.setUserList = function (userList) {
-      vm.toggleActionLoading();
-      vm.userList = userList;
-    };
-
-    vm.confirmAdd = function () {
-      if(!vm.validateCurrentUser()) {
-        return false;
+      if(error) {
+        State.alert(true, 'danger', 'Unable to retrieve user list.  Please try again later.');
+        return;
       }
 
-      vm.state.name = 'confirm-add';
-      vm.state.style = 'success';
-    };
+      for(var i = 0; i < response.data.length; i++) {
+        if(response.data[i].email === loggedInUser.email) {
+          response.data.splice(i, 1);
+        }
+      }
 
-    vm.confirmEdit = function (user) {
-      vm.state.current = user;
-      vm.state.name = 'confirm-edit';
-      vm.state.style = 'warning';
-    };
-
-    vm.confirmRemove = function (user) {
-      vm.state.current = user;
-      vm.state.name = 'confirm-remove';
-      vm.state.style = 'danger';
+      vm.userList = response.data;
     };
 
     vm.submitAddUser = function () {
-      // TODO: temporary request object
-      var request = {type: 'add'}; 
+      var request = {
+        user: {
+          name: vm.state.current.name,
+          email: vm.state.current.email,
+          role: vm.state.current.role
+        },
+        type: 'add'
+      };
 
       vm.toggleSubmitLoading();
-      User.addUser(request, vm.setSubmitResult.bind(vm));
+      User.create(request, vm.setSubmitResult.bind(vm));
     };
 
     vm.submitEditUser = function () {
@@ -141,59 +170,46 @@
         return false;
       }
 
-      // TODO: temporary request object
-      var request = {type: 'edit'};
-
-      vm.toggleSubmitLoading();
-      User.addUser(request, vm.setSubmitResult.bind(vm));
-    };
-
-    vm.submitRemoveUser = function () {
-      // TODO: temporary request object
       var request = {
-        type: 'remove'       
+        user: {
+          criteria: { email: vm.state.current.email },
+          update: { role: vm.state.current.role }
+        },
+        type: 'edit'
       };
 
       vm.toggleSubmitLoading();
-      User.addUser(request, vm.setSubmitResult.bind(vm));
+      User.edit(request, vm.setSubmitResult.bind(vm));
     };
 
-    vm.setSubmitResult = function (error, request) { // (error, request, response)
+    vm.submitRemoveUser = function () {
+      var request = {
+        user: {
+          email: vm.state.current.email
+        },
+        type: 'remove'
+      };
+
+      vm.toggleSubmitLoading();
+      User.remove(request, vm.setSubmitResult.bind(vm));
+    };
+
+    vm.setSubmitResult = function (error, request, response) {
       vm.toggleSubmitLoading();
 
       if(error) {
-        switch(request.type) {
-          case 'add':
-            State.alert(true, 'danger', 'Unable to add user.  Please try again later.');
-            break;
-          case 'edit':
-            State.alert(true, 'danger', 'Unable to edit user.  Please try again later.');
-            break;
-          case 'remove':
-            State.alert(true, 'danger', 'Unable to remove user.  Please try again later.');
-            break;
-        }
-
+        State.alert(true, 'danger', 'Unable to '+ request.type +' user.  Please try again later.');
         return;
       }
 
-      switch(request.type) {
-        case 'add':
-          State.alert(true, 'success', 'Activation email sent.');
-          vm.state.name = 'add';
-          vm.state.style = 'success';
-          break;
-        case 'edit':
-          State.alert(true, 'success', 'User successfully edited');
-          vm.state.name = 'edit';
-          vm.state.style = 'warning';
-          break;
-        case 'remove':
-          State.alert(true, 'success', 'User successfully removed');
-          vm.state.name = 'remove';
-          vm.state.style = 'danger';
-          break;
+      if(!response.ok) {
+        State.alert(true, 'danger', response.message);
+        return;
       }
+
+      vm.state.current = {};
+      vm.toggleAction(request.type);
+      State.alert(true, 'success', response.message);
     };
 
     vm.toggleSubmitLoading = function () {

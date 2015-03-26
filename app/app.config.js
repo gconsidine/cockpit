@@ -2,6 +2,7 @@
   'use strict';
 
   angular.module('cockpit').constant('CONFIG', {
+
     access: {
       home: ['user'], 
       settings: ['user'], 
@@ -12,35 +13,35 @@
       report: ['user'],
       shop: ['user']
     },
+
     api: {
-      get: {
-        login: '/plz-api/v1/login',
-        logout: '/plz-api/v1/logout',
-        report: '/plz-api/v1/report',
-        user: '/plz-api/v1/user',
-        post: '/plz-api/v1/post',
-        page: '/plz-api/v1/page'
-      },
-      post: {
-        user: '/plz-api/v1/user',
-        post: '/plz-api/v1/post',
-        page: '/plz-api/v1/page'
-      },
-      put: {
-        user: '/plz-api/v1/user',
-        post: '/plz-api/v1/post',
-        page: '/plz-api/v1/page'
-      },
-      delete: {
-        user: '/plz-api/v1/user',
-        post: '/plz-api/v1/post',
-        page: '/plz-api/v1/page'
+      admin: {
+        get: {
+          user: '/cockpit-api/user',
+          activate: '/cockpit-api/user/activate',
+          reset: '/cockpit-api/user/reset'
+        },
+        post: {
+          user: '/cockpit-api/user'
+        },
+        put: {
+          user: '/cockpit-api/user',
+          activate: '/cockpit-api/user/activate',
+          resendActivation: '/cockpit-api/user/resend-activation',
+          resetRequest: '/cockpit-api/user/reset-request',
+          reset: '/cockpit-api/user/reset',
+          login: '/cockpit-api/user/login',
+          logout: '/cockpit-api/user/logout'
+        },
+        delete: {
+          user: '/cockpit-api/user'
+        }
       }
     },
+
     property: {
-      logo: 'http://fillmurray/100/100',
-      name: 'Company Name',
-      environment: 'test',
+      name: 'Cockpit',
+      environment: 'development',
       roles: ['user', 'peasant', 'sellsword', 'merchant']
     }
   });
