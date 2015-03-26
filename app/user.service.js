@@ -76,7 +76,7 @@
         })
         .error(function (response) {
           callback(true, request, response);
-        });
+       });
     };
 
     this.getPendingReset = function(request, callback) {
@@ -97,7 +97,7 @@
     };
 
     this.resetRequest = function(request, callback) {
-      $http.put(Property.getApi('admin', 'put', 'sendReset'), request)
+      $http.put(Property.getApi('admin', 'put', 'resetRequest'), request)
         .success(function (response) {
           callback(false, request, response);
         })

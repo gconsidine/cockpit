@@ -28,7 +28,7 @@
           user: '/cockpit-api/user',
           activate: '/cockpit-api/user/activate',
           resendActivation: '/cockpit-api/user/resend-activation',
-          sendReset: '/cockpit-api/user/send-reset',
+          resetRequest: '/cockpit-api/user/reset-request',
           reset: '/cockpit-api/user/reset',
           login: '/cockpit-api/user/login',
           logout: '/cockpit-api/user/logout'

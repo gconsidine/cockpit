@@ -40,22 +40,24 @@
         }
       };
 
-      User.getPendingActivation(request, function (error, request, response) {
-        vm.state.actionLoading = false;
+      User.getPendingActivation(request, this.getPendingActivationComplete.bind(this));
+    };
 
-        if(error) {
-          State.alert(true, 'danger', 'Could not complete request. Please try later.');
-          return;
-        }
+    this.getPendingActivationComplete = function (error, request, response) {
+      vm.state.actionLoading = false;
 
-        if(!response.ok) {
-          State.alert(true, 'danger', 'Invalid activation paramters. Contact an administrator.');
-          return;
-        }
+      if(error) {
+        State.alert(true, 'danger', 'Could not complete request. Please try later.');
+        return;
+      }
 
-        vm.input.email = $routeParams.email;
-        vm.input.tempAuth = $routeParams.tempAuth;
-      });
+      if(!response.ok) {
+        State.alert(true, 'danger', 'Invalid activation paramters. Contact an administrator.');
+        return;
+      }
+
+      vm.input.email = $routeParams.email;
+      vm.input.tempAuth = $routeParams.tempAuth;
     };
 
     vm.submit = function () {
@@ -79,25 +81,27 @@
         }
       };
 
-      User.activate(request, function (error, request, response) {
-        vm.state.submitLoading = false;
+      User.activate(request, this.submitComplete.bind(this));
+    };
 
-        if(error) {
-          State.alert(true, 'danger', 'Could not complete request. Please try later.');
-          return;
-        }
+    this.submitComplete = function (error, request, response) {
+      vm.state.submitLoading = false;
 
-        if(!response.ok) {
-          State.alert(true, 'danger', 'Invalid input.  Please check and try again.');
-          return;
-        }
+      if(error) {
+        State.alert(true, 'danger', 'Could not complete request. Please try later.');
+        return;
+      }
 
-        State.alert(true, 'success', 'Activation complete. You will be redirected momentarily');
-        
-        $timeout(function () {
-          $location.path('/login/email/' + vm.input.email).replace();
-        }, 2000);
-      });
+      if(!response.ok) {
+        State.alert(true, 'danger', 'Invalid input.  Please check and try again.');
+        return;
+      }
+
+      State.alert(true, 'success', 'Activation complete. You will be redirected momentarily');
+      
+      $timeout(function () {
+        $location.path('/login/email/' + vm.input.email).replace();
+      }, 2000);
     };
 
     vm.validateInput = function () {

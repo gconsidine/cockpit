@@ -297,6 +297,41 @@ describe('user.service', function () {
     });
   });
 
+  describe('resetRequest()', function () {
+    it('should receive JSON response on successful reset sent', function () {
+      $httpBackend.expectPUT(Property.getApi('admin', 'put', 'resetRequest'))
+                  .respond(200, {ok: true, message: 'success', data: {updatedExisting: true, n:1}});
+
+      var request = {
+        user: {
+          email: 'name@domain.com',
+          tempAuth: 'active'
+        }
+      };
+
+      User.resetRequest(request, function (error, request, response) { 
+        expect(error).toBe(false);
+        expect(response.data.updatedExisting).toBeTruthy();
+      });
+
+      $httpBackend.flush();
+    });
+
+    it('should show a JSON error response on server error', function () {
+      $httpBackend.expectPUT(Property.getApi('admin', 'put', 'resetRequest'))
+                  .respond(500, {ok: false, message: '', data: null });
+
+      var request = {};
+
+      User.resetRequest(request, function (error, request, response) { 
+        expect(error).toBe(true);
+        expect(response.ok).toBe(false);
+      });
+
+      $httpBackend.flush();
+    });
+  });
+
   describe('getPendingReset()', function () {
     var call;
 
