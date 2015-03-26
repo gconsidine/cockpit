@@ -62,6 +62,31 @@ describe('reset.controller', function () {
     });
   });
 
+  describe('request()', function () {
+    it('should alert if email is invalid', function () {
+      var reset = $controller('ResetController');
+      spyOn(State, 'alert').and.returnValue(true);
+
+      reset.input.email = 'fake';
+
+      reset.request();
+
+      expect(State.alert).toHaveBeenCalled();
+    });
+
+    it('should call out to resetRequest if email is valid', function () {
+      var reset = $controller('ResetController');
+      reset.input.email = 'amun@dragoon.com';
+
+      spyOn(User, 'resetRequest').and.returnValue(true);
+      reset.requestComplete.bind = function mockBind () {}; 
+
+      reset.request();
+
+      expect(User.resetRequest).toHaveBeenCalled();
+    });
+  });
+
   describe('requestComplete()', function () {
     it('should alert if request errors out', function () {
       var reset = $controller('ResetController');
