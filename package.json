@@ -33,7 +33,7 @@
     "karma-ng-html2js-preprocessor": "^0.1.2",
     "karma-phantomjs-launcher": "^0.1.4",
     "less": "^2.1.2",
-    "mongodb": "^1.4.31",
+    "mongodb": "^2.0.24",
     "morgan": "^1.5.1",
     "phantomjs": "^1.9.13",
     "plz-cms": "gconsidine/plz-cms"
