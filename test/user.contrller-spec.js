@@ -3,7 +3,7 @@
 describe('user.controller', function () {
   var $controller,
       $rootScope,
-      User,
+      Admin,
       Property,
       Utility,
       State,
@@ -11,12 +11,12 @@ describe('user.controller', function () {
 
   beforeEach(module('cockpit'));
 
-  beforeEach(inject(function(_$controller_, _$rootScope_, _Property_, _Utility_, _User_, _State_,
+  beforeEach(inject(function(_$controller_, _$rootScope_, _Property_, _Utility_, _Admin_, _State_,
                              _Validate_) {
     $controller = _$controller_;
     $rootScope = _$rootScope_;
     Utility = _Utility_;
-    User = _User_;
+    Admin = _Admin_;
     Property = _Property_;
     State = _State_;
     Validate = _Validate_;
@@ -28,7 +28,7 @@ describe('user.controller', function () {
 
   describe('default-state', function () {
     it('should initialize with proper defaults', function () {
-      var vm = $controller('UserController'); 
+      var vm = $controller('AdminController'); 
       
       expect(typeof vm.state).toBe('object');
       expect(typeof vm.table).toBe('object');
@@ -40,7 +40,7 @@ describe('user.controller', function () {
 
   describe('init()', function () {
     it('should startActionWatch and update action to view', function () {
-      var vm = $controller('UserController'); 
+      var vm = $controller('AdminController'); 
       vm.updateAction = {
         bind: function () { return 'mock bind'; }
       };
@@ -59,7 +59,7 @@ describe('user.controller', function () {
 
   describe('toggleAction()', function () {
     it('should toggle State\'s action if validation passes', function () {
-      var vm = $controller('UserController'); 
+      var vm = $controller('AdminController'); 
 
       spyOn(vm, 'validateAction').and.returnValue(true); 
       spyOn(State, 'toggleAction').and.returnValue(true); 
@@ -72,7 +72,7 @@ describe('user.controller', function () {
 
   describe('validateAction()', function () {
     it('should validate an action based on its name', function () {
-      var vm = $controller('UserController'); 
+      var vm = $controller('AdminController'); 
 
       spyOn(vm, 'validateCurrentUser').and.returnValue(true); 
       vm.validateAction('confirm-add');
@@ -80,7 +80,7 @@ describe('user.controller', function () {
     });
 
     it('should return true if no validation is necessary on an action state', function () {
-      var vm = $controller('UserController'); 
+      var vm = $controller('AdminController'); 
 
       spyOn(vm, 'validateCurrentUser').and.returnValue(true); 
       expect(vm.validateAction()).toBe(true);
@@ -89,7 +89,7 @@ describe('user.controller', function () {
 
   describe('updateAction()', function () {
     it('should call methods to update action state where applicable', function () {
-      var vm = $controller('UserController'); 
+      var vm = $controller('AdminController'); 
 
       spyOn(vm, 'getUserList').and.returnValue(true); 
       vm.updateAction({action: 'view'});
@@ -106,7 +106,7 @@ describe('user.controller', function () {
     });
 
     it('should default to the view action if no other case is matched', function () {
-      var vm = $controller('UserController'); 
+      var vm = $controller('AdminController'); 
 
       spyOn(vm, 'getUserList').and.returnValue(true); 
       spyOn(vm, 'updateAction').and.callThrough(); 
@@ -121,24 +121,24 @@ describe('user.controller', function () {
 
   describe('resendActivation()', function () {
     it('should toggle the view to a loading state', function () {
-      var vm = $controller('UserController'); 
+      var vm = $controller('AdminController'); 
 
       vm.resendActivationComplete = {
         bind: function () { return 'mock-bind';}
       };
 
-      spyOn(User, 'resendActivation').and.returnValue(true); 
+      spyOn(Admin, 'resendActivation').and.returnValue(true); 
       spyOn(vm, 'toggleSubmitLoading').and.returnValue(true); 
 
       vm.resendActivation();
       expect(vm.toggleSubmitLoading).toHaveBeenCalled();
-      expect(User.resendActivation).toHaveBeenCalled();
+      expect(Admin.resendActivation).toHaveBeenCalled();
     });
   });
 
   describe('resendActivationComplete()', function () {
     it('should alert an error when call fails', function () {
-      var vm = $controller('UserController'); 
+      var vm = $controller('AdminController'); 
 
       spyOn(State, 'alert').and.returnValue(true);
 
@@ -147,7 +147,7 @@ describe('user.controller', function () {
     });
 
     it('should alret an error if response is not ok', function () {
-      var vm = $controller('UserController'); 
+      var vm = $controller('AdminController'); 
 
       spyOn(State, 'alert').and.returnValue(true);
 
@@ -157,7 +157,7 @@ describe('user.controller', function () {
     });
 
     it('should toggle off loading state and alert success', function () {
-      var vm = $controller('UserController'); 
+      var vm = $controller('AdminController'); 
 
       spyOn(State, 'alert').and.returnValue(true);
       spyOn(vm, 'toggleSubmitLoading').and.returnValue(true); 
@@ -172,7 +172,7 @@ describe('user.controller', function () {
 
   describe('getDisplayTitle()', function () {
     it('should return title based on action appropriate for the panel header', function () {
-      var vm = $controller('UserController'); 
+      var vm = $controller('AdminController'); 
       
       vm.state.action = 'confirm-edit';
       expect(vm.getDisplayTitle()).toBe('Confirm Edit ');
@@ -181,14 +181,14 @@ describe('user.controller', function () {
 
   describe('getUserList()', function () {
     it('should fetch a list of users and load the view state', function () {
-      var vm = $controller('UserController'); 
+      var vm = $controller('AdminController'); 
 
       vm.setUserList = {
         bind: function () { return 'mock bind'; }
       };
 
       spyOn(vm, 'toggleActionLoading').and.returnValue(true); 
-      spyOn(User, 'get').and.returnValue(true); 
+      spyOn(Admin, 'get').and.returnValue(true); 
 
       vm.getUserList();
 
@@ -196,13 +196,13 @@ describe('user.controller', function () {
       expect(vm.state.action).toBe('view');
 
       expect(vm.toggleActionLoading).toHaveBeenCalled();
-      expect(User.get).toHaveBeenCalled();
+      expect(Admin.get).toHaveBeenCalled();
     });
   });
 
   describe('setUserList()', function () {
     it('should toggle loading state off and set logged-in user', function () {
-      var vm = $controller('UserController'); 
+      var vm = $controller('AdminController'); 
       spyOn(vm, 'toggleActionLoading').and.returnValue(true); 
       spyOn(State, 'getLoggedInUser').and.returnValue(true); 
 
@@ -213,7 +213,7 @@ describe('user.controller', function () {
     });
 
     it('should alert error if error is present', function () {
-      var vm = $controller('UserController'); 
+      var vm = $controller('AdminController'); 
       spyOn(vm, 'toggleActionLoading').and.returnValue(true); 
       spyOn(State, 'getLoggedInUser').and.returnValue(true); 
       spyOn(State, 'alert').and.returnValue(true);
@@ -224,7 +224,7 @@ describe('user.controller', function () {
     });
 
     it('should loop through user list and remove the logged-in user', function () {
-      var vm = $controller('UserController'); 
+      var vm = $controller('AdminController'); 
       spyOn(vm, 'toggleActionLoading').and.returnValue(true); 
       spyOn(State, 'getLoggedInUser').and.returnValue({email: 'brand@amber.com'}); 
 
@@ -240,7 +240,7 @@ describe('user.controller', function () {
 
   describe('setSubmitResult()', function () {
     it('should alert if call errors out', function () {
-      var vm = $controller('UserController'); 
+      var vm = $controller('AdminController'); 
       spyOn(vm, 'toggleActionLoading').and.returnValue(true); 
       spyOn(State, 'alert').and.returnValue(true);
 
@@ -250,7 +250,7 @@ describe('user.controller', function () {
     });
 
     it('should alert if response indicates an unsuccessful attempt', function () {
-      var vm = $controller('UserController'); 
+      var vm = $controller('AdminController'); 
       spyOn(vm, 'toggleActionLoading').and.returnValue(true); 
       spyOn(State, 'getLoggedInUser').and.returnValue(true); 
       spyOn(State, 'alert').and.returnValue(true);
@@ -261,7 +261,7 @@ describe('user.controller', function () {
     });
 
     it('should clear the current user and toggle the request type\'s action', function () {
-      var vm = $controller('UserController'); 
+      var vm = $controller('AdminController'); 
       spyOn(vm, 'toggleActionLoading').and.returnValue(true); 
       spyOn(vm, 'toggleAction').and.returnValue(true); 
       spyOn(State, 'getLoggedInUser').and.returnValue(true); 
@@ -277,25 +277,25 @@ describe('user.controller', function () {
 
   describe('submitAddUser()', function () {
     it('should add a user and callback the success of the operation', function () {
-      var user = $controller('UserController'); 
+      var user = $controller('AdminController'); 
 
       user.setSubmitResult = {
         bind: function () { return 'mock bind'; }
       };
 
       spyOn(user, 'toggleSubmitLoading').and.returnValue(true); 
-      spyOn(User, 'create').and.returnValue(true); 
+      spyOn(Admin, 'create').and.returnValue(true); 
       
       user.submitAddUser();
 
       expect(user.toggleSubmitLoading).toHaveBeenCalled();
-      expect(User.create).toHaveBeenCalled();
+      expect(Admin.create).toHaveBeenCalled();
     });
   });
 
   describe('submitEditUser()', function () {
     it('should edit a valid user and callback the success of the operation', function () {
-      var user = $controller('UserController'); 
+      var user = $controller('AdminController'); 
 
       user.state.current.name = 'corwin';
       user.state.current.email = 'corwin@amberites.com';
@@ -306,16 +306,16 @@ describe('user.controller', function () {
       };
 
       spyOn(user, 'toggleSubmitLoading').and.returnValue(true); 
-      spyOn(User, 'edit').and.returnValue(true); 
+      spyOn(Admin, 'edit').and.returnValue(true); 
       
       user.submitEditUser();
 
       expect(user.toggleSubmitLoading).toHaveBeenCalled();
-      expect(User.edit).toHaveBeenCalled();
+      expect(Admin.edit).toHaveBeenCalled();
     });
 
     it('should not edit an invalid current and set an alert', function () {
-      var user = $controller('UserController'); 
+      var user = $controller('AdminController'); 
 
       user.state.current.name = 'julian';
       user.state.current.email = 'i-have-a-steel-pony-thing';
@@ -330,25 +330,25 @@ describe('user.controller', function () {
 
   describe('submitRemoveUser()', function () {
     it('should remove a user and callback the success of the operation', function () {
-      var user = $controller('UserController'); 
+      var user = $controller('AdminController'); 
 
       user.setSubmitResult = {
         bind: function () { return 'mock bind'; }
       };
 
       spyOn(user, 'toggleSubmitLoading').and.returnValue(true); 
-      spyOn(User, 'remove').and.returnValue(true); 
+      spyOn(Admin, 'remove').and.returnValue(true); 
       
       user.submitRemoveUser();
 
       expect(user.toggleSubmitLoading).toHaveBeenCalled();
-      expect(User.remove).toHaveBeenCalled();
+      expect(Admin.remove).toHaveBeenCalled();
     });
   });
 
   describe('setSubmitResult()', function () {
     it('should set state based on results of failed submit action', function () {
-      var user = $controller('UserController'); 
+      var user = $controller('AdminController'); 
 
       spyOn(user, 'toggleSubmitLoading').and.returnValue(true); 
       spyOn(State, 'alert').and.returnValue(true); 
@@ -375,7 +375,7 @@ describe('user.controller', function () {
 
   describe('toggleSubmitLoading()', function () {
     it('should toggle the boolean flag representing a submit loading state', function () {
-      var user = $controller('UserController'); 
+      var user = $controller('AdminController'); 
       
       expect(user.state.submitLoading).toBe(false);
       user.toggleSubmitLoading();
@@ -385,7 +385,7 @@ describe('user.controller', function () {
 
   describe('toggleActionLoading()', function () {
     it('should toggle the boolean flag representing an action loading state', function () {
-      var user = $controller('UserController'); 
+      var user = $controller('AdminController'); 
       
       expect(user.state.actionLoading).toBe(false);
       user.toggleActionLoading();
@@ -395,7 +395,7 @@ describe('user.controller', function () {
 
   describe('sortTable()', function () {
     it('should call Utility\'s sortTable()', function () {
-      var user = $controller('UserController'); 
+      var user = $controller('AdminController'); 
       
       spyOn(Utility, 'sortTable').and.returnValue(true);
 
@@ -407,7 +407,7 @@ describe('user.controller', function () {
 
   describe('validateCurrentUser()', function () {
     it('should loosely validate a good email, name, and role', function () {
-      var user = $controller('UserController'); 
+      var user = $controller('AdminController'); 
 
       user.state.current.name = 'Brand';
       user.state.current.email = 'Brand@amberites.com';
@@ -421,7 +421,7 @@ describe('user.controller', function () {
     });
 
     it('should reject a bad email, name, or role and set an alert', function () {
-      var user = $controller('UserController'); 
+      var user = $controller('AdminController'); 
 
       user.state.current.name = 'Julian';
       user.state.current.email = '';

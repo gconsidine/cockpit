@@ -1,13 +1,13 @@
 'use strict';
 
 describe('user.service', function () {
-  var User, Property, $httpBackend;
+  var Admin, Property, $httpBackend;
 
   beforeEach(module('cockpit'));
 
   beforeEach(function () {
-    inject(function(_User_, _Property_, _$httpBackend_) {
-      User = _User_;
+    inject(function(_Admin_, _Property_, _$httpBackend_) {
+      Admin = _Admin_;
       Property = _Property_;
       $httpBackend = _$httpBackend_;
     });
@@ -26,7 +26,7 @@ describe('user.service', function () {
                     }
                   ]});
 
-      User.get({}, function (error, request, response) { 
+      Admin.get({}, function (error, request, response) { 
         expect(error).toBe(false);
         expect(response.ok).toBe(true);
         expect(response.data[0].name).toBeTruthy();
@@ -43,7 +43,7 @@ describe('user.service', function () {
       $httpBackend.expectGET(Property.getApi('admin', 'get', 'user'))
                   .respond(500, {ok: false, message: '', data: null });
 
-      User.get({}, function (error) { 
+      Admin.get({}, function (error) { 
         expect(error).toBe(true);
       });
 
@@ -67,7 +67,7 @@ describe('user.service', function () {
         type: 'add'
       };
 
-      User.create(request, function (error, request, response) { 
+      Admin.create(request, function (error, request, response) { 
         expect(error).toBe(false);
         expect(request.type).toBe('add');
         expect(response.data).toBeTruthy();
@@ -82,7 +82,7 @@ describe('user.service', function () {
 
       var request = {};
 
-      User.create(request, function (error, request, response) { 
+      Admin.create(request, function (error, request, response) { 
         expect(error).toBe(true);
         expect(response.ok).toBe(false);
       });
@@ -103,7 +103,7 @@ describe('user.service', function () {
         type: 'edit'
       };
 
-      User.edit(request, function (error, request, response) { 
+      Admin.edit(request, function (error, request, response) { 
         expect(error).toBe(false);
         expect(request.type).toBe('edit');
         expect(response.data).toBeTruthy();
@@ -118,7 +118,7 @@ describe('user.service', function () {
 
       var request = {};
 
-      User.edit(request, function (error, request, response) { 
+      Admin.edit(request, function (error, request, response) { 
         expect(error).toBe(true);
         expect(response.ok).toBe(false);
       });
@@ -138,7 +138,7 @@ describe('user.service', function () {
         type: 'remove'
       };
 
-      User.remove(request, function (error, request, response) { 
+      Admin.remove(request, function (error, request, response) { 
         expect(error).toBe(false);
         expect(request.type).toBe('remove');
         expect(response.data).toBeTruthy();
@@ -155,7 +155,7 @@ describe('user.service', function () {
         user: { email: 'name@domain.com' }
       };
 
-      User.remove(request, function (error, request, response) { 
+      Admin.remove(request, function (error, request, response) { 
         expect(error).toBe(true);
         expect(response.ok).toBe(false);
       });
@@ -192,7 +192,7 @@ describe('user.service', function () {
         }
       };
 
-      User.getPendingActivation(request, function (error, request, response) { 
+      Admin.getPendingActivation(request, function (error, request, response) { 
         expect(error).toBe(false);
         expect(response.data).toBeTruthy();
       });
@@ -210,7 +210,7 @@ describe('user.service', function () {
         }
       };
 
-      User.getPendingActivation(request, function (error, request, response) { 
+      Admin.getPendingActivation(request, function (error, request, response) { 
         expect(error).toBe(true);
         expect(response.ok).toBe(false);
       });
@@ -235,7 +235,7 @@ describe('user.service', function () {
         }
       };
 
-      User.activate(request, function (error, request, response) { 
+      Admin.activate(request, function (error, request, response) { 
         expect(error).toBe(false);
         expect(response.data.updatedExisting).toBeTruthy();
       });
@@ -249,7 +249,7 @@ describe('user.service', function () {
 
       var request = {};
 
-      User.activate(request, function (error, request, response) { 
+      Admin.activate(request, function (error, request, response) { 
         expect(error).toBe(true);
         expect(response.ok).toBe(false);
       });
@@ -274,7 +274,7 @@ describe('user.service', function () {
         }
       };
 
-      User.reset(request, function (error, request, response) { 
+      Admin.reset(request, function (error, request, response) { 
         expect(error).toBe(false);
         expect(response.data.updatedExisting).toBeTruthy();
       });
@@ -288,7 +288,7 @@ describe('user.service', function () {
 
       var request = {};
 
-      User.reset(request, function (error, request, response) { 
+      Admin.reset(request, function (error, request, response) { 
         expect(error).toBe(true);
         expect(response.ok).toBe(false);
       });
@@ -309,7 +309,7 @@ describe('user.service', function () {
         }
       };
 
-      User.resetRequest(request, function (error, request, response) { 
+      Admin.resetRequest(request, function (error, request, response) { 
         expect(error).toBe(false);
         expect(response.data.updatedExisting).toBeTruthy();
       });
@@ -323,7 +323,7 @@ describe('user.service', function () {
 
       var request = {};
 
-      User.resetRequest(request, function (error, request, response) { 
+      Admin.resetRequest(request, function (error, request, response) { 
         expect(error).toBe(true);
         expect(response.ok).toBe(false);
       });
@@ -360,7 +360,7 @@ describe('user.service', function () {
         }
       };
 
-      User.getPendingReset(request, function (error, request, response) { 
+      Admin.getPendingReset(request, function (error, request, response) { 
         expect(error).toBe(false);
         expect(response.data).toBeTruthy();
       });
@@ -378,7 +378,7 @@ describe('user.service', function () {
         }
       };
 
-      User.getPendingReset(request, function (error, request, response) { 
+      Admin.getPendingReset(request, function (error, request, response) { 
         expect(error).toBe(true);
         expect(response.ok).toBe(false);
       });
@@ -398,7 +398,7 @@ describe('user.service', function () {
         }
       };
 
-      User.resendActivation(request, function (error, request, response) { 
+      Admin.resendActivation(request, function (error, request, response) { 
         expect(error).toBe(false);
         expect(response.data).toBeTruthy();
       });
@@ -412,7 +412,7 @@ describe('user.service', function () {
 
       var request = {};
 
-      User.resendActivation(request, function (error, request, response) { 
+      Admin.resendActivation(request, function (error, request, response) { 
         expect(error).toBe(true);
         expect(response.ok).toBe(false);
       });
@@ -433,7 +433,7 @@ describe('user.service', function () {
         }
       };
 
-      User.login(request, function (error, request, response) { 
+      Admin.login(request, function (error, request, response) { 
         expect(error).toBe(false);
         expect(response.data).toBeTruthy();
       });
@@ -447,7 +447,7 @@ describe('user.service', function () {
 
       var request = {};
 
-      User.login(request, function (error, request, response) { 
+      Admin.login(request, function (error, request, response) { 
         expect(error).toBe(true);
         expect(response.ok).toBe(false);
       });

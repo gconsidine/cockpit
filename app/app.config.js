@@ -6,7 +6,7 @@
     access: {
       home: ['user'], 
       settings: ['user'], 
-      user: ['user'], 
+      admin: ['user'], 
       page: ['user'], 
       post: ['user'], 
       media: ['user'],

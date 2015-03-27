@@ -1,10 +1,10 @@
 (function () {
   'use strict';
 
-  angular.module('cockpit').service('User', User);
-  User.$inject = ['$http', '$rootScope', '$location', 'Property'];
+  angular.module('cockpit').service('Admin', Admin);
+  Admin.$inject = ['$http', '$rootScope', '$location', 'Property'];
 
-  function User($http, $rootScope, $location, Property) {
+  function Admin($http, $rootScope, $location, Property) {
 
     this.get = function(request, callback) {
       $http.get(Property.getApi('admin', 'get', 'user'))
