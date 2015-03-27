@@ -8,11 +8,11 @@
     '$timeout', 
     '$location', 
     'State', 
-    'User', 
+    'Admin', 
     'Validate'
   ]; 
 
-  function ActivateController($routeParams, $timeout, $location, State, User, Validate) {
+  function ActivateController($routeParams, $timeout, $location, State, Admin, Validate) {
     var vm = this || {};
    
     vm.state = {
@@ -40,7 +40,7 @@
         }
       };
 
-      User.getPendingActivation(request, this.getPendingActivationComplete.bind(this));
+      Admin.getPendingActivation(request, this.getPendingActivationComplete.bind(this));
     };
 
     this.getPendingActivationComplete = function (error, request, response) {
@@ -81,7 +81,7 @@
         }
       };
 
-      User.activate(request, this.submitComplete.bind(this));
+      Admin.activate(request, this.submitComplete.bind(this));
     };
 
     this.submitComplete = function (error, request, response) {

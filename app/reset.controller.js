@@ -2,9 +2,16 @@
   'use strict';
 
   angular.module('cockpit').controller('ResetController', ResetController);
-  ResetController.$inject = ['$routeParams', '$timeout', '$location', 'State', 'Validate', 'User']; 
+  ResetController.$inject = [
+    '$routeParams', 
+    '$timeout', 
+    '$location', 
+    'State', 
+    'Validate', 
+    'Admin'
+  ]; 
 
-  function ResetController($routeParams, $timeout, $location, State, Validate, User) {
+  function ResetController($routeParams, $timeout, $location, State, Validate, Admin) {
     var vm = this || {};
    
     vm.state = {
@@ -43,7 +50,7 @@
         user: { email: vm.input.email }
       };
 
-      User.resetRequest(request, this.requestComplete.bind(this));
+      Admin.resetRequest(request, this.requestComplete.bind(this));
     };
 
     vm.requestComplete = function (error, request, response) {
@@ -78,7 +85,7 @@
         }
       };
 
-      User.getPendingReset(request, vm.getPendingComplete.bind(vm));
+      Admin.getPendingReset(request, vm.getPendingComplete.bind(vm));
     };
 
     vm.getPendingComplete = function (error, request, response) {
@@ -117,7 +124,7 @@
         }
       };
 
-      User.reset(request, vm.submitComplete.bind(vm));
+      Admin.reset(request, vm.submitComplete.bind(vm));
     };
 
     vm.submitComplete = function (error, request, response) {

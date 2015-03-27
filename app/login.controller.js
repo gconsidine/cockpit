@@ -9,10 +9,10 @@
     '$rootScope', 
     'State', 
     'Validate', 
-    'User'
+    'Admin'
   ]; 
 
-  function LoginController($location, $routeParams, $rootScope, State, Validate, User) {
+  function LoginController($location, $routeParams, $rootScope, State, Validate, Admin) {
     var vm = this || {};
 
     vm.email = {
@@ -44,7 +44,7 @@
         }
       };
 
-      User.login(request, vm.complete.bind(vm));
+      Admin.login(request, vm.complete.bind(vm));
     };
 
     vm.complete = function (error, request, response) {

@@ -1,0 +1,297 @@
+<div class="container-fluid" ng-init="admin.init()">
+  <div class="c-area-container">
+    <div class="col-md-3">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Admin Menu</h3>
+        </div>
+        <div class="panel-body">
+          <ul class="nav nav-pills nav-stacked">
+            <li>
+              <button class="btn btn-primary btn-block" ng-click="admin.toggleAction('view')">
+                View Users
+              </button>
+            </li>
+            <li>
+              <button class="btn btn-success btn-block" ng-click="admin.toggleAction('add')">
+                Add Users
+              </button>
+            </li>
+            <li>
+              <button class="btn btn-warning btn-block" ng-click="admin.toggleAction('edit')">
+                Edit Users
+              </button>
+            </li>
+            <li>
+              <button class="btn btn-danger btn-block" ng-click="admin.toggleAction('remove')">
+                Remove Users
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div ng-if="admin.state.actionLoading" class="col-md-9 ng-animate-if">
+      <div class="c-loading-state">
+        <img src="/dist/img/loading.gif" alt="loading" />
+      </div>
+    </div>
+
+    <div ng-if="!admin.state.actionLoading" class="col-md-9 c-animate-if">
+
+      <div class="panel panel-{{ admin.state.style }}">
+        <div class="panel-heading">
+          <h3 class="panel-title">{{ admin.getDisplayTitle() }}</h3>
+        </div>
+        <div class="panel-body">
+
+          <div ng-if="admin.state.action == 'view'">
+            <table class="table table-striped">
+              <tr>
+                <th ng-click="admin.sortTable('id')">
+                  Id <span class="glyphicon glyphicon-{{admin.table.id}}"></span>
+                </th>
+                <th ng-click="admin.sortTable('email')">
+                  Email <span class="glyphicon glyphicon-{{admin.table.email}}"></span>
+                </th>
+                <th ng-click="admin.sortTable('createdAt')">
+                  Created At <span class="glyphicon glyphicon-{{admin.table.createdAt}}"></span>
+                </th>
+                <th ng-click="admin.sortTable('role')">
+                  Role <span class="glyphicon glyphicon-{{admin.table.role}}"></span>
+                </th>
+                <th ng-click="admin.sortTable('status')">
+                  Status <span class="glyphicon glyphicon-{{admin.table.status}}"></span>
+                </th>
+              </tr>
+              <tr ng-repeat="userEntry in admin.userList">
+                <td>{{ userEntry.id }}</td>
+                <td>{{ userEntry.email }}</td>
+                <td>{{ userEntry.createdAt }}</td>
+                <td>{{ userEntry.role }}</td>
+                <td>{{ userEntry.status }}</td>
+              </tr>
+            </table>
+          </div>
+
+          <div ng-if="admin.state.action == 'add'">
+            <form role="form">
+              <div class="col-md-12">
+                <label>Name:</label>
+                <input ng-model="admin.state.current.name" type="text" class="form-control" 
+                       placeholder="First Last" required/> 
+              </div>
+              <div class="col-md-12">
+                <label>Email:</label>
+                <input ng-model="admin.state.current.email" type="email" class="form-control"
+                       placeholder="name@example.com" required/> 
+              </div>
+              <div class="col-md-12">
+                <label>Role:</label>
+                <select ng-model="admin.state.current.role" class="form-control" required>
+                  <option ng-repeat="role in admin.roleList">{{ role }}</option>
+                </select>
+              </div>
+
+              <div class="col-md-offset-9 col-md-3">
+                <button class="btn btn-success btn-block pull-left"
+                        ng-click="admin.toggleAction('confirm-add')">
+                  Continue <span class="glyphicon glyphicon-arrow-right"></span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div ng-if="admin.state.action == 'edit'">
+            <table class="table table-striped">
+              <tr>
+                <th ng-click="admin.sortTable('id')">
+                  Id <span class="glyphicon glyphicon-{{admin.table.id}}"></span>
+                </th>
+                <th ng-click="admin.sortTable('email')">
+                  Email <span class="glyphicon glyphicon-{{admin.table.email}}"></span>
+                </th>
+                <th ng-click="admin.sortTable('createdAt')">
+                  Created At <span class="glyphicon glyphicon-{{admin.table.createdAt}}"></span>
+                </th>
+                <th ng-click="admin.sortTable('role')">
+                  Role <span class="glyphicon glyphicon-{{admin.table.role}}"></span>
+                </th>
+                <th ng-click="admin.sortTable('status')">
+                  Status <span class="glyphicon glyphicon-{{admin.table.status}}"></span>
+                </th>
+                <th>Edit</th>
+              </tr>
+              <tr ng-repeat="userEntry in admin.userList">
+                <td>{{ userEntry.id }}</td>
+                <td>{{ userEntry.email }}</td>
+                <td>{{ userEntry.createdAt }}</td>
+                <td>{{ userEntry.role }}</td>
+                <td>{{ userEntry.status }}</td>
+                <td>
+                  <button class="btn btn-block btn-warning"
+                          ng-click="admin.toggleAction('confirm-edit', $index)">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <div ng-if="admin.state.action == 'remove'">
+            <table class="table table-striped">
+              <tr>
+                <th ng-click="admin.sortTable('id')">
+                  Id <span class="glyphicon glyphicon-{{admin.table.id}}"></span>
+                </th>
+                <th ng-click="admin.sortTable('email')">
+                  Email <span class="glyphicon glyphicon-{{admin.table.email}}"></span>
+                </th>
+                <th ng-click="admin.sortTable('createdAt')">
+                  Created At <span class="glyphicon glyphicon-{{admin.table.createdAt}}"></span>
+                </th>
+                <th ng-click="admin.sortTable('role')">
+                  Role <span class="glyphicon glyphicon-{{admin.table.role}}"></span>
+                </th>
+                <th ng-click="admin.sortTable('status')">
+                  Status <span class="glyphicon glyphicon-{{admin.table.status}}"></span>
+                </th>
+                <th>Remove</th>
+              </tr>
+              <tr ng-repeat="userEntry in admin.userList">
+                <td>{{ userEntry.id }}</td>
+                <td>{{ userEntry.email }}</td>
+                <td>{{ userEntry.createdAt }}</td>
+                <td>{{ userEntry.role }}</td>
+                <td>{{ userEntry.status }}</td>
+                <td>
+                  <button class="btn btn-block btn-danger"
+                          ng-click="admin.toggleAction('confirm-remove', $index)">
+                    <span class="glyphicon glyphicon-remove"></span>
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <div ng-if="admin.state.action == 'confirm-add'">
+            <div class="col-md-12">
+              <p><b>Name:</b> {{ admin.state.current.name }}</p>
+              <p><b>Email:</b> {{ admin.state.current.email }}</p>
+              <p><b>Role:</b> {{ admin.state.current.role }}</p>
+            </div>
+
+            <div class="col-md-offset-9 col-md-3">
+              <button ng-if="!admin.state.submitLoading" 
+                      class="btn btn-success btn-block pull-left"
+                      ng-click="admin.submitAddUser()">
+                Submit New User
+              </button>
+              <button ng-if="admin.state.submitLoading" 
+                      class="btn btn-success btn-block pull-right" disabled>
+                Submiting...
+              </button>
+            </div>
+          </div>
+
+          <div ng-if="admin.state.action == 'confirm-remove'">
+            <div class="col-md-12">
+              <p><b>Name:</b> {{ admin.state.current.name }}</p>
+              <p><b>Role:</b> {{ admin.state.current.role }}</p>
+              <p><b>Created At:</b> {{ admin.state.current.createdAt }}</p>
+              <p><b>Email:</b> {{ admin.state.current.email }}</p>
+              <p><b>Status:</b> {{ admin.state.current.status }}</p>
+            </div>
+
+            <div class="col-md-offset-9 col-md-3">
+              <button ng-if="!admin.state.submitLoading" 
+                      class="btn btn-danger btn-block pull-left"
+                      ng-click="admin.submitRemoveUser()">
+                Submit Removal
+              </button>
+              <button ng-if="admin.state.submitLoading" 
+                      class="btn btn-danger btn-block pull-right" disabled>
+                Submiting...
+              </button>
+            </div>
+          </div>
+
+          <div ng-if="admin.state.action == 'confirm-edit'">
+            <form role="form">
+              <div class="col-md-12">
+                <label>Name:</label>
+                <input ng-model="admin.state.current.name" type="text" class="form-control" 
+                       placeholder="First Name" disabled/> 
+              </div>
+              <div class="col-md-12">
+                <label>Created At:</label>
+                <input ng-model="admin.state.current.createdAt" type="text" class="form-control" 
+                       placeholder="First Name" disabled/> 
+              </div>
+              <div class="col-md-12">
+                <label>Status:</label>
+                <input ng-model="admin.state.current.status" type="text" class="form-control" 
+                       placeholder="First Name" disabled/> 
+              </div>
+              <div class="col-md-12">
+                <label>Email:</label>
+                <input ng-model="admin.state.current.email" type="email" class="form-control"
+                       placeholder="name@example.com" disabled/> 
+              </div>
+              <div class="col-md-12">
+                <label>Role:</label>
+                <select ng-model="admin.state.current.role" class="form-control">
+                  <option ng-repeat="role in admin.roleList">{{ role }}</option>
+                </select>
+              </div>
+
+              <div ng-if="admin.state.current.status == 'activation-pending' ||
+                          admin.state.current.status == 'unactivated'">
+
+                 <button ng-if="!admin.state.submitLoading" 
+                        class="btn btn-default pull-left"
+                        ng-click="admin.toggleAction('resend-activation')">
+                  Resend Activation? <span class="glyphicon glyphicon-arrow-right"></span>
+                </button>
+              </div>
+
+              <button ng-if="!admin.state.submitLoading" 
+                      class="btn btn-warning pull-right"
+                      ng-click="admin.submitEditUser()">
+                Submit Edit
+              </button>
+              <button ng-if="admin.state.submitLoading" 
+                      class="btn btn-warning pull-right" disabled>
+                Submiting...
+              </button>
+            </form>
+          </div>
+
+          <div ng-if="admin.state.action == 'resend-activation'">
+            <div class="col-md-12">
+              <h4>Resend an activation link to the following user?</h4>
+              <p><b>Name:</b> {{ admin.state.current.name }}</p>
+              <p><b>Email:</b> {{ admin.state.current.email }}</p>
+            </div>
+
+            <div class="col-md-offset-9 col-md-3">
+              <button ng-if="!admin.state.submitLoading" 
+                      class="btn btn-success btn-block pull-left"
+                      ng-click="admin.resendActivation()">
+                Send
+              </button>
+              <button ng-if="admin.state.submitLoading" 
+                      class="btn btn-success btn-block pull-right" disabled>
+                Sending...
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+

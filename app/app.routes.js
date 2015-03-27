@@ -58,13 +58,13 @@
           allowedRoles: CONFIG.access.settings
         }
       }).
-      when('/user', {
-        templateUrl: '/app/views/user.html',
-        controller: 'UserController as user',
+      when('/admin', {
+        templateUrl: '/app/views/admin.html',
+        controller: 'AdminController as admin',
         reloadOnSearch: false,
         access: {
           requiresLogin: true,
-          allowedRoles: CONFIG.access.user
+          allowedRoles: CONFIG.access.admin
         }
       }).
       when('/media', {

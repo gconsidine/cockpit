@@ -5,19 +5,19 @@ describe('reset.controller', function () {
       $location,
       $routeParams,
       $timeout,
-      User,
+      Admin,
       Validate,
       State;
 
   beforeEach(module('cockpit'));
 
-  beforeEach(inject(function(_$controller_, _$routeParams_, _$location_, _$timeout_, _User_, 
+  beforeEach(inject(function(_$controller_, _$routeParams_, _$location_, _$timeout_, _Admin_, 
                              _State_, _Validate_) {
     $routeParams = _$routeParams_;
     $location = _$location_;
     $controller = _$controller_;
     $timeout = _$timeout_;
-    User = _User_;
+    Admin = _Admin_;
     Validate = _Validate_;
     State = _State_;
   }));
@@ -78,12 +78,12 @@ describe('reset.controller', function () {
       var reset = $controller('ResetController');
       reset.input.email = 'amun@dragoon.com';
 
-      spyOn(User, 'resetRequest').and.returnValue(true);
+      spyOn(Admin, 'resetRequest').and.returnValue(true);
       reset.requestComplete.bind = function mockBind () {}; 
 
       reset.request();
 
-      expect(User.resetRequest).toHaveBeenCalled();
+      expect(Admin.resetRequest).toHaveBeenCalled();
     });
   });
 
@@ -131,12 +131,12 @@ describe('reset.controller', function () {
       reset.input.email = 'topaz@gang.com';
       reset.input.tempAuth = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
       
-      spyOn(User, 'getPendingReset').and.returnValue(true);
+      spyOn(Admin, 'getPendingReset').and.returnValue(true);
       reset.getPendingComplete.bind = function mockBind () {}; 
 
       reset.getPending();
 
-      expect(User.getPendingReset).toHaveBeenCalled();
+      expect(Admin.getPendingReset).toHaveBeenCalled();
     });
   });
 
@@ -177,17 +177,17 @@ describe('reset.controller', function () {
       expect(State.alert).toHaveBeenCalled();
     });
 
-    it('should call User\'s reset() method', function () {
+    it('should call Admin\'s reset() method', function () {
       var reset = $controller('ResetController');
       spyOn(reset, 'validateInput').and.returnValue({error: false});
 
       reset.submitComplete.bind = function mockBind () {}; 
 
-      spyOn(User, 'reset').and.returnValue(true);
+      spyOn(Admin, 'reset').and.returnValue(true);
 
       reset.submit();
 
-      expect(User.reset).toHaveBeenCalled();
+      expect(Admin.reset).toHaveBeenCalled();
     });
   });
 

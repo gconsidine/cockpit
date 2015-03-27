@@ -1,10 +1,10 @@
 (function () {
   'use strict';
 
-  angular.module('cockpit').controller('UserController', UserController);
-  UserController.$inject = ['State', 'User', 'Property', 'Utility', 'Validate'];
+  angular.module('cockpit').controller('AdminController', AdminController);
+  AdminController.$inject = ['State', 'Admin', 'Property', 'Utility', 'Validate'];
 
-  function UserController(State, User, Property, Utility, Validate) {
+  function AdminController(State, Admin, Property, Utility, Validate) {
     var vm = this || {};
 
     vm.state = {
@@ -98,7 +98,7 @@
         user: { email: vm.state.current.email }
       };
 
-      User.resendActivation(request, vm.resendActivationComplete.bind(vm));
+      Admin.resendActivation(request, vm.resendActivationComplete.bind(vm));
     };
 
     vm.resendActivationComplete = function (error, request, response) {
@@ -129,7 +129,7 @@
 
     vm.getUserList = function () {
       vm.toggleActionLoading();
-      User.get({user: {}}, vm.setUserList.bind(vm));
+      Admin.get({user: {}}, vm.setUserList.bind(vm));
     };
 
     vm.setUserList = function (error, request, response) {
@@ -162,7 +162,7 @@
       };
 
       vm.toggleSubmitLoading();
-      User.create(request, vm.setSubmitResult.bind(vm));
+      Admin.create(request, vm.setSubmitResult.bind(vm));
     };
 
     vm.submitEditUser = function () {
@@ -179,7 +179,7 @@
       };
 
       vm.toggleSubmitLoading();
-      User.edit(request, vm.setSubmitResult.bind(vm));
+      Admin.edit(request, vm.setSubmitResult.bind(vm));
     };
 
     vm.submitRemoveUser = function () {
@@ -191,7 +191,7 @@
       };
 
       vm.toggleSubmitLoading();
-      User.remove(request, vm.setSubmitResult.bind(vm));
+      Admin.remove(request, vm.setSubmitResult.bind(vm));
     };
 
     vm.setSubmitResult = function (error, request, response) {

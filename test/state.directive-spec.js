@@ -48,13 +48,13 @@ describe('state.directive', function () {
     var $compile,
         $rootScope,
         State,
-        User;
+        Admin;
 
-    beforeEach(inject(function(_$compile_, _$rootScope_, _State_, _User_) {
+    beforeEach(inject(function(_$compile_, _$rootScope_, _State_, _Admin_) {
       $compile = _$compile_;
       $rootScope = _$rootScope_;
       State = _State_;
-      User = _User_;
+      Admin = _Admin_;
     }));
 
     it('should logout a user on mousedown of an element', function() {

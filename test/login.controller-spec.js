@@ -5,18 +5,18 @@ describe('login.controller', function () {
       $location,
       $rootScope,
       $routeParams,
-      User,
+      Admin,
       State;
 
   beforeEach(module('cockpit'));
 
-  beforeEach(inject(function(_$controller_, _$location_, _$rootScope_, _$routeParams_, _User_, 
+  beforeEach(inject(function(_$controller_, _$location_, _$rootScope_, _$routeParams_, _Admin_, 
                              _State_) {
     $rootScope = _$rootScope_;
     $routeParams = _$routeParams_;
     $location = _$location_;
     $controller = _$controller_;
-    User = _User_;
+    Admin = _Admin_;
     State = _State_;
   }));
   
@@ -41,7 +41,7 @@ describe('login.controller', function () {
       expect(State.alert).toHaveBeenCalled();
     });
 
-    it('should call User service\'s login method', function() {
+    it('should call Admin service\'s login method', function() {
       var login = $controller('LoginController'); 
       
       login.email.value = 'name@domain.tld';
@@ -49,10 +49,10 @@ describe('login.controller', function () {
       
       login.complete.bind = function mockBind () {}; 
 
-      spyOn(User, 'login').and.returnValue(true);
+      spyOn(Admin, 'login').and.returnValue(true);
       login.submit();
 
-      expect(User.login).toHaveBeenCalled();
+      expect(Admin.login).toHaveBeenCalled();
     });
   });
 

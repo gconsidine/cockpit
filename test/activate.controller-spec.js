@@ -5,19 +5,19 @@ describe('activate.controller', function () {
       $location,
       $routeParams,
       $timeout,
-      User,
+      Admin,
       Validate,
       State;
 
   beforeEach(module('cockpit'));
 
-  beforeEach(inject(function(_$controller_, _$routeParams_, _$location_, _$timeout_, _User_, 
+  beforeEach(inject(function(_$controller_, _$routeParams_, _$location_, _$timeout_, _Admin_, 
                              _State_, _Validate_) {
     $routeParams = _$routeParams_;
     $location = _$location_;
     $controller = _$controller_;
     $timeout = _$timeout_;
-    User = _User_;
+    Admin = _Admin_;
     Validate = _Validate_;
     State = _State_;
   }));
@@ -52,11 +52,11 @@ describe('activate.controller', function () {
 
       activate.getPendingActivationComplete.bind = function mockBind () {}; 
 
-      spyOn(User, 'getPendingActivation').and.returnValue(true);
+      spyOn(Admin, 'getPendingActivation').and.returnValue(true);
 
       activate.init();
 
-      expect(User.getPendingActivation).toHaveBeenCalled();
+      expect(Admin.getPendingActivation).toHaveBeenCalled();
     });
   });
 
@@ -99,17 +99,17 @@ describe('activate.controller', function () {
       expect(State.alert).toHaveBeenCalled();
     });
 
-    it('should call User\'s activate() method', function () {
+    it('should call Admin\'s activate() method', function () {
       var activate = $controller('ActivateController');
       spyOn(activate, 'validateInput').and.returnValue({error: false});
 
       activate.submitComplete.bind = function mockBind () {}; 
 
-      spyOn(User, 'activate').and.returnValue(true);
+      spyOn(Admin, 'activate').and.returnValue(true);
 
       activate.submit();
 
-      expect(User.activate).toHaveBeenCalled();
+      expect(Admin.activate).toHaveBeenCalled();
     });
   });
 
