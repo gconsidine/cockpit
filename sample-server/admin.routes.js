@@ -3,10 +3,10 @@ var AdminRoutes = function (app, express, plz) {
 
   var router = express.Router();
 
-  router.post('/', create);
-  router.get('/', get);
-  router.put('/', edit);
-  router.delete('/', remove);
+  router.post('/', createUser);
+  router.get('/', getUser);
+  router.put('/', editUser);
+  router.delete('/', removeUser);
   router.put('/resend-activation', resendActivation);
   router.get('/activate', getPendingActivation);
   router.put('/activate', activate);
@@ -15,7 +15,7 @@ var AdminRoutes = function (app, express, plz) {
   router.put('/reset', reset);
   router.put('/login', login);
   
-  app.use('/cockpit-api/user', router);
+  app.use('/cockpit-api/admin', router);
   
   function resendActivation(req, res) {
     var user = req.body.user;
@@ -51,7 +51,7 @@ var AdminRoutes = function (app, express, plz) {
     });
   }
 
-  function edit(req, res) {
+  function editUser(req, res) {
     var user = req.body.user;
 
     var options = {
@@ -70,7 +70,7 @@ var AdminRoutes = function (app, express, plz) {
     });
   }
 
-  function remove(req, res) {
+  function removeUser(req, res) {
     var user = req.query;
 
     plz.remove.user(user, function (error, result) {
@@ -84,7 +84,7 @@ var AdminRoutes = function (app, express, plz) {
     });
   }
 
-  function get(req, res) {
+  function getUser(req, res) {
     var options = req.query;
 
     plz.get.user(options, function (error, result) {
@@ -97,7 +97,7 @@ var AdminRoutes = function (app, express, plz) {
     });
   }
 
-  function create(req, res) {
+  function createUser(req, res) {
     var user = req.body.user;
 
     plz.create.user(user, function (error, result) {

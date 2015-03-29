@@ -35,7 +35,7 @@ describe('property.service', function () {
 
   describe('getApi()', function () {
     it('should return a URL for a given call', function() {
-      expect(Property.getApi('admin', 'get', 'user')).toBe('/cockpit-api/user');
+      expect(Property.getApi('admin', 'get', 'user')).toBe('/cockpit-api/admin');
     });
   });
 

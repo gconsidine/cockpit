@@ -17,24 +17,24 @@
     api: {
       admin: {
         get: {
-          user: '/cockpit-api/user',
-          activate: '/cockpit-api/user/activate',
-          reset: '/cockpit-api/user/reset'
+          user: '/cockpit-api/admin',
+          activate: '/cockpit-api/admin/activate',
+          reset: '/cockpit-api/admin/reset'
         },
         post: {
-          user: '/cockpit-api/user'
+          user: '/cockpit-api/admin'
         },
         put: {
-          user: '/cockpit-api/user',
-          activate: '/cockpit-api/user/activate',
-          resendActivation: '/cockpit-api/user/resend-activation',
-          resetRequest: '/cockpit-api/user/reset-request',
-          reset: '/cockpit-api/user/reset',
-          login: '/cockpit-api/user/login',
-          logout: '/cockpit-api/user/logout'
+          user: '/cockpit-api/admin',
+          activate: '/cockpit-api/admin/activate',
+          resendActivation: '/cockpit-api/admin/resend-activation',
+          resetRequest: '/cockpit-api/admin/reset-request',
+          reset: '/cockpit-api/admin/reset',
+          login: '/cockpit-api/admin/login',
+          logout: '/cockpit-api/admin/logout'
         },
         delete: {
-          user: '/cockpit-api/user'
+          user: '/cockpit-api/admin'
         }
       }
     },
